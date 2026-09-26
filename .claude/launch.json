@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/PC/AppData/Local/Temp/claude/C--Users-PC-OneDrive-Desktop-----------------/61b9ebbb-6ce2-41fa-84f7-3bcf8b7055f1/scratchpad/serve.js"],
+      "port": 8099
+    }
+  ]
+}

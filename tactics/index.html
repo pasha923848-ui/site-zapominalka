@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Общая тактика — темы появятся по программе курса.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Общая тактика</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen"></main>
+<footer class="foot">
+  <span>Темы этого предмета добавляются по программе курса — см. README.md, раздел «Как добавить тему».</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="../ustav/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script>
+"use strict";
+var screenEl = document.getElementById('screen');
+var h = '<div class="pagehead">';
+h += '<a class="pagehead__back" href="../index.html">← Ко всем предметам</a>';
+h += '<div class="pagehead__eyebrow">Предмет</div>';
+h += '<h1>Общая тактика</h1>';
+h += '<p class="pagehead__lead">Тема 1 Пары 1 уже разбита на карточки ниже. Остальные темы появятся по программе занятий. Здесь же — первое задание: реферат.</p>';
+h += '</div>';
+
+h += '<div id="pairsMount"></div>';
+h += '<p class="pagehead__lead" style="margin-top:18px">Домашние задания по обоим предметам — <a href="../index.html">на главной странице</a>.</p>';
+
+h += '<button class="mode mode--toggle" id="referatToggle" type="button" aria-expanded="false">' +
+  '<span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6"/></svg></span>' +
+  '<span><span class="mode__t">Первое задание — реферат</span><span class="mode__d">12 тем · выбрать пару, заявить в чат и сдать до конца сентября</span></span>' +
+  '<span class="mode__meta"><svg class="mode--toggle__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' +
+  '</button>';
+h += '<div class="collapse-body" id="referatBody">';
+
+h += '<p style="margin-bottom:14px">Разбиваетесь на пары (кому не хватило пары — присоединяется к кому-нибудь, будет тройка) и выбираете тему из списка ниже. Заявить тему нужно в чат по образцу старосты: «имя + имя берут тему такую-то». Сдать реферат — <b>до конца сентября</b>, по возможности не затягивая.</p>';
+
+h += '<div class="notebook"><div class="conspect">';
+var TOPICS = [
+  'Квадрокоптеры', 'Мультикоптеры', 'Крылья',
+  'Самолётный тип, винт спереди', 'Самолётный тип, винт сзади',
+  'Самолётный тип, двойная хвостовая балка, А-образный хвост',
+  'Самолётный тип, двойная хвостовая балка, Н-образный хвост',
+  'Самолётный тип, двойная хвостовая балка, П-образный хвост',
+  'Самолётного типа многомоторные',
+  'Барражирующие боеприпасы',
+  'Системы залпового огня',
+  'Крылатые ракеты'
+];
+TOPICS.forEach(function(t, i){
+  h += '<div class="conspect__i"><div class="conspect__n">'+(i+1)+'</div><div class="conspect__b">' +
+    '<div class="conspect__t">'+t+'</div>' +
+    (t==='Системы залпового огня' ? '<div class="conspect__d">Пример готового реферата на эту тему — ниже, можно скачать и использовать как образец оформления.</div>' : '') +
+    '</div></div>';
+});
+h += '</div></div>';
+
+h += '<p style="margin:18px 0 14px">Титульный лист — бланк по образцу ВУЦ при ГУАП (оценка преподавателя, дисциплина, взвод), поля пустые — впишите тему и данные. Или возьмите готовый пример по 11-й теме — там титульник уже заполнен, плюс расставлены отсылки на источники в квадратных скобках по образцу.</p>';
+h += '<div class="filelist">';
+h += file('../files/blanks/titul-referat.docx', '<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6"/>', 'Титульный лист — реферат', 'Бланк ВУЦ при ГУАП, поля пустые', '14 КБ · .docx');
+h += file('../files/tactics/referat-primer-rszo.docx', '<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6M9 8.5h3"/>', 'Пример реферата — тема 11, РСЗО', 'Заполненный титульник, введение, три раздела, заключение, список источников, три приложения с фото', '6,1 МБ · .docx');
+h += '</div>';
+
+h += '<div class="sect-h"><h2>Другие официальные бланки ГУАП</h2><small>на случай, если пригодятся по другим предметам</small></div>';
+h += '<div class="filelist">';
+h += file('../files/blanks/titul-kontrolnaya.docx', '<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>', 'Титульный лист — контрольная работа', 'Официальный бланк ГУАП', '16 КБ · .docx');
+h += file('../files/blanks/titul-laboratornaya.docx', '<path d="M9 3h6M10 3v5l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3"/>', 'Титульный лист — лабораторная работа', 'Официальный бланк ГУАП', '14 КБ · .docx');
+h += file('../files/blanks/titul-kursovaya.docx', '<path d="M4 19V6a2 2 0 012-2h8l6 6v9a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M14 4v6h6"/>', 'Титульный лист — курсовая работа', 'Официальный бланк ГУАП', '14 КБ · .docx');
+h += '</div>';
+
+h += '<div class="prose" style="margin-top:34px">';
+h += '<h3>Как добавить тему самостоятельно</h3>';
+h += '<p>Скопируйте <span class="kbd">tactics/TEMPLATE-topic.html</span>, переименуйте и впишите свои карточки термин/определение — движок сам построит все режимы (термин↔определение, верно/неверно, экзамен, карточки, список терминов). Подробности — в комментарии внутри самого шаблона и в <span class="kbd">README.md</span> корня сайта.</p>';
+h += '</div>';
+
+h += '</div>'; /* конец #referatBody */
+
+screenEl.innerHTML = h;
+var CLOCK = '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+var PAIRS = [
+  {id:'p1',label:'1',caption:'1 тема',title:'Пара 1 · тема 1',note:'военные угрозы России',items:[
+    {href:'military-threats.html',icon:'<path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/>',title:'Военные угрозы России',desc:'Эскалация от военной безопасности до крупномасштабной войны, внешние и внутренние военные опасности, СВО',meta:'37 терминов',deckKey:'military-threats'}
+  ]},
+  {id:'p2',label:'2',caption:'2 темы',title:'Пара 2 · тема 1',note:'военная доктрина РФ и структура вооружённых сил',items:[
+    {href:'military-doctrine.html',icon:'<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6M9 8.5h3"/>',title:'Военная доктрина РФ',desc:'Правовая основа, военная политика, применение Вооружённых Сил, условия применения ядерного оружия',meta:'15 терминов',deckKey:'military-doctrine'},
+    {href:'armed-forces-structure.html',icon:'<path d="M12 21s-7-4.5-7-11a7 7 0 0114 0c0 6.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',title:'Структура ВС РФ',desc:'Виды и рода войск, подробная таблица состава Воздушно-космических сил',meta:'17 терминов',deckKey:'armed-forces-structure'}
+  ]},
+  {id:'soon',label:'···',caption:'Скоро',soon:true,title:'Другие темы Пары 1',note:'программа курса — появятся по мере занятий',items:[
+    {soon:true,icon:CLOCK,title:'Основы современного общевойскового боя',desc:'Тема 2',meta:'скоро'},
+    {soon:true,icon:CLOCK,title:'Инженерное обеспечение войск',desc:'Тема 3',meta:'скоро'},
+    {soon:true,icon:CLOCK,title:'Радиационная, химическая и биологическая защита войск',desc:'Тема 4',meta:'скоро'},
+    {soon:true,icon:CLOCK,title:'Топографическое обеспечение войск',desc:'Тема 6',meta:'скоро'}
+  ]}
+];
+Site.pairTabs(document.getElementById('pairsMount'), PAIRS, {subject:'tactics', defaultId:'p2'});
+
+(function(){
+  var toggle = document.getElementById('referatToggle');
+  var body = document.getElementById('referatBody');
+  toggle.addEventListener('click', function(){
+    var open = body.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+function file(href, path, t, d, size){
+  return '<a class="file" href="'+href+'" download>' +
+    '<span class="file__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></span>' +
+    '<span class="file__b"><span class="file__t">'+t+'</span><span class="file__d">'+d+'</span></span>' +
+    '<span class="file__size">'+size+'</span></a>';
+}
+Site.initNav('tactics');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>

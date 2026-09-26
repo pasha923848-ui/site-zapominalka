@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Как обращаться к военнослужащим по Уставу внутренней службы ВС РФ — тренажёр правил воинской вежливости.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Обращение и воинская вежливость</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen" tabindex="-1"></main>
+<footer class="foot">
+  <span>По Уставу внутренней службы ВС РФ (правила воинской вежливости) и общепринятой практике обращения. Не заменяет полный текст устава.</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="../tactics/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script src="../shared/deck-engine.js"></script>
+<script>
+"use strict";
+var DECK = {
+  subject:'ustav', key:'courtesy',
+  title:'Обращение и воинская вежливость',
+  eyebrow:'Устав внутренней службы ВС РФ',
+  intro:'Правила обращения к военнослужащим и типичные ловушки экзамена — то же самое, что в справке тренажёра погон, но в формате вопросов.',
+  cards:[
+    { id:'c1', section:'Правила обращения', term:'Основная форма обращения',
+      def:'По воинскому званию и фамилии либо только по воинскому званию — тогда перед званием добавляется слово «товарищ». Например: «Товарищ старший лейтенант».',
+      tip:'Базовое правило — с него стоит начинать любой ответ на экзамене.' },
+    { id:'c2', section:'Правила обращения', term:'Звание называется полностью',
+      def:'Воинское звание при обращении не сокращается: «товарищ младший сержант», «товарищ старший прапорщик», а не «мл. сержант» или «ст. прапорщик».',
+      tip:'Сокращения уместны в документах, но не в устном обращении.' },
+    { id:'c3', section:'Правила обращения', term:'Обращение в гвардейских частях',
+      def:'К военнослужащим гвардейских частей обращаются с добавлением слова «гвардии»: «товарищ гвардии полковник», «товарищ гвардии старшина 1 статьи».',
+      tip:'Слово «гвардии» добавляется перед званием, не после.' },
+    { id:'c4', section:'Правила обращения', term:'Юстиция и медицинская служба',
+      def:'Слова «юстиции» и «медицинской службы» входят в полное название звания, но при устном обращении, как правило, не произносятся: к полковнику юстиции обращаются «товарищ полковник».',
+      tip:'Это сложившаяся практика, а не отдельная статья устава — но на экзамене спрашивают именно так.' },
+    { id:'c5', section:'Правила обращения', term:'Род войск в обращении',
+      def:'Род войск при обращении не указывается: обращения «товарищ капитан ВДВ» не существует.',
+      tip:'Частая ошибка новичков — добавлять род войск «для солидности».' },
+    { id:'c6', section:'Правила обращения', term:'Слово «господин»',
+      def:'Обращение «господин» уставом Вооружённых Сил РФ не предусмотрено.',
+      tip:'Отличие от дореволюционной и от некоторых иностранных армий.' },
+    { id:'c7', section:'Правила обращения', term:'Доклад начальнику',
+      def:'Обращаясь к начальнику, военнослужащий принимает строевую стойку и называет свою должность, воинское звание и фамилию.',
+      tip:'Порядок доклада: сначала стойка, потом должность-звание-фамилия.' },
+    { id:'c8', section:'Частые ловушки на экзамене', term:'Ловушка: генерал-лейтенант и генерал-майор',
+      def:'Генерал-лейтенант старше генерал-майора — у генералов порядок старшинства обратный тому, что у лейтенанта и майора среди обычных офицеров.',
+      tip:'Самая частая ошибка на экзамене по званиям.' },
+    { id:'c9', section:'Частые ловушки на экзамене', term:'Ловушка: старшинство на флоте',
+      def:'«Старшина 1 статьи» старше «старшины 2 статьи», а «капитан 1 ранга» старше «капитана 2 ранга» — чем меньше номер, тем выше звание.',
+      tip:'Действует правило «меньше номер — старше звание», в отличие от армейских «первый/второй/третий» в других контекстах.' }
+  ]
+};
+DeckEngine.init(DECK, { backHref:'index.html', backLabel:'К предмету «Устав»' });
+Site.initNav('ustav');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Материалы к зачёту: общая тактика и общевоенная подготовка (устав внутренней службы ВС РФ), домашние задания.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="shared/theme.css">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Сборник заданий ВУЦ</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen"></main>
+<footer class="foot">
+  <div class="foot-links">
+    <a href="https://guap.ru" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>
+      ГУАП — официальный сайт
+    </a>
+    <a href="https://new.guap.ru/vuc" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+      ВУЦ при ГУАП — официальная страница
+    </a>
+  </div>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a class="is-on" data-nav="home" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="ustav/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="tactics/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="shared/nav-data.js"></script>
+<script src="shared/site.js"></script>
+<script>
+"use strict";
+var screenEl = document.getElementById('screen');
+
+/* ============================================================
+   ДОМАШНИЕ ЗАДАНИЯ — статический список, добавляется вручную
+   в коде (правьте массив HOMEWORK ниже). Отметка «выполнено»
+   сохраняется только в вашем браузере (localStorage), сайт
+   без сервера и ничего никуда не отправляет.
+   due — дата срока в формате YYYY-MM-DD.
+   ============================================================ */
+var HOMEWORK = [
+  { id:'hw1', due:'2026-09-10', from:'после пары 1 · Устав', text:'Воинские должности и звания',
+    items:[
+      { id:'hw1a', text:'Кто чем управляет — командные должности от отделения до дивизии' },
+      { id:'hw1b', text:'Размеры подразделений: отделение, взвод, рота, батальон, полк, дивизия' }
+    ] },
+  { id:'hw2', due:'2026-09-17', from:'после пары 2 · Устав', text:'Автобиография',
+    items:[
+      { id:'hw2a', text:'Электронный вид — файлом Word, командиру взвода в личные сообщения' },
+      { id:'hw2b', text:'Печатный вид — взять с собой на всякий случай' },
+      { id:'hw2c', text:'Шаблон, правила оформления и заполненный образец — на странице предмета «Устав»' },
+      { id:'hw2d', text:'Переписать от руки, синей/чёрной пастой; подпись и дата — на каждом листе снизу' }
+    ] },
+  { id:'hw5', due:'2026-09-17', from:'после пары 2 · Устав', text:'Выучить теорию Пары 2 (Устав) — размещение, суточный наряд, строй',
+    items:[
+      { id:'hw5a', text:'Размещение военнослужащих — 13 помещений роты, по порядку' },
+      { id:'hw5b', text:'Суточный наряд воинской части — назначение, состав, по каждой должности' },
+      { id:'hw5c', text:'Обязанности дневального по роте — статьи 302–303' },
+      { id:'hw5d', text:'Термины строевого устава и обязанности перед построением' }
+    ] },
+  { id:'hw3', due:'2026-09-24', from:'Общая тактика', text:'Реферат — выбрать тему из списка (12 тем, на странице предмета)',
+    items:[
+      { id:'hw3a', text:'Собраться в пару или тройку' },
+      { id:'hw3b', text:'Заявить тему в чат по образцу старосты: «имя + имя берут тему такую-то»' },
+      { id:'hw3c', text:'Скачать титульный лист или готовый пример (тема 11) — на странице предмета «Тактика»' },
+      { id:'hw3d', text:'Расставить в тексте свои источники со ссылками [1], [2]… по образцу' },
+      { id:'hw3e', text:'Сдать до 24 сентября — последний срок без понижения оценки' },
+      { id:'hw3f', text:'Проверить титульный лист по образцу — ошибки в нём обидно исправлять в последний момент' }
+    ] },
+  { id:'hw4', due:'2026-09-24', from:'Общая тактика · тема 1', text:'Выучить всю теорию по теме 1 с лекций (и немного сверх) + название своей специальности',
+    items:[
+      { id:'hw4a', text:'Военные угрозы России — эскалация, внешние и внутренние опасности, военные угрозы' },
+      { id:'hw4b', text:'Военная доктрина РФ — правовая основа, военная политика, применение Вооружённых Сил, ядерное сдерживание' },
+      { id:'hw4c', text:'Структура ВС РФ — виды, рода войск, подробно ВКС' },
+      { id:'hw4d', text:'Название своей специальности — смотри в тетради' }
+    ] },
+  { id:'hw6', due:'2026-09-24', from:'после пары 3 · Устав', text:'Что принести на четверг',
+    items:[
+      { id:'hw6a', text:'Пенал: 2 ручки, 1 карандаш, 1 резинка, 1 офицерская линейка' },
+      { id:'hw6b', text:'Пластиковые вкладыши — у кого нет' },
+      { id:'hw6c', text:'Фуражка и хознабор с тремя иглами — у кого нет' }
+    ] },
+  { id:'hw7', due:'2026-09-24', from:'Устав', text:'Повторить Устав внутренней службы — главы 1, 2 и 6 (могут спросить)',
+    items:[
+      { id:'hw7a', text:'Глава 1' },
+      { id:'hw7b', text:'Глава 2' },
+      { id:'hw7c', text:'Глава 6' }
+    ] },
+  { id:'hw8', due:'2026-09-24', from:'Общие', text:'Досдать все долги по летучкам — последний срок в четверг',
+    items:[
+      { id:'hw8a', text:'Проверить, по каким летучкам есть долги' },
+      { id:'hw8b', text:'Сдать всё в четверг' }
+    ] }
+];
+var HW_KEY = 'hw-done-v1';
+function hwDone(){ try{ return JSON.parse(localStorage.getItem(HW_KEY) || '{}'); }catch(e){ return {}; } }
+function hwSetDone(id, val){ try{ var d = hwDone(); d[id] = val; localStorage.setItem(HW_KEY, JSON.stringify(d)); }catch(e){} }
+function fmtDue(iso){
+  var d = new Date(iso + 'T00:00:00');
+  var days = ['вс','пн','вт','ср','чт','пт','сб'];
+  var p = iso.split('-');
+  return p[2] + '.' + p[1] + '.' + p[0] + ', ' + days[d.getDay()];
+}
+
+var h = '<section style="padding:6px 0 2px">';
+h += '<h1 style="font-size:clamp(22px,3.6vw,28px);text-transform:uppercase;letter-spacing:.03em">Сборник заданий ВУЦ</h1>';
+h += '<p class="home__lead" style="font-size:14.5px;margin-top:8px">Сейчас идёт 1-й семестр — общая тактика и общевоенная подготовка, темы к зачёту и домашние задания. Следующие семестры пока заблокированы.</p>';
+h += '</section>';
+
+h += '<div class="sect-h"><h2>Семестры</h2><small>1-й — идёт сейчас, остальные пока заблокированы</small></div>';
+h += '<div class="semlist">';
+h += '<button class="semlist__i is-current" id="sem1Toggle" type="button" aria-expanded="false">' +
+  '<span class="semlist__n">Семестр 1</span>' +
+  '<span class="semlist__t">Идёт сейчас</span>' +
+  '<span class="semlist__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>2 предмета</span>' +
+  '<svg class="semlist__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>' +
+  '</button>';
+[2,3,4].forEach(function(n){
+  h += '<div class="semlist__i is-locked" aria-disabled="true">' +
+    '<span class="semlist__n">Семестр '+n+'</span>' +
+    '<span class="semlist__t">Заблокировано</span>' +
+    '<span class="semlist__meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>заблокировано</span>' +
+    '</div>';
+});
+h += '</div>';
+
+h += '<div class="collapse-body" id="sem1Body">';
+h += '<div class="sect-h" style="margin-top:20px"><h2>Предметы 1-го семестра</h2></div>';
+h += '<div class="subjects">';
+h += '<a class="subject" href="ustav/index.html" style="--sc:#b09a63">' +
+  '<div class="subject__num">Предмет 1</div>' +
+  '<div class="subject__t">Общевоенная подготовка</div>' +
+  '<div class="subject__d">Основные положения Устава внутренней службы и Строевого устава ВС РФ, по занятиям: ВУЦ, история уставов, звания и командование, права и обязанности, размещение, суточный наряд, строй.</div>' +
+  '<div class="subject__meta"><span><b>13</b> тем</span><span><b>170+</b> званий и терминов</span></div>' +
+  '</a>';
+h += '<a class="subject" href="tactics/index.html" style="--sc:#6a8b9c">' +
+  '<div class="subject__num">Предмет 2</div>' +
+  '<div class="subject__t">Общая тактика</div>' +
+  '<div class="subject__d">Тема 1: военные угрозы России, военная доктрина, структура ВС РФ. Плюс первое задание — реферат, материалы и пример на странице предмета.</div>' +
+  '<div class="subject__meta"><span><b>3</b> темы</span><span><b>60+</b> терминов</span></div>' +
+  '</a>';
+h += '</div>';
+h += '</div>'; /* конец #sem1Body */
+
+h += '<a class="mode" href="install.html" style="margin:26px 0 10px">' +
+  '<span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4"/></svg></span>' +
+  '<span><span class="mode__t">Установить как приложение</span><span class="mode__d">Как добавить сайт на домашний экран — инструкция для iPhone и Android</span></span>' +
+  '<span class="mode__meta">инструкция</span></a>';
+
+h += '<a class="mode" href="ustav/announcements.html" style="margin-bottom:4px;border-color:var(--red)">' +
+  '<span class="mode__ico" style="color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 4h13l-2.5 4L17 12H4"/></svg></span>' +
+  '<span><span class="mode__t">Объявления</span><span class="mode__d">Что взять на четверг, требования к форме, поездка в Сертолово</span></span>' +
+  '<span class="mode__meta">важно</span></a>';
+
+h += '<div class="sect-h"><h2>Домашние задания</h2></div>';
+h += '<div class="hw-list" id="hwList"></div>';
+
+screenEl.innerHTML = h;
+
+(function(){
+  var toggle = document.getElementById('sem1Toggle');
+  var body = document.getElementById('sem1Body');
+  toggle.addEventListener('click', function(){
+    var open = body.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(open) body.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+})();
+
+var hwOpen = {};
+function paintHomework(){
+  var done = hwDone();
+  var today = new Date(); today.setHours(0,0,0,0);
+  var list = document.getElementById('hwList');
+  if(!HOMEWORK.length){ list.innerHTML = '<div class="hw-empty">Заданий пока нет.</div>'; return; }
+  var sorted = HOMEWORK.slice().sort(function(a,b){ return a.due < b.due ? -1 : 1; });
+  var hh = '';
+  sorted.forEach(function(hw){
+    var subItems = hw.items || [];
+    var doneCount = subItems.filter(function(it){ return !!done[it.id]; }).length;
+    var isDone = subItems.length ? (doneCount === subItems.length) : !!done[hw.id];
+    var dueDate = new Date(hw.due + 'T23:59:59');
+    var late = !isDone && dueDate < today;
+    var open = !!hwOpen[hw.id];
+    hh += '<div class="hw-item'+(isDone?' is-done':'')+(open?' is-open':'')+'" data-id="'+hw.id+'">';
+    if(subItems.length){
+      hh += '<span class="hw-item__box" style="cursor:default"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg></span>';
+    } else {
+      hh += '<button class="hw-item__box" data-hw-toggle="'+hw.id+'" type="button" aria-label="Отметить выполненным"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg></button>';
+    }
+    hh += '<div class="hw-item__body"><div class="hw-item__t">'+hw.text+'</div>';
+    hh += '<div class="hw-item__meta"><span>'+hw.from+'</span><span class="'+(late?'is-late':'')+'">'+(late?'просрочено · ':'срок · ')+fmtDue(hw.due)+'</span>';
+    if(subItems.length){
+      hh += '<button class="hw-item__expand" data-hw-expand="'+hw.id+'" type="button">'+doneCount+' / '+subItems.length+' · '+(open?'скрыть':'подробнее')+'</button>';
+    }
+    hh += '</div>';
+    if(subItems.length){
+      hh += '<div class="hw-sub">';
+      subItems.forEach(function(it){
+        var d2 = !!done[it.id];
+        hh += '<button class="hw-sub__i'+(d2?' is-done':'')+'" data-hw-toggle="'+it.id+'" type="button">' +
+              '<span class="hw-sub__box"><svg viewBox="0 0 16 16"><path d="M2 8l4 4 8-8"/></svg></span>' +
+              '<span>'+it.text+'</span></button>';
+      });
+      hh += '</div>';
+    }
+    hh += '</div></div>';
+  });
+  list.innerHTML = hh;
+  list.querySelectorAll('[data-hw-toggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-hw-toggle');
+      hwSetDone(id, !done[id]);
+      paintHomework();
+    });
+  });
+  list.querySelectorAll('[data-hw-expand]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-hw-expand');
+      hwOpen[id] = !hwOpen[id];
+      paintHomework();
+    });
+  });
+}
+paintHomework();
+
+Site.initNav('home');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("");
+</script>
+</body>
+</html>

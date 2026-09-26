@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Общевоенная подготовка: основные положения Устава внутренней службы ВС РФ — погоны, обязанности, распорядок дня, обращение.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Общевоенная подготовка</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen"></main>
+<footer class="foot">
+  <span>Материалы приведены по Уставу внутренней службы Вооружённых Сил РФ и правилам ношения военной формы одежды.</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="../tactics/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script>
+"use strict";
+var screenEl = document.getElementById('screen');
+var h = '<div class="pagehead">';
+h += '<a class="pagehead__back" href="../index.html">← Ко всем предметам</a>';
+h += '<div class="pagehead__eyebrow">Предмет</div>';
+h += '<h1>Общевоенная подготовка</h1>';
+h += '<p class="pagehead__lead">Основные положения Устава внутренней службы и Строевого устава ВС РФ, по занятиям (парам): структура ВУЦ, история уставов, звания и командование, права и обязанности, взаимоотношения, размещение, суточный наряд, строй.</p>';
+h += '</div>';
+
+h += '<a class="mode" href="announcements.html" style="margin-bottom:26px;border-color:var(--red)">' +
+  '<span class="mode__ico" style="color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 4h13l-2.5 4L17 12H4"/></svg></span>' +
+  '<span><span class="mode__t">Объявления</span><span class="mode__d">Что взять на четверг, требования к форме, поездка в Сертолово</span></span>' +
+  '<span class="mode__meta">важно</span></a>';
+
+h += '<div id="pairsMount"></div>';
+h += '<p class="pagehead__lead" style="margin-top:18px">Домашние задания по обоим предметам — <a href="../index.html">на главной странице</a>.</p>';
+
+h += '<button class="mode mode--toggle" id="autobioToggle" type="button" aria-expanded="false">' +
+  '<span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6"/></svg></span>' +
+  '<span><span class="mode__t">Домашнее задание — автобиография</span><span class="mode__d">Шаблон, правила составления и заполненный образец — задано после Пары 2</span></span>' +
+  '<span class="mode__meta"><svg class="mode--toggle__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' +
+  '</button>';
+h += '<div class="collapse-body" id="autobioBody">';
+h += '<p style="margin:14px 0">Пишется <b>от руки</b>, синей или чёрной пастой, без исправлений и корректора — при ошибке лист переписывается. Изложение — от первого лица, в прошедшем времени, строго по хронологии, без сокращений (не «г. СПб», а «город Санкт-Петербург»). Порядок блоков: Ф.И.О., дата и место рождения → образование по всем учебным заведениям → отношение к воинской обязанности → трудовая деятельность → выезды за границу → родственники за границей → судимости/привлечение к ответственности (о себе и близких) → сведения о членах семьи → семейное положение.</p>';
+h += '<div class="fb is-ok" style="margin-bottom:18px"><div class="fb__h">Важно</div><div class="fb__body"><div class="fb__txt">Подпись и дата ставятся <b>на каждом листе снизу</b>, а не только в конце всего документа — если автобиография заняла несколько страниц, каждая подписывается и датируется отдельно.</div></div></div>';
+h += '<div class="filelist">';
+h += file('../files/autobio/autobio-shablon.docx', '<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6"/>', 'Шаблон для заполнения', 'Пустые поля, заполняете в электронном виде как черновик', '11 КБ · .docx');
+h += file('../files/autobio/autobio-pravila.docx', '<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>', 'Правила составления', 'Обязательные блоки, порядок изложения, кого считать близким родственником, частые ошибки', '12 КБ · .docx');
+h += file('../files/autobio/autobio-obrazec.docx', '<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6M9 8.5h3"/>', 'Заполненный образец', 'Полностью готовый пример — ориентир по объёму и стилю изложения', '13 КБ · .docx');
+h += '</div>';
+h += '</div>'; /* конец #autobioBody */
+
+screenEl.innerHTML = h;
+var PAIRS = [
+  {id:'p1',label:'1',caption:'5 тем',title:'Пара 1',items:[
+    {href:'pogony.html',icon:'<path d="M8 21V9l4-6 4 6v12z"/><circle cx="12" cy="7.4" r="1.5"/><path d="M8 13h8M8 16.5h8"/>',title:'Погоны и звания',desc:'Вопрос 3 · погоны, знаки различия, кто кого старше — и командование, численность подразделений (в «Справке»)',meta:'игра',deckKey:'pogony'},
+    {href:'vuc-order.html',icon:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',title:'Структура и порядок в ВУЦ',desc:'Вопрос 1 · кафедры и циклы ВУЦ при ГУАП, правила внутреннего распорядка',meta:'конспект',deckKey:'vuc-order'},
+    {href:'charters-history.html',icon:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v13M4 19.5A2.5 2.5 0 006.5 22H20"/>',title:'Уставы: история и назначение',desc:'Вопрос 2 · от Петра I до указа Президента 2007 года, назначение каждого устава',meta:'конспект',deckKey:'charters-history'},
+    {href:'rights-duties.html',icon:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',title:'Права и общие обязанности',desc:'Вопрос 4 · по закону «О статусе военнослужащих» и статье 13 устава',meta:'конспект',deckKey:'rights-duties'},
+    {href:'relations.html',icon:'<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 20c0-3 2-5 5-5s5 2 5 5M11 20c0-3 2-5 5-5s5 2 5 5"/>',title:'Взаимоотношения между военнослужащими',desc:'Вопрос 5 · единоначалие, начальники и подчинённые, старшие и младшие',meta:'6 терминов',deckKey:'relations'}
+  ]},
+  {id:'p2',label:'2',caption:'6 тем',title:'Пара 2',items:[
+    {href:'quartering.html',icon:'<path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/>',title:'Размещение военнослужащих',desc:'Вопрос 1 · 13 помещений роты, со значками, что в них делают, уборка',meta:'15 терминов',deckKey:'quartering-v2'},
+    {href:'duty-corps.html',icon:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',title:'Суточный наряд воинской части',desc:'Вопрос 2 · назначение, состав по каждой должности, вооружение, подготовка',meta:'19 терминов',deckKey:'duty-corps-v2'},
+    {href:'dnevalny-duties.html',icon:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',title:'Обязанности дневального',desc:'Отдельная тема — таблица и отдельное тестирование, статьи 302–303',meta:'10 терминов',deckKey:'dnevalny-duties'},
+    {href:'stroevoy-terms.html',icon:'<circle cx="6" cy="8" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="14" cy="8" r="2"/><circle cx="14" cy="16" r="2"/>',title:'Термины строевого устава',desc:'Понятия и термины строя со схемами — дословно, статья 1',meta:'13 терминов',deckKey:'stroevoy-terms-v2'},
+    {href:'stroevoy-duties.html',icon:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/>',title:'Строевой устав: содержание и обязанности',desc:'Что определяет устав, обязанности командира и военнослужащего — по пунктам',meta:'15 терминов',deckKey:'stroevoy-duties-v3'},
+    {href:'para2-review.html',icon:'<path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/>',title:'Пара 2 — общая запоминалка',desc:'Все пять тем этого занятия вперемешку — так может пойти вопрос на зачёте',meta:'72 термина',deckKey:'para2-review-v2'}
+  ]},
+  {id:'p3',label:'3',caption:'3 темы',title:'Пара 3',note:'Дисциплинарный устав',items:[
+    {href:'para3-letuchka.html',icon:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',title:'Летучка 24.09 — что спросят',desc:'Только отмеченное: определение дисциплины, единоначалие, жалобы, ст. 5, 36, 40, 46, 110',meta:'заучивание',deckKey:'para3-letuchka-v1'},
+    {href:'discipline.html',icon:'<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',title:'Дисциплина и жалобы',desc:'Лекция 4 · ст. 1–8, 106–119: дисциплина, обязанности командира, обращения',meta:'конспект',deckKey:'discipline'},
+    {href:'encouragements.html',icon:'<path d="M12 2l3 6 6 1-4.5 4.5L18 20l-6-3-6 3 1.5-6.5L3 9l6-1z"/>',title:'Поощрения',desc:'Лекция 5 · ст. 17–46: виды, права командиров, снятие взысканий, порядок',meta:'конспект',deckKey:'encouragements'}
+  ]},
+  {id:'p0',label:'0',caption:'Справка',title:'Справка',note:'пока не привязаны к конкретному занятию',items:[
+    {href:'duties.html',icon:'<path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/>',title:'Обязанности военнослужащего',desc:'Девять пунктов статьи 13: от присяги до воинской вежливости',meta:'9 терминов',deckKey:'duties'},
+    {href:'routine.html',icon:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',title:'Распорядок дня и наряд',desc:'Кто утверждает распорядок, сколько часов на сон, для чего суточный наряд',meta:'9 терминов',deckKey:'routine'},
+    {href:'courtesy.html',icon:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/>',title:'Обращение и вежливость',desc:'«Товарищ» + звание, гвардия, частые ловушки на экзамене',meta:'9 терминов',deckKey:'courtesy'}
+  ]}
+];
+Site.pairTabs(document.getElementById('pairsMount'), PAIRS, {subject:'ustav', defaultId:'p3'});
+function file(href, path, t, d, size){
+  return '<a class="file" href="'+href+'" download>' +
+    '<span class="file__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></span>' +
+    '<span class="file__b"><span class="file__t">'+t+'</span><span class="file__d">'+d+'</span></span>' +
+    '<span class="file__size">'+size+'</span></a>';
+}
+
+(function(){
+  var toggle = document.getElementById('autobioToggle');
+  var body = document.getElementById('autobioBody');
+  toggle.addEventListener('click', function(){
+    var open = body.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
+
+Site.initNav('ustav');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Структура Вооружённых Сил РФ: виды и рода войск, подробная таблица состава Воздушно-космических сил.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Структура ВС РФ</title>
+<style>
+  .dtable{width:100%;border-collapse:collapse;margin:18px 0 30px;font-size:14px}
+  .dtable th{font-family:var(--disp);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-2)}
+  .dtable td{padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  .dtable td:first-child{font-family:var(--disp);color:var(--brass-hi);width:19%;font-size:13.5px}
+  .dtable tr:hover td{background:rgba(226,224,216,.02)}
+  .tablewrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main class="screen">
+  <div class="pagehead">
+    <a class="pagehead__back" href="military-doctrine.html">← К военной доктрине</a>
+    <div class="pagehead__eyebrow">Пара 2 · тема 1 · структура ВС РФ</div>
+    <h1>Структура ВС РФ: состав и назначение видов и родов войск</h1>
+    <p class="pagehead__lead">3 вида Вооружённых Сил + 2 отдельных рода войск центрального подчинения. Подробный состав Воздушно-космических сил — таблицей ниже.</p>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 980 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah3" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--brass-hi)"/></marker>
+      </defs>
+      <g font-family="var(--body)" font-size="12" fill="var(--paper)">
+        <!-- Президент -->
+        <rect x="280" y="10" width="400" height="50" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="480" y="30" text-anchor="middle" font-size="12">Президент РФ —</text>
+        <text x="480" y="48" text-anchor="middle" font-size="12">Верховный главнокомандующий ВС РФ</text>
+
+        <line x1="480" y1="60" x2="480" y2="86" stroke="var(--brass-hi)" stroke-width="2" marker-end="url(#ah3)"/>
+
+        <!-- Министр обороны -->
+        <rect x="320" y="90" width="320" height="46" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="480" y="118" text-anchor="middle">Министр обороны Российской Федерации</text>
+
+        <!-- 3 стрелки от министра: влево, вниз-по-центру (с разветвлением), вправо -->
+        <line x1="400" y1="136" x2="200" y2="172" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah3)"/>
+        <line x1="560" y1="136" x2="780" y2="172" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah3)"/>
+        <path d="M480 136 L480 236 L270 236 L270 246" fill="none" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah3)"/>
+        <path d="M480 236 L670 236 L670 246" fill="none" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah3)"/>
+
+        <!-- ряд 3: Минобороны и Генштаб -->
+        <rect x="20" y="176" width="260" height="46" rx="9" fill="var(--ink)" stroke="var(--brass)"/>
+        <text x="150" y="196" text-anchor="middle" font-size="11.5">Министерство обороны</text>
+        <text x="150" y="212" text-anchor="middle" font-size="11.5">Российской Федерации</text>
+
+        <rect x="700" y="176" width="260" height="46" rx="9" fill="var(--ink)" stroke="var(--brass)"/>
+        <text x="830" y="204" text-anchor="middle" font-size="11.5">Генеральный штаб ВС РФ</text>
+
+        <!-- два заголовка: виды / отдельные рода -->
+        <rect x="180" y="250" width="180" height="42" rx="8" fill="var(--ink)" stroke="var(--brass)"/>
+        <text x="270" y="276" text-anchor="middle" font-size="11.5">Виды ВС РФ</text>
+
+        <rect x="560" y="250" width="220" height="42" rx="8" fill="var(--ink)" stroke="var(--brass)"/>
+        <text x="670" y="276" text-anchor="middle" font-size="11.5">Отдельные рода ВС РФ</text>
+
+        <!-- 3 вида -->
+        <line x1="200" y1="292" x2="168" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <line x1="270" y1="292" x2="270" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <line x1="340" y1="292" x2="372" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <rect x="123" y="328" width="90" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="168" y="352" text-anchor="middle">СВ</text>
+        <rect x="225" y="328" width="90" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="270" y="352" text-anchor="middle">ВКС</text>
+        <rect x="327" y="328" width="90" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="372" y="352" text-anchor="middle">ВМФ</text>
+
+        <!-- 3 отдельных рода -->
+        <line x1="600" y1="292" x2="533" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <line x1="670" y1="292" x2="635" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <line x1="740" y1="292" x2="772" y2="328" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#ah3)"/>
+        <rect x="488" y="328" width="90" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="533" y="352" text-anchor="middle">ВДВ</text>
+        <rect x="590" y="328" width="90" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="635" y="352" text-anchor="middle">РВСН</text>
+        <rect x="692" y="328" width="160" height="40" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="772" y="345" text-anchor="middle" font-size="10.5">Войска</text>
+        <text x="772" y="359" text-anchor="middle" font-size="10.5">беспилотных систем</text>
+
+        <!-- отдельно, без стрелок -->
+        <rect x="20" y="400" width="260" height="40" rx="8" fill="none" stroke="var(--brass-dim)" stroke-width="1.3" stroke-dasharray="4 4"/>
+        <text x="150" y="424" text-anchor="middle" font-size="11" fill="var(--muted)">Не входящие в виды ВС РФ</text>
+        <rect x="20" y="450" width="260" height="40" rx="8" fill="none" stroke="var(--brass-dim)" stroke-width="1.3" stroke-dasharray="4 4"/>
+        <text x="150" y="474" text-anchor="middle" font-size="11" fill="var(--muted)">Тыл ВС РФ</text>
+      </g>
+    </svg>
+    <div class="diagram__cap">цепочка подчинения — от Президента РФ до видов и отдельных родов войск</div>
+  </div>
+
+  <div class="sect-h"><h2>Тестирование</h2><small>17 карточек — виды, отдельные рода, состав СВ / ВКС / ВМФ</small></div>
+  <div id="screen" tabindex="-1"></div>
+
+  <div class="sect-h"><h2>ВКС подробно</h2><small>3 рода войск и что входит в каждый</small></div>
+  <div class="diagram">
+    <svg viewBox="0 0 720 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah4" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--brass-hi)"/></marker>
+      </defs>
+      <g font-family="var(--body)" font-size="11" fill="var(--paper)">
+        <rect x="20" y="8" width="140" height="42" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="90" y="34" text-anchor="middle" font-size="13">ВКС</text>
+
+        <!-- спина: ВКС -> ВВС -> ПВО-ПРО -> КВ -->
+        <line x1="90" y1="50" x2="90" y2="70" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah4)"/>
+        <line x1="75" y1="202" x2="75" y2="222" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah4)"/>
+        <line x1="75" y1="352" x2="75" y2="372" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#ah4)"/>
+
+        <!-- ВВС -->
+        <rect x="20" y="74" width="110" height="128" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="75" y="142" text-anchor="middle" font-size="13">ВВС</text>
+
+        <line x1="130" y1="92" x2="256" y2="92" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="74" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="97" text-anchor="middle">Оперативно-тактическая авиация</text>
+
+        <line x1="130" y1="138" x2="256" y2="138" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="120" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="143" text-anchor="middle">Армейская авиация</text>
+
+        <line x1="130" y1="184" x2="256" y2="184" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="166" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="189" text-anchor="middle">Дальняя, военно-транспортная и специальная авиация</text>
+
+        <!-- ПВО-ПРО -->
+        <rect x="20" y="224" width="110" height="128" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="75" y="288" text-anchor="middle" font-size="12">ПВО-ПРО</text>
+
+        <line x1="130" y1="242" x2="256" y2="242" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="224" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="247" text-anchor="middle">Зенитные ракетные войска</text>
+
+        <line x1="130" y1="288" x2="256" y2="288" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="270" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="293" text-anchor="middle">Радиотехнические войска</text>
+
+        <line x1="130" y1="334" x2="256" y2="334" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="316" width="420" height="36" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="339" text-anchor="middle">Войска противоракетной обороны</text>
+
+        <!-- КВ -->
+        <rect x="20" y="374" width="110" height="128" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="75" y="442" text-anchor="middle" font-size="13">КВ</text>
+
+        <line x1="130" y1="404" x2="256" y2="404" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="374" width="420" height="60" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="398" text-anchor="middle" font-size="10.5">Войска предупреждения о ракетном нападении,</text>
+        <text x="470" y="415" text-anchor="middle" font-size="10.5">контроля космического пространства и противодействия КС</text>
+
+        <line x1="130" y1="466" x2="256" y2="466" stroke="var(--brass-hi)" stroke-width="1.5" marker-end="url(#ah4)"/>
+        <rect x="260" y="444" width="420" height="52" rx="7" fill="var(--ink2)" stroke="var(--brass)" opacity=".95"/>
+        <text x="470" y="464" text-anchor="middle" font-size="10.5">Силы запуска, управления КА и испытания</text>
+        <text x="470" y="480" text-anchor="middle" font-size="10.5">перспективного вооружения</text>
+      </g>
+    </svg>
+    <div class="diagram__cap">ВКС → три рода войск (ВВС, ПВО-ПРО, КВ) → их состав</div>
+  </div>
+  <div class="tablewrap">
+  <table class="dtable">
+    <thead><tr><th>Род войск ВКС</th><th>Что входит</th><th>Назначение</th></tr></thead>
+    <tbody>
+      <tr><td>Военно-воздушные силы (ВВС)</td>
+        <td>Дальняя авиация · Военно-транспортная авиация · Оперативно-тактическая (фронтовая) авиация · Армейская авиация</td>
+        <td>Стратегические удары дальней авиацией; переброска войск военно-транспортной; завоевание превосходства в воздухе и поддержка Сухопутных войск — оперативно-тактической и армейской (вертолётной) авиацией.</td></tr>
+      <tr><td>Войска ПВО и ПРО</td>
+        <td>Зенитные ракетные войска (комплексы С-300, С-400 и другие) · Радиотехнические войска</td>
+        <td>Обнаружение воздушных и ракетных целей радиолокацией и их поражение зенитными ракетными комплексами.</td></tr>
+      <tr><td>Космические войска</td>
+        <td>Государственные испытательные космодромы (Плесецк, Байконур) · система предупреждения о ракетном нападении (СПРН) · система контроля космического пространства (СККП) · Главный испытательный центр им. Г. С. Титова</td>
+        <td>Запуск и управление космическими аппаратами, контроль космической обстановки, раннее предупреждение о ракетном нападении.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</main>
+<footer class="foot">
+  <span>Официальная структура ВС РФ (действует с создания ВКС в 2015 году слиянием ВВС и Войск ВКО) — по открытым источникам Минобороны РФ и справочным материалам.</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="../ustav/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script src="../shared/deck-engine.js"></script>
+<script src="armed-forces-data.js"></script>
+<script>
+"use strict";
+var DECK = {
+  subject:'tactics', key:'armed-forces-structure',
+  title:'Структура ВС РФ',
+  eyebrow:'Пара 2 · тема 1',
+  intro:'Виды Вооружённых Сил, отдельные рода войск, состав СВ, ВКС и ВМФ.',
+  cards: ArmedForcesData.build()
+};
+DeckEngine.init(DECK, { root: document.getElementById('screen'), backHref:'military-doctrine.html', backLabel:'К военной доктрине' });
+Site.initNav('tactics');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>

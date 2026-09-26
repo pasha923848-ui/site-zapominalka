@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Игра-тренажёр для запоминания воинских званий Вооружённых Сил РФ: погоны, знаки различия и правила обращения.">
+<meta name="theme-color" content="#0c110f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<title>Погоны РФ</title>
+<style>
+/* ============================================================
+   ПОГОНЫ РФ — тренажёр воинских званий
+   Тёмная приглушённая тема: латунь и сукно, без свечения.
+   Единственное яркое пятно на странице — сам погон.
+   ============================================================ */
+:root{
+  --ink:#0f1211;
+  --ink2:#151917;
+  --ink3:#1b201d;
+  --brass:#b09a63;
+  --brass-hi:#d2c396;
+  --brass-dim:#796d49;
+  --red:#8f3a3e;
+  --paper:#e2e0d8;
+  --muted:#8e968b;
+  --ok:#5c9268;
+  --err:#a9565c;
+  --line:rgba(226,224,216,.10);
+  --line-2:rgba(226,224,216,.17);
+  --r:10px;
+  --maxw:1060px;
+  --disp:'Oswald','Arial Narrow',Arial,sans-serif;
+  --body:'PT Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  --mono:'PT Mono','Consolas',ui-monospace,monospace;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+  display:flex;
+  flex-direction:column;
+  overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;
+}
+.bg{
+  position:fixed; inset:0; z-index:-2; pointer-events:none;
+  background:linear-gradient(180deg,#121614 0%,var(--ink) 55%);
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--disp);font-weight:500;margin:0;text-wrap:balance;letter-spacing:.01em;line-height:1.15}
+p{margin:0}
+svg{display:block}
+u{text-underline-offset:3px;text-decoration-color:var(--brass-dim)}
+
+/* ---------- шапка ---------- */
+.top{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  padding:max(9px,env(safe-area-inset-top)) max(14px,4vw) 9px;
+  background:rgba(15,18,17,.9);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:10px;padding:3px 4px;border-radius:8px}
+.brand__star{width:18px;height:18px;fill:var(--brass);flex:none}
+.brand__txt{display:flex;flex-direction:column;line-height:1.05;text-align:left}
+.brand__txt b{font-family:var(--disp);font-size:17px;font-weight:500;letter-spacing:.09em}
+.brand__txt i{font-style:normal;font-size:10.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.top__nav{display:flex;align-items:center;gap:5px}
+.chip{
+  font-family:var(--disp); font-size:12.5px; letter-spacing:.09em; text-transform:uppercase;
+  padding:7px 12px; border-radius:7px; color:var(--muted);
+  border:1px solid transparent; transition:color .15s, background .15s, border-color .15s;
+}
+.chip:hover{color:var(--paper);background:rgba(226,224,216,.05)}
+.chip.is-on{color:var(--brass-hi);border-color:var(--line-2);background:rgba(176,154,99,.09)}
+.chip--sq{padding:7px 10px}
+.chip.is-off{opacity:.45;text-decoration:line-through}
+
+/* ---------- каркас ---------- */
+.screen{flex:1 0 auto;width:100%;max-width:var(--maxw);margin:0 auto;padding:24px max(16px,4vw) 60px}
+.foot{
+  border-top:1px solid var(--line); color:var(--muted); font-size:12.5px;
+  padding:16px max(16px,4vw) 24px; display:grid;gap:6px;
+  max-width:var(--maxw);margin:0 auto;width:100%;
+}
+.foot a{color:var(--muted)}
+
+/* ---------- заголовок страницы ---------- */
+.pagehead{display:grid;gap:9px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.pagehead__back{
+  justify-self:start;font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);padding:4px 0;
+}
+.pagehead__back:hover{color:var(--brass-hi)}
+.pagehead__eyebrow{font-family:var(--disp);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-dim)}
+.pagehead h1{font-size:clamp(25px,4.2vw,34px);text-transform:uppercase;letter-spacing:.02em}
+.pagehead__lead{color:var(--muted);font-size:15.5px;max-width:62ch}
+
+/* ---------- главная ---------- */
+.home{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);gap:30px;align-items:center;margin-bottom:8px}
+.home__stage{
+  position:relative;display:grid;place-items:center;padding:20px 12px 40px;
+  border:1px solid var(--line);border-radius:12px;background:var(--ink2);
+}
+.home__cap{
+  position:absolute;left:0;right:0;bottom:10px;text-align:center;
+  font-family:var(--disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-hi);
+}
+.home h1{font-size:clamp(28px,5vw,42px);text-transform:uppercase;letter-spacing:.02em}
+.home__lead{color:var(--muted);font-size:16px;max-width:54ch;margin-top:12px}
+.setrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.setrow__lbl{font-family:var(--disp);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;padding:3px;gap:3px;border:1px solid var(--line-2);border-radius:8px;background:rgba(0,0,0,.2)}
+.seg button{
+  font-family:var(--disp);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:6px 13px;border-radius:6px;color:var(--muted);transition:.15s;
+}
+.seg button:hover{color:var(--paper)}
+.seg button.is-on{background:var(--brass);color:#14140f}
+
+/* разделы на главной */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:10px;margin-top:6px}
+.tile{
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start;text-align:left;
+  padding:16px;border:1px solid var(--line);border-radius:10px;background:var(--ink2);
+  transition:border-color .15s,background .15s;
+}
+.tile:hover{border-color:var(--line-2);background:var(--ink3)}
+.tile__ico{width:34px;height:34px;display:grid;place-items:center;color:var(--brass-dim)}
+.tile__ico svg{width:22px;height:22px}
+.tile__t{display:block;font-family:var(--disp);font-size:17px;letter-spacing:.05em;text-transform:uppercase}
+.tile__d{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+
+/* ---------- заголовок секции ---------- */
+.sect-h{display:flex;align-items:baseline;gap:12px;margin:30px 0 12px}
+.sect-h h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-dim)}
+.sect-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.sect-h small{color:var(--muted);font-size:12.5px}
+
+/* ---------- список режимов ---------- */
+.modes{display:grid;gap:8px}
+.mode{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;
+  width:100%;text-align:left;padding:14px 16px;
+  border:1px solid var(--line);border-radius:10px;background:var(--ink2);
+  transition:border-color .15s,background .15s;
+}
+.mode:hover{border-color:var(--line-2);background:var(--ink3)}
+.mode__ico{width:36px;height:36px;display:grid;place-items:center;color:var(--brass-dim)}
+.mode__ico svg{width:23px;height:23px}
+.mode__t{display:block;font-family:var(--disp);font-size:17px;letter-spacing:.05em;text-transform:uppercase;line-height:1.2}
+.mode__d{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+.mode__meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;white-space:nowrap}
+.mode__meta b{display:block;color:var(--brass-hi);font-size:14px;font-weight:400}
+
+/* ---------- полоса статистики ---------- */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:22px}
+.strip__i{background:var(--ink2);padding:13px 15px}
+.strip__k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--disp)}
+.strip__v{font-family:var(--mono);font-size:21px;color:var(--paper);margin-top:3px;font-variant-numeric:tabular-nums}
+.strip__v small{font-size:12.5px;color:var(--muted)}
+
+/* ---------- игра ---------- */
+.quiz{display:flex;flex-direction:column;gap:16px}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar__track{flex:1 1 160px;height:4px;border-radius:99px;background:rgba(226,224,216,.09);overflow:hidden}
+.bar__fill{height:100%;background:var(--brass);transition:width .3s ease}
+.bar__n{font-family:var(--mono);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar__n b{color:var(--paper);font-weight:400}
+.bar__streak{font-family:var(--mono);font-size:12.5px;color:var(--brass-hi)}
+.bar__score{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+
+.play{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:start}
+.play--wide{grid-template-columns:minmax(0,1fr)}
+.stage{
+  position:relative;display:grid;place-items:center;gap:10px;padding:20px 16px;
+  border:1px solid var(--line);border-radius:12px;background:var(--ink2);
+}
+.stage__hint{font-family:var(--disp);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center}
+.stage__toggle{position:absolute;top:8px;right:8px;font-size:11px;letter-spacing:.1em;border:1px solid var(--line)}
+
+.qtext{font-family:var(--disp);font-size:clamp(20px,2.8vw,26px);line-height:1.2;text-transform:uppercase;letter-spacing:.02em}
+.qsub{color:var(--muted);font-size:14px;margin-top:7px}
+.qname{
+  font-family:var(--disp);font-size:clamp(25px,4.4vw,36px);color:var(--brass-hi);
+  text-transform:uppercase;letter-spacing:.03em;line-height:1.1;margin-top:8px;
+}
+
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px}
+.answers--one{grid-template-columns:1fr}
+.answers--duo{grid-template-columns:1fr 1fr}
+.answers--straps{grid-template-columns:repeat(4,1fr);gap:10px}
+.ans{
+  display:flex;align-items:center;gap:11px;padding:14px 15px;text-align:left;min-height:54px;
+  border:1px solid var(--line);border-radius:9px;background:var(--ink2);
+  font-size:16px;transition:border-color .14s,background .14s;
+}
+.ans:hover:not(:disabled){border-color:var(--brass-dim);background:var(--ink3)}
+.ans:disabled{cursor:default}
+.ans__k{
+  flex:none;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);background:rgba(226,224,216,.07);
+}
+.ans.is-ok{border-color:var(--ok);background:rgba(92,146,104,.12)}
+.ans.is-ok .ans__k{background:var(--ok);color:#0a140c}
+.ans.is-bad{border-color:var(--err);background:rgba(169,86,92,.12);animation:shake .3s}
+.ans.is-bad .ans__k{background:var(--err);color:#170609}
+.ans.is-dim{opacity:.4}
+.ans--strap{flex-direction:column;gap:8px;align-items:center;padding:12px 8px}
+.ans--pair{flex-direction:column;gap:9px;align-items:center;padding:16px 8px}
+
+/* разбор ответа */
+.fb{display:grid;gap:11px;padding:15px 16px;border-radius:10px;border:1px solid var(--line);background:var(--ink2);animation:rise .25s ease both}
+.fb.is-ok{border-left:3px solid var(--ok)}
+.fb.is-bad{border-left:3px solid var(--err)}
+.fb__h{font-family:var(--disp);font-size:13.5px;letter-spacing:.14em;text-transform:uppercase}
+.fb.is-ok .fb__h{color:var(--ok)}
+.fb.is-bad .fb__h{color:var(--err)}
+.fb__body{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.fb__txt{flex:1 1 230px;font-size:15px}
+.fb__txt em{font-style:normal;color:var(--brass-hi)}
+.fb__tip{color:var(--muted);font-size:13.5px;margin-top:6px}
+.fb__row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+
+.btn{
+  font-family:var(--disp);font-size:14px;letter-spacing:.1em;text-transform:uppercase;
+  padding:11px 20px;border-radius:8px;background:var(--brass);color:#14140f;
+  transition:filter .15s;
+}
+.btn:hover{filter:brightness(1.08)}
+.btn--ghost{background:transparent;color:var(--paper);border:1px solid var(--line-2)}
+.btn--ghost:hover{border-color:var(--brass-dim);color:var(--brass-hi);filter:none}
+.btn--sm{padding:8px 14px;font-size:12.5px}
+
+/* ---------- итоги ---------- */
+.res{display:grid;gap:18px;justify-items:center;text-align:center;padding-top:8px}
+.res__mark{
+  width:104px;height:104px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--disp);font-size:48px;color:#14140f;background:var(--brass);
+}
+.res__mark small{display:block;font-size:10px;letter-spacing:.16em;color:rgba(20,20,15,.62);margin-top:-6px}
+.res h2{font-size:clamp(21px,3.4vw,28px);text-transform:uppercase}
+.res__sub{color:var(--muted);font-family:var(--mono);font-size:13px}
+.errlist{display:grid;gap:7px;width:100%;max-width:620px;text-align:left}
+.errlist__i{display:flex;align-items:center;gap:13px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--ink2);width:100%;text-align:left}
+.errlist__i:hover{border-color:var(--line-2)}
+.errlist__t{flex:1;min-width:0}
+.errlist__t b{display:block;font-family:var(--disp);letter-spacing:.03em;text-transform:uppercase;font-size:15px;font-weight:500}
+.errlist__t span{color:var(--muted);font-size:12.5px}
+.errlist__x{color:var(--err);font-family:var(--mono);font-size:11.5px;text-align:right;max-width:38%}
+
+/* ---------- изучение ---------- */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.filters .chip{border:1px solid var(--line)}
+.filters--order{align-items:center;margin-top:-8px}
+.filters__lbl{font-family:var(--disp);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-right:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.card{
+  display:grid;justify-items:center;gap:8px;padding:14px 10px 12px;
+  border:1px solid var(--line);border-radius:10px;background:var(--ink2);
+  transition:border-color .15s,background .15s;text-align:center;
+}
+.card:hover{border-color:var(--line-2);background:var(--ink3)}
+.card__n{font-family:var(--mono);font-size:10.5px;color:var(--brass-dim)}
+.card__t{font-family:var(--disp);font-size:14px;letter-spacing:.03em;text-transform:uppercase;line-height:1.15}
+.card__s{font-size:11.5px;color:var(--muted)}
+.card.is-weak{border-color:rgba(169,86,92,.45)}
+.card.is-known{border-color:rgba(92,146,104,.4)}
+
+/* ---------- карточка звания (страница) ---------- */
+.detail{display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:start}
+.detail__v{display:grid;gap:16px;justify-items:center;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--ink2)}
+.dl{display:grid;gap:12px}
+.dl__i{display:grid;gap:2px;padding-left:12px;border-left:2px solid var(--line-2)}
+.dl__k{font-family:var(--disp);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.dl__v{font-size:15.5px}
+.dl__v.big{font-family:var(--disp);font-size:19px;color:var(--brass-hi);text-transform:uppercase;letter-spacing:.02em;font-weight:500}
+.pager{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+
+/* ---------- шпаргалка ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table.cheat{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}
+table.cheat th,table.cheat td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+table.cheat th{font-family:var(--disp);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:rgba(0,0,0,.25)}
+table.cheat td.num{font-family:var(--mono);color:var(--brass-dim);font-size:11.5px;width:30px}
+table.cheat td.nm{font-weight:700}
+table.cheat td.ad{color:var(--brass-hi)}
+table.cheat td.ins{color:var(--muted);font-size:13px}
+.cheat__group td{background:rgba(176,154,99,.09);font-family:var(--disp);letter-spacing:.16em;text-transform:uppercase;font-size:11px;color:var(--brass-hi)}
+
+/* ---------- справка ---------- */
+.prose{max-width:66ch;display:grid;gap:13px;font-size:16px}
+.prose h3{font-size:14px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass-dim);margin-top:14px}
+.prose ul{margin:0;padding-left:19px;display:grid;gap:7px}
+.prose li::marker{color:var(--brass-dim)}
+.quote{border-left:2px solid var(--brass-dim);padding:8px 0 8px 15px;color:var(--muted);font-style:italic}
+.kbd{font-family:var(--mono);font-size:11.5px;padding:2px 6px;border:1px solid var(--line-2);border-radius:4px;color:var(--brass-hi)}
+
+/* ---------- прогресс ---------- */
+.prog{display:grid;gap:8px}
+.prog__i{display:grid;grid-template-columns:30px minmax(0,1fr) 72px;gap:12px;align-items:center;font-size:14px}
+.prog__nm{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prog__t{display:block;height:6px;border-radius:99px;background:rgba(226,224,216,.08);overflow:hidden;margin-top:4px}
+.prog__f{display:block;height:100%;border-radius:99px;background:var(--brass-dim)}
+.prog__f.ok{background:var(--ok)}
+.prog__f.bad{background:var(--err)}
+.prog__x{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- погон и фигура ---------- */
+.strap{height:280px;width:auto}
+.strap--xl{height:300px}
+.strap--lg{height:250px}
+.strap--md{height:180px}
+.strap--sm{height:112px}
+.strap--xs{height:62px}
+.strap--tiny{height:42px}
+.figure{height:280px;width:auto}
+.figure--sm{height:200px}
+.photo{height:280px;width:auto;border-radius:10px;border:1px solid var(--line)}
+
+/* ---------- нижняя панель (телефон) ---------- */
+.tabbar{display:none}
+
+/* ---------- анимации ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes shake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(3px)}50%{transform:translateX(-4px)}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes floatup{to{opacity:0;transform:translateY(-40px)}}
+.pop{animation:pop .28s ease both}
+.floater{
+  position:fixed;z-index:90;pointer-events:none;font-family:var(--mono);font-size:18px;color:var(--brass-hi);
+  animation:floatup .9s ease-out forwards;
+}
+@media (hover:none){
+  .mode:hover,.card:hover,.tile:hover{background:var(--ink2);border-color:var(--line)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+
+/* ============================================================
+   АДАПТАЦИЯ ПОД ПЛАНШЕТ И ТЕЛЕФОН
+   ============================================================ */
+@media (max-width:880px){
+  .home{grid-template-columns:1fr;gap:20px}
+  .home__stage{order:-1;padding:16px 12px 36px}
+  .play{grid-template-columns:1fr;gap:18px}
+  .detail{grid-template-columns:1fr;gap:20px}
+  .strap--xl{height:240px}
+}
+
+@media (max-width:620px){
+  body{padding-bottom:calc(62px + env(safe-area-inset-bottom))}
+  .screen{padding:18px 14px 34px}
+  .brand__txt i{display:none}
+  .brand__txt b{font-size:16px}
+  .top{padding-left:12px;padding-right:12px}
+  .top__nav .chip[data-nav]{display:none}
+
+  /* нижняя навигация вместо верхних вкладок */
+  .tabbar{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:rgba(15,18,17,.95);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    padding:5px 4px calc(5px + env(safe-area-inset-bottom));
+  }
+  .tabbar button{
+    display:grid;justify-items:center;gap:2px;padding:6px 2px;border-radius:8px;color:var(--muted);
+    font-family:var(--disp);font-size:10px;letter-spacing:.07em;text-transform:uppercase;
+  }
+  .tabbar button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}
+  .tabbar button.is-on{color:var(--brass-hi)}
+
+  .pagehead{margin-bottom:18px;padding-bottom:13px}
+  .pagehead h1{font-size:23px}
+  .pagehead__lead{font-size:14.5px}
+  .home h1{font-size:27px}
+  .home__lead{font-size:15px}
+  .tiles{grid-template-columns:1fr;gap:8px}
+  .tile{padding:14px;gap:12px}
+
+  .mode{grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 13px}
+  .mode__meta{grid-column:2;text-align:left;margin-top:5px}
+  .mode__meta b{display:inline;font-size:12px}
+
+  .strip{grid-template-columns:1fr 1fr}
+  .strip__i{padding:11px 13px}
+  .strip__v{font-size:19px}
+
+  /* игра */
+  .bar{gap:9px}
+  .stage{padding:14px 10px}
+  .strap{height:210px}
+  .strap--lg{height:210px}
+  .strap--md{height:140px}
+  .strap--sm{height:92px}
+  .figure{height:250px}
+  .qtext{font-size:19px}
+  .qname{font-size:25px}
+  .answers,.answers--duo{grid-template-columns:1fr}
+  .answers--duo{grid-template-columns:1fr 1fr;gap:8px}
+  .answers--straps{grid-template-columns:1fr 1fr;gap:8px}
+  .ans{font-size:15.5px;padding:13px;min-height:56px}
+  .fb__body{gap:12px}
+  .fb__txt{flex-basis:100%}
+
+  .grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+  .card{padding:11px 6px 10px;gap:6px}
+  .card__t{font-size:12.5px}
+  .card__s{display:none}
+
+  .res__mark{width:88px;height:88px;font-size:40px}
+  .errlist__i{gap:10px;padding:8px 10px}
+  .errlist__x{font-size:11px;max-width:44%}
+
+  .prog__i{grid-template-columns:26px minmax(0,1fr) 58px;gap:9px;font-size:13px}
+
+  /* шпаргалка превращается в список карточек */
+  .tablewrap{border:0;overflow:visible}
+  table.cheat{min-width:0;font-size:14px}
+  table.cheat thead{display:none}
+  table.cheat,table.cheat tbody{display:block;width:100%}
+  table.cheat tr{
+    display:grid;grid-template-columns:52px minmax(0,1fr);column-gap:12px;row-gap:2px;
+    border:1px solid var(--line);border-radius:10px;background:var(--ink2);
+    padding:11px 12px;margin-bottom:8px;
+  }
+  table.cheat tr.cheat__group{display:block;background:transparent;border:0;padding:14px 0 4px;margin:6px 0 0}
+  table.cheat tr.cheat__group td{border:0;padding:0;background:transparent;color:var(--brass-dim);font-size:10.5px;letter-spacing:.18em}
+  table.cheat td{border:0;padding:2px 0;grid-column:2}
+  table.cheat td.pg{grid-column:1;grid-row:1 / span 5;align-self:start}
+  table.cheat td::before{
+    content:attr(data-l);display:block;font-family:var(--disp);font-size:9.5px;letter-spacing:.15em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  table.cheat td.pg::before,table.cheat td.num::before{content:none}
+  table.cheat td.num{grid-column:2;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--disp);color:var(--brass-dim)}
+  table.cheat td.nm{font-family:var(--disp);font-size:17px;text-transform:uppercase;letter-spacing:.03em;font-weight:500}
+}
+
+@media (max-width:380px){
+  .answers--straps{grid-template-columns:1fr}
+  .strap--md{height:150px}
+  .grid{grid-template-columns:1fr 1fr}
+}
+
+@media print{
+  .top,.foot,.filters,.btn,.tabbar,.pagehead__back{display:none!important}
+  body{background:#fff;color:#111;padding:0}
+  .bg{display:none}
+  table.cheat th{background:#eee;color:#111}
+  table.cheat td.ad{color:#111}
+  .tablewrap{border-color:#ccc}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+
+<header class="top">
+  <button class="brand" data-nav="menu" type="button">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt">
+      <b>ПОГОНЫ&nbsp;РФ</b>
+      <i>тренажёр воинских званий</i>
+    </span>
+  </button>
+
+  <nav class="top__nav">
+    <a class="chip" href="index.html">← Устав</a>
+    <button class="chip" data-nav="train" type="button">Тренировка</button>
+    <button class="chip" data-nav="study" type="button">Изучение</button>
+    <button class="chip" data-nav="cheat" type="button">Шпаргалка</button>
+    <button class="chip" data-nav="help" type="button">Справка</button>
+    <button class="chip" data-nav="stats" type="button">Прогресс</button>
+    <button class="chip chip--sq" id="btnSound" type="button" aria-pressed="true" title="Звук вкл/выкл">звук</button>
+  </nav>
+</header>
+
+<main id="screen" class="screen" tabindex="-1"></main>
+
+<footer class="foot">
+  <span>Знаки различия и правила обращения приведены по Уставу внутренней службы ВС РФ и правилам ношения военной формы одежды.</span>
+  <span>Погоны отрисованы схематично: важны просветы, количество и размер звёзд, число и ширина нашивок.</span>
+  <span><a href="index.html">← Ко всем темам предмета «Устав»</a> · <a href="../index.html">на главную сайта</a></span>
+</footer>
+
+<nav class="tabbar" aria-label="Разделы">
+  <button data-nav="menu" type="button"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Меню</button>
+  <button data-nav="train" type="button"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>Тренировка</button>
+  <button data-nav="study" type="button"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Изучение</button>
+  <button data-nav="cheat" type="button"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/></svg>Шпаргалка</button>
+</nav>
+<script>
+"use strict";
+/* ============================================================
+   1. ДАННЫЕ О ЗВАНИЯХ
+   ------------------------------------------------------------
+   t     — ступень иерархии (1 — самое младшее)
+   sostav— состав военнослужащих по ФЗ «О воинской обязанности…»
+   a     — войсковое звание, v — корабельное (null, если нет)
+   ins   — описание погона для отрисовки:
+           f     'cloth' — суконный погон, 'galun' — галунный (золотой)
+           gaps  количество просветов
+           stars {n: сколько, s: размер 's' 13мм / 'm' 20мм / 'l' 22мм / 'xl' 40мм}
+           str   нашивки (лычки): {n: сколько, w:'narrow'|'wide'|'long'}
+           gerb  герб России на погоне
+           gen   генеральское плетение галуна
+   ============================================================ */
+
+/* Хотите заменить схему настоящей фотографией — положите файл рядом
+   с index.html (папка img) и впишите сюда: 'kapitan': 'img/kapitan.jpg' */
+var PHOTOS = {};
+
+var RANKS = [
+{
+  t:1, id:'ryadovoy', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Солдаты и матросы',
+  a:{n:'Рядовой', ad:'Товарищ рядовой'},
+  v:{n:'Матрос', ad:'Товарищ матрос'},
+  ins:{f:'cloth', gaps:0, stars:null, str:null},
+  d:'Погон без знаков различия.',
+  tip:'Пустой погон — самое младшее звание. В ВДВ, морской пехоте и других родах войск звание такое же. Курсант военного вуза носит на погоне букву «К».'
+},
+{
+  t:2, id:'efreitor', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Солдаты и матросы',
+  a:{n:'Ефрейтор', ad:'Товарищ ефрейтор'},
+  v:{n:'Старший матрос', ad:'Товарищ старший матрос'},
+  ins:{f:'cloth', gaps:0, stars:null, str:{n:1, w:'narrow'}},
+  d:'Одна узкая поперечная нашивка (лычка).',
+  tip:'Начинается счёт лычек: 1 — ефрейтор, 2 — младший сержант, 3 — сержант.'
+},
+{
+  t:3, id:'ml-serzhant', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Сержанты и старшины',
+  a:{n:'Младший сержант', ad:'Товарищ младший сержант'},
+  v:{n:'Старшина 2 статьи', ad:'Товарищ старшина 2 статьи'},
+  ins:{f:'cloth', gaps:0, stars:null, str:{n:2, w:'narrow'}},
+  d:'Две узкие поперечные нашивки.',
+  tip:'Две узкие лычки. На флоте это «старшина 2 статьи» — чем меньше номер статьи, тем звание выше.'
+},
+{
+  t:4, id:'serzhant', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Сержанты и старшины',
+  a:{n:'Сержант', ad:'Товарищ сержант'},
+  v:{n:'Старшина 1 статьи', ad:'Товарищ старшина 1 статьи'},
+  ins:{f:'cloth', gaps:0, stars:null, str:{n:3, w:'narrow'}},
+  d:'Три узкие поперечные нашивки.',
+  tip:'Три узкие лычки — предел для узких. Дальше нашивка станет широкой.'
+},
+{
+  t:5, id:'st-serzhant', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Сержанты и старшины',
+  a:{n:'Старший сержант', ad:'Товарищ старший сержант'},
+  v:{n:'Главный старшина', ad:'Товарищ главный старшина'},
+  ins:{f:'cloth', gaps:0, stars:null, str:{n:1, w:'wide'}},
+  d:'Одна широкая поперечная нашивка.',
+  tip:'Узкие закончились — пошла одна широкая поперёк погона.'
+},
+{
+  t:6, id:'starshina', sostav:'Солдаты, матросы, сержанты и старшины', grp:'Сержанты и старшины',
+  a:{n:'Старшина', ad:'Товарищ старшина'},
+  v:{n:'Главный корабельный старшина', ad:'Товарищ главный корабельный старшина'},
+  ins:{f:'cloth', gaps:0, stars:null, str:{n:1, w:'long'}},
+  d:'Одна широкая продольная нашивка — вдоль погона.',
+  tip:'Широкая лычка «повернулась» вдоль погона: старшина — главный сержант подразделения.'
+},
+{
+  t:7, id:'praporshchik', sostav:'Прапорщики и мичманы', grp:'Прапорщики и мичманы',
+  a:{n:'Прапорщик', ad:'Товарищ прапорщик'},
+  v:{n:'Мичман', ad:'Товарищ мичман'},
+  ins:{f:'galun', gaps:0, stars:{n:2, s:'s'}, str:null},
+  d:'Две малые звезды (13 мм) в столбик вдоль погона. Просветов нет.',
+  tip:'Звёзды уже появились, но просветов ещё нет — верный признак прапорщика, а не офицера.'
+},
+{
+  t:8, id:'st-praporshchik', sostav:'Прапорщики и мичманы', grp:'Прапорщики и мичманы',
+  a:{n:'Старший прапорщик', ad:'Товарищ старший прапорщик'},
+  v:{n:'Старший мичман', ad:'Товарищ старший мичман'},
+  ins:{f:'galun', gaps:0, stars:{n:3, s:'s'}, str:null},
+  d:'Три малые звезды (13 мм) в столбик. Просветов нет.',
+  tip:'Три маленькие звезды столбиком и ни одного просвета.'
+},
+{
+  t:9, id:'ml-leytenant', sostav:'Младшие офицеры', grp:'Младшие офицеры',
+  a:{n:'Младший лейтенант', ad:'Товарищ младший лейтенант'},
+  v:{n:'Младший лейтенант', ad:'Товарищ младший лейтенант'},
+  ins:{f:'galun', gaps:1, stars:{n:1, s:'s'}, str:null},
+  d:'Один просвет, одна малая звезда (13 мм) на просвете.',
+  tip:'Один просвет = младший офицер. Считай звёзды: 1 — младший лейтенант.'
+},
+{
+  t:10, id:'leytenant', sostav:'Младшие офицеры', grp:'Младшие офицеры',
+  a:{n:'Лейтенант', ad:'Товарищ лейтенант'},
+  v:{n:'Лейтенант', ad:'Товарищ лейтенант'},
+  ins:{f:'galun', gaps:1, stars:{n:2, s:'s'}, str:null},
+  d:'Один просвет, две малые звезды по сторонам просвета.',
+  tip:'Две звезды встали по бокам просвета — первое офицерское звание выпускника вуза.'
+},
+{
+  t:11, id:'st-leytenant', sostav:'Младшие офицеры', grp:'Младшие офицеры',
+  a:{n:'Старший лейтенант', ad:'Товарищ старший лейтенант'},
+  v:{n:'Старший лейтенант', ad:'Товарищ старший лейтенант'},
+  ins:{f:'galun', gaps:1, stars:{n:3, s:'s'}, str:null},
+  d:'Один просвет, три малые звезды: две по сторонам, третья выше на просвете.',
+  tip:'Треугольник из трёх маленьких звёзд на одном просвете.'
+},
+{
+  t:12, id:'kapitan', sostav:'Младшие офицеры', grp:'Младшие офицеры',
+  a:{n:'Капитан', ad:'Товарищ капитан'},
+  v:{n:'Капитан-лейтенант', ad:'Товарищ капитан-лейтенант'},
+  ins:{f:'galun', gaps:1, stars:{n:4, s:'s'}, str:null},
+  d:'Один просвет, четыре малые звезды: две по сторонам, две выше на просвете.',
+  tip:'Четыре звезды — потолок для одного просвета. Больше четырёх на одном просвете не бывает.'
+},
+{
+  t:13, id:'mayor', sostav:'Старшие офицеры', grp:'Старшие офицеры',
+  a:{n:'Майор', ad:'Товарищ майор'},
+  v:{n:'Капитан 3 ранга', ad:'Товарищ капитан 3 ранга'},
+  ins:{f:'galun', gaps:2, stars:{n:1, s:'m'}, str:null},
+  d:'Два просвета, одна звезда 20 мм между просветами.',
+  tip:'Два просвета = старший офицер, и звёзды сразу крупнее. Счёт звёзд начинается заново с одной.'
+},
+{
+  t:14, id:'podpolkovnik', sostav:'Старшие офицеры', grp:'Старшие офицеры',
+  a:{n:'Подполковник', ad:'Товарищ подполковник'},
+  v:{n:'Капитан 2 ранга', ad:'Товарищ капитан 2 ранга'},
+  ins:{f:'galun', gaps:2, stars:{n:2, s:'m'}, str:null},
+  d:'Два просвета, две звезды 20 мм — по одной на каждом просвете.',
+  tip:'По звезде на каждом просвете. На флоте — капитан 2 ранга, «капдва».'
+},
+{
+  t:15, id:'polkovnik', sostav:'Старшие офицеры', grp:'Старшие офицеры',
+  a:{n:'Полковник', ad:'Товарищ полковник'},
+  v:{n:'Капитан 1 ранга', ad:'Товарищ капитан 1 ранга'},
+  ins:{f:'galun', gaps:2, stars:{n:3, s:'m'}, str:null},
+  d:'Два просвета, три звезды 20 мм: две на просветах, третья выше между ними.',
+  tip:'Тот же треугольник, что у старшего лейтенанта, но на двух просветах и звёзды крупнее.'
+},
+{
+  t:16, id:'general-mayor', sostav:'Высшие офицеры', grp:'Высшие офицеры',
+  a:{n:'Генерал-майор', ad:'Товарищ генерал-майор'},
+  v:{n:'Контр-адмирал', ad:'Товарищ контр-адмирал'},
+  ins:{f:'galun', gen:true, gaps:0, stars:{n:1, s:'l'}, str:null},
+  d:'Просветов нет, одна большая звезда 22 мм на осевой линии.',
+  tip:'Просветы исчезли, а звезда стала большой — начались генералы.'
+},
+{
+  t:17, id:'general-leytenant', sostav:'Высшие офицеры', grp:'Высшие офицеры',
+  a:{n:'Генерал-лейтенант', ad:'Товарищ генерал-лейтенант'},
+  v:{n:'Вице-адмирал', ad:'Товарищ вице-адмирал'},
+  ins:{f:'galun', gen:true, gaps:0, stars:{n:2, s:'l'}, str:null},
+  d:'Просветов нет, две большие звезды 22 мм в столбик.',
+  tip:'Ловушка экзамена: генерал-лейтенант СТАРШЕ генерал-майора, хотя лейтенант младше майора. У генералов порядок обратный.'
+},
+{
+  t:18, id:'general-polkovnik', sostav:'Высшие офицеры', grp:'Высшие офицеры',
+  a:{n:'Генерал-полковник', ad:'Товарищ генерал-полковник'},
+  v:{n:'Адмирал', ad:'Товарищ адмирал'},
+  ins:{f:'galun', gen:true, gaps:0, stars:{n:3, s:'l'}, str:null},
+  d:'Просветов нет, три большие звезды 22 мм в столбик.',
+  tip:'Три большие звезды столбиком. На флоте это просто «адмирал».'
+},
+{
+  t:19, id:'general-armii', sostav:'Высшие офицеры', grp:'Высшие офицеры',
+  a:{n:'Генерал армии', ad:'Товарищ генерал армии'},
+  v:{n:'Адмирал флота', ad:'Товарищ адмирал флота'},
+  ins:{f:'galun', gen:true, gaps:0, stars:{n:1, s:'xl'}, str:null},
+  d:'Просветов нет, одна очень большая звезда 40 мм.',
+  tip:'Одна звезда — как у генерал-майора, но вдвое крупнее. Смотри на размер, а не только на количество.'
+},
+{
+  t:20, id:'marshal', sostav:'Высшие офицеры', grp:'Высшие офицеры',
+  a:{n:'Маршал Российской Федерации', ad:'Товарищ маршал Российской Федерации'},
+  v:null,
+  ins:{f:'galun', gen:true, gaps:0, stars:{n:1, s:'xl'}, str:null, gerb:true},
+  d:'Большая звезда 40 мм и Государственный герб России на погоне.',
+  tip:'Высшее воинское звание в ВС РФ. Корабельного соответствия нет.'
+}
+];
+
+var SOSTAVY = ['Солдаты, матросы, сержанты и старшины','Прапорщики и мичманы','Младшие офицеры','Старшие офицеры','Высшие офицеры'];
+var GROUPS  = ['Солдаты и матросы','Сержанты и старшины','Прапорщики и мичманы','Младшие офицеры','Старшие офицеры','Высшие офицеры'];
+
+/* ============================================================
+   2. ГРАФИКА: ПОГОН И ФИГУРА ВОЕННОСЛУЖАЩЕГО
+   Всё рисуется векторно (SVG) прямо в браузере — картинки не нужны,
+   сайт работает даже без интернета.
+   Система координат погона: 120 × 332, низ погона — y = 316.
+   Масштаб ≈ 2 px на 1 мм натуральной величины.
+   ============================================================ */
+
+var UID = 0;
+var STRAP_PATH = 'M20 304 L20 86 L50 40 Q60 26 70 40 L100 86 L100 304 Q100 316 88 316 L32 316 Q20 316 20 304 Z';
+
+function starPath(cx, cy, r){
+  var pts = [], i, rr, a;
+  for(i = 0; i < 10; i++){
+    rr = (i % 2) ? r * 0.40 : r;
+    a = -Math.PI / 2 + i * Math.PI / 5;
+    pts.push((cx + rr * Math.cos(a)).toFixed(2) + ' ' + (cy + rr * Math.sin(a)).toFixed(2));
+  }
+  return 'M' + pts.join('L') + 'Z';
+}
+function starFacets(cx, cy, r){
+  var d = '', i, a;
+  for(i = 0; i < 5; i++){
+    a = -Math.PI / 2 + i * 2 * Math.PI / 5;
+    d += 'M' + cx.toFixed(1) + ' ' + cy.toFixed(1) + 'L' + (cx + r * Math.cos(a)).toFixed(1) + ' ' + (cy + r * Math.sin(a)).toFixed(1);
+  }
+  return d;
+}
+function drawStar(cx, cy, r, uid){
+  return '<path d="' + starPath(cx, cy, r) + '" fill="url(#sg' + uid + ')" stroke="#6d5518" stroke-width="' + (r > 22 ? 1.4 : 1) + '"/>' +
+         '<path d="' + starFacets(cx, cy, r) + '" stroke="rgba(96,74,18,.5)" stroke-width="' + (r > 22 ? 1.3 : .9) + '" fill="none" stroke-linecap="round"/>';
+}
+
+/* Государственный герб — схематичный двуглавый орёл */
+function drawGerb(cx, cy, s, uid){
+  var g = '<g transform="translate(' + cx + ',' + cy + ') scale(' + s + ')" fill="url(#sg' + uid + ')" stroke="#6d5518" stroke-width="1.1" stroke-linejoin="round">';
+  g += '<path d="M0 -2 C7 -2 10 4 10 12 C10 20 6 26 0 31 C-6 26 -10 20 -10 12 C-10 4 -7 -2 0 -2 Z"/>';
+  g += '<path d="M-7 0 C-16 -7 -27 -5 -30 5 C-21 3 -14 7 -8 14 Z"/>';
+  g += '<path d="M7 0 C16 -7 27 -5 30 5 C21 3 14 7 8 14 Z"/>';
+  g += '<path d="M-9 -6 a6 6 0 1 1 12 0 a6 6 0 1 1 -12 0 Z"/>';
+  g += '<path d="M-3 -6 a6 6 0 1 1 12 0 a6 6 0 1 1 -12 0 Z"/>';
+  g += '<path d="M-17 -7 L-13 -3 L-9 -7 Z M17 -7 L13 -3 L9 -7 Z"/>';
+  g += '<path d="M-11 -15 h8 l-1.5 5 h-5 Z M3 -15 h8 l-1.5 5 h-5 Z M-4 -22 h8 l-1.5 5 h-5 Z"/>';
+  g += '</g>';
+  return g;
+}
+
+/* Где стоят звёзды на погоне */
+function starLayout(ins){
+  var n = ins.stars ? ins.stars.n : 0;
+  var size = ins.stars ? ins.stars.s : 's';
+  var r = ({ s: 13, m: 18, l: 21, xl: 35 })[size];
+  var pts = [];
+  if(ins.gaps === 1){
+    if(n === 1) pts = [[60, 230]];
+    if(n === 2) pts = [[37, 264], [83, 264]];
+    if(n === 3) pts = [[37, 264], [83, 264], [60, 218]];
+    if(n === 4) pts = [[37, 264], [83, 264], [60, 218], [60, 172]];
+  } else if(ins.gaps === 2){
+    if(n === 1) pts = [[60, 228]];
+    if(n === 2) pts = [[41, 258], [79, 258]];
+    if(n === 3) pts = [[41, 258], [79, 258], [60, 208]];
+  } else if(size === 's'){
+    if(n === 1) pts = [[60, 240]];
+    if(n === 2) pts = [[60, 262], [60, 215]];
+    if(n === 3) pts = [[60, 268], [60, 221], [60, 174]];
+  } else if(size === 'xl'){
+    pts = ins.gerb ? [[60, 258]] : [[60, 238]];
+  } else {
+    if(n === 1) pts = [[60, 236]];
+    if(n === 2) pts = [[60, 272], [60, 204]];
+    if(n === 3) pts = [[60, 276], [60, 208], [60, 140]];
+  }
+  return { r: r, pts: pts };
+}
+
+/* Внутренность погона без обёртки <svg> — используется и отдельно, и на фигуре */
+function strapInner(rank, branch, uid){
+  var ins = rank.ins;
+  var navy = branch === 'navy';
+  var cloth = ins.f === 'cloth';
+  var s = '';
+
+  /* --- определения: градиенты, плетение --- */
+  var fieldTop, fieldMid, fieldBot, edgeCol, gapCol;
+  if(cloth){
+    fieldTop = navy ? '#394152' : '#8b9668';
+    fieldMid = navy ? '#212636' : '#657049';
+    fieldBot = navy ? '#12151d' : '#4b5539';
+    edgeCol  = navy ? '#b99b48' : '#8a2a2f';
+  } else {
+    fieldTop = '#ecdca9';
+    fieldMid = '#c2a24c';
+    fieldBot = '#927324';
+    edgeCol  = navy ? '#181b22' : '#8a2a2f';
+  }
+  gapCol = navy ? '#181b22' : '#9a2830';
+
+  s += '<defs>';
+  s += '<linearGradient id="fg' + uid + '" x1="0" y1="0" x2="1" y2="1">' +
+       '<stop offset="0" stop-color="' + fieldTop + '"/>' +
+       '<stop offset=".45" stop-color="' + fieldMid + '"/>' +
+       '<stop offset="1" stop-color="' + fieldBot + '"/></linearGradient>';
+  s += '<linearGradient id="sg' + uid + '" x1="0" y1="0" x2=".8" y2="1">' +
+       '<stop offset="0" stop-color="#fdf1c4"/><stop offset=".5" stop-color="#e2be5e"/>' +
+       '<stop offset="1" stop-color="#a9821f"/></linearGradient>';
+  s += '<linearGradient id="lg' + uid + '" x1="0" y1="0" x2="1" y2="0">' +
+       '<stop offset="0" stop-color="rgba(255,255,255,.22)"/>' +
+       '<stop offset=".3" stop-color="rgba(255,255,255,0)"/>' +
+       '<stop offset=".82" stop-color="rgba(0,0,0,.14)"/>' +
+       '<stop offset="1" stop-color="rgba(0,0,0,.34)"/></linearGradient>';
+  s += '<radialGradient id="bg' + uid + '" cx=".35" cy=".3" r=".85">' +
+       '<stop offset="0" stop-color="#ffeeb8"/><stop offset=".55" stop-color="#d9b256"/>' +
+       '<stop offset="1" stop-color="#8f6d1c"/></radialGradient>';
+  if(cloth){
+    s += '<pattern id="wv' + uid + '" width="6" height="6" patternUnits="userSpaceOnUse">' +
+         '<rect width="6" height="6" fill="none"/><rect width="6" height="1" fill="rgba(0,0,0,.18)"/>' +
+         '<rect width="1" height="6" fill="rgba(255,255,255,.06)"/></pattern>';
+  } else if(ins.gen){
+    s += '<pattern id="wv' + uid + '" width="16" height="11" patternUnits="userSpaceOnUse">' +
+         '<path d="M0 11 L8 1 L16 11" fill="none" stroke="rgba(122,92,20,.55)" stroke-width="2.4"/>' +
+         '<path d="M0 8 L8 -2 L16 8" fill="none" stroke="rgba(255,246,214,.42)" stroke-width="1.6"/></pattern>';
+  } else {
+    s += '<pattern id="wv' + uid + '" width="9" height="9" patternTransform="rotate(38)" patternUnits="userSpaceOnUse">' +
+         '<rect width="9" height="9" fill="none"/><rect width="3.4" height="9" fill="rgba(255,247,214,.34)"/>' +
+         '<rect x="4.6" width="1.6" height="9" fill="rgba(120,90,20,.35)"/></pattern>';
+  }
+  s += '<clipPath id="cp' + uid + '"><path d="' + STRAP_PATH + '"/></clipPath>';
+  s += '</defs>';
+
+  /* --- поле погона --- */
+  s += '<g clip-path="url(#cp' + uid + ')">';
+  s += '<path d="' + STRAP_PATH + '" fill="url(#fg' + uid + ')"/>';
+  s += '<rect x="0" y="0" width="120" height="332" fill="url(#wv' + uid + ')"/>';
+
+  /* --- просветы --- */
+  if(ins.gaps === 1){
+    s += '<rect x="54.5" y="26" width="11" height="292" fill="' + gapCol + '"/>';
+    s += '<rect x="54.5" y="26" width="3" height="292" fill="rgba(255,255,255,.10)"/>';
+  } else if(ins.gaps === 2){
+    s += '<rect x="36.5" y="26" width="9" height="292" fill="' + gapCol + '"/>';
+    s += '<rect x="74.5" y="26" width="9" height="292" fill="' + gapCol + '"/>';
+    s += '<rect x="36.5" y="26" width="2.4" height="292" fill="rgba(255,255,255,.10)"/>';
+    s += '<rect x="74.5" y="26" width="2.4" height="292" fill="rgba(255,255,255,.10)"/>';
+  }
+
+  /* --- нашивки (лычки) --- */
+  if(ins.str){
+    var w = ins.str.w, i;
+    if(w === 'narrow'){
+      for(i = 0; i < ins.str.n; i++){
+        s += '<rect x="22" y="' + (92 + i * 21) + '" width="76" height="13" rx="2" fill="url(#sg' + uid + ')" stroke="rgba(90,70,16,.6)" stroke-width=".8"/>';
+      }
+    } else if(w === 'wide'){
+      s += '<rect x="22" y="92" width="76" height="30" rx="3" fill="url(#sg' + uid + ')" stroke="rgba(90,70,16,.6)" stroke-width=".9"/>';
+    } else if(w === 'long'){
+      s += '<rect x="46" y="92" width="28" height="194" rx="3" fill="url(#sg' + uid + ')" stroke="rgba(90,70,16,.6)" stroke-width=".9"/>';
+    }
+  }
+
+  /* --- звёзды и герб --- */
+  if(ins.stars){
+    var L = starLayout(ins), k;
+    for(k = 0; k < L.pts.length; k++) s += drawStar(L.pts[k][0], L.pts[k][1], L.r, uid);
+  }
+  if(ins.gerb) s += drawGerb(60, 150, 1.15, uid);
+
+  /* --- объём --- */
+  s += '<rect x="0" y="0" width="120" height="332" fill="url(#lg' + uid + ')"/>';
+  s += '</g>';
+
+  /* --- кант и пуговица --- */
+  s += '<path d="' + STRAP_PATH + '" fill="none" stroke="' + edgeCol + '" stroke-width="5" stroke-linejoin="round"/>';
+  s += '<path d="' + STRAP_PATH + '" fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1.4" stroke-linejoin="round"/>';
+  s += '<circle cx="60" cy="62" r="14" fill="url(#bg' + uid + ')" stroke="#7d5f16" stroke-width="1.2"/>';
+  s += '<path d="' + starPath(60, 62, 7) + '" fill="rgba(120,92,20,.55)"/>';
+  return s;
+}
+
+function strapSVG(rank, branch, cls){
+  var uid = ++UID;
+  return '<svg class="strap ' + (cls || '') + '" viewBox="0 0 120 332" role="img" aria-label="Погон: ' + rankName(rank, branch) + '">' +
+         strapInner(rank, branch, uid) + '</svg>';
+}
+
+/* ============================================================
+   ФИГУРА ВОЕННОСЛУЖАЩЕГО В ПОГОНАХ
+   Схематичный портрет по грудь: видно оба погона и головной убор.
+   ============================================================ */
+function figureSVG(rank, branch, cls){
+  if(PHOTOS[rank.id]){
+    return '<img class="photo ' + (cls || '') + '" src="' + PHOTOS[rank.id] + '" alt="Военнослужащий, ' + rankName(rank, branch) + '">';
+  }
+  var navy = branch === 'navy';
+  var low = rank.t <= 6;
+  var uidL = ++UID, uidR = ++UID;
+  var coat  = navy ? '#1a1e27' : '#3c4b44';
+  var coat2 = navy ? '#12151c' : '#313e38';
+  var skin  = '#d3ab89', skin2 = '#b98f6d';
+  var s = '<svg class="figure ' + (cls || '') + '" viewBox="0 0 420 400" role="img" aria-label="Военнослужащий в погонах: ' + rankName(rank, branch) + '">';
+
+  s += '<defs><linearGradient id="cg' + uidL + '" x1="0" y1="0" x2="0" y2="1">' +
+       '<stop offset="0" stop-color="' + coat + '"/><stop offset="1" stop-color="' + coat2 + '"/></linearGradient></defs>';
+
+  /* шея */
+  s += '<path d="M184 190 h52 v54 l-26 16 -26 -16 Z" fill="' + skin2 + '"/>';
+
+  /* голова */
+  s += '<ellipse cx="210" cy="150" rx="46" ry="55" fill="' + skin + '"/>';
+  s += '<ellipse cx="164" cy="158" rx="7" ry="11" fill="' + skin2 + '"/><ellipse cx="256" cy="158" rx="7" ry="11" fill="' + skin2 + '"/>';
+  s += '<path d="M186 141 q11 -6 22 -1" stroke="#4b3a2c" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  s += '<path d="M212 140 q11 -5 22 1" stroke="#4b3a2c" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  s += '<ellipse cx="195" cy="155" rx="5" ry="3.4" fill="#3a2f27"/><ellipse cx="225" cy="155" rx="5" ry="3.4" fill="#3a2f27"/>';
+  s += '<path d="M210 162 v14 q0 4 -5 5" stroke="' + skin2 + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
+  s += '<path d="M197 190 q13 6 26 0" stroke="#8d6047" stroke-width="3.4" fill="none" stroke-linecap="round"/>';
+
+  /* рубашка / тельняшка и галстук */
+  if(navy && low){
+    s += '<path d="M176 196 h68 v112 h-68 Z" fill="#e8e9ea"/>';
+    for(var b = 0; b < 7; b++) s += '<rect x="176" y="' + (204 + b * 15) + '" width="68" height="6" fill="#2f5c9e"/>';
+    s += '<path d="M150 214 l60 44 60 -44 -8 -22 -52 34 -52 -34 Z" fill="#2f5c9e"/>';
+    s += '<path d="M158 216 l52 34 52 -34" stroke="#fff" stroke-width="2.6" fill="none"/>';
+    s += '<path d="M163 222 l47 31 47 -31" stroke="#fff" stroke-width="2.2" fill="none"/>';
+  } else {
+    s += '<path d="M176 196 h68 v126 h-68 Z" fill="#e7e5db"/>';
+    s += '<path d="M176 200 l34 44 -18 4 -20 -30 Z" fill="#d3d0c4"/>';
+    s += '<path d="M244 200 l-34 44 18 4 20 -30 Z" fill="#d3d0c4"/>';
+    s += '<path d="M210 240 l14 16 -6 74 h-16 l-6 -74 Z" fill="' + (navy ? '#0b0d11' : '#2b3a30') + '"/>';
+  }
+
+  /* китель */
+  s += '<path d="M44 400 v-58 c0 -42 12 -70 32 -86 l92 -28 42 78 42 -78 92 28 c20 16 32 44 32 86 v58 Z" fill="url(#cg' + uidL + ')"/>';
+  s += '<path d="M168 228 L210 306 L196 232 Z" fill="' + coat2 + '"/>';
+  s += '<path d="M252 228 L210 306 L224 232 Z" fill="' + coat2 + '"/>';
+  s += '<path d="M76 256 L168 228" stroke="rgba(0,0,0,.28)" stroke-width="2" fill="none"/>';
+  s += '<path d="M344 256 L252 228" stroke="rgba(0,0,0,.28)" stroke-width="2" fill="none"/>';
+  s += '<circle cx="210" cy="336" r="7" fill="#cda94e" stroke="#7d5f16" stroke-width="1"/>';
+  s += '<circle cx="210" cy="378" r="7" fill="#cda94e" stroke="#7d5f16" stroke-width="1"/>';
+
+  /* головной убор */
+  if(rank.t >= 7){
+    var crown = navy ? '#ecebe6' : coat;
+    s += '<path d="M148 120 C148 76 176 56 210 56 C244 56 272 76 272 120 Z" fill="' + crown + '"/>';
+    s += '<path d="M148 120 C148 76 176 56 210 56" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="3"/>';
+    s += '<rect x="145" y="112" width="130" height="26" rx="5" fill="#181c19"/>';
+    s += '<rect x="145" y="110" width="130" height="4" rx="2" fill="#c8a94e"/>';
+    s += '<path d="M138 138 C168 162 252 162 282 138 L282 131 L138 131 Z" fill="#0d0f0d"/>';
+    s += '<path d="M140 140 C170 160 250 160 280 140" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="2.4"/>';
+    s += '<ellipse cx="210" cy="124" rx="10" ry="13" fill="#c8a94e" stroke="#7d5f16" stroke-width="1"/>';
+    s += '<path d="' + starPath(210, 124, 6.5) + '" fill="#8f2429"/>';
+  } else if(navy){
+    s += '<path d="M152 112 C152 80 178 64 210 64 C242 64 268 80 268 112 Z" fill="#efeee9"/>';
+    s += '<rect x="147" y="106" width="126" height="26" rx="4" fill="#14161b"/>';
+    s += '<rect x="147" y="130" width="126" height="4" rx="2" fill="#c8a94e"/>';
+    s += '<path d="M246 134 l6 62 -12 -4 Z" fill="#14161b"/><path d="M262 134 l2 64 -12 -6 Z" fill="#1c1f26"/>';
+    for(var q = 0; q < 9; q++) s += '<rect x="' + (158 + q * 13) + '" y="116" width="8" height="7" rx="1" fill="#c8a94e" opacity=".85"/>';
+    s += '<path d="' + starPath(210, 92, 9) + '" fill="#c8a94e"/>';
+  } else {
+    s += '<path d="M150 110 C150 74 182 56 216 56 C252 56 278 74 278 98 C278 112 262 120 240 122 L160 122 C152 121 150 116 150 110 Z" fill="#3f4a33"/>';
+    s += '<path d="M150 110 C150 74 182 56 216 56" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="3"/>';
+    s += '<rect x="152" y="112" width="120" height="10" rx="5" fill="#20261b"/>';
+    s += '<ellipse cx="178" cy="96" rx="9" ry="11" fill="#c8a94e" stroke="#7d5f16" stroke-width="1"/>';
+    s += '<path d="' + starPath(178, 96, 6) + '" fill="#8f2429"/>';
+  }
+
+  /* погоны на плечах */
+  s += '<g transform="translate(168,228) rotate(73.1) scale(0.33) translate(-60,0)">' + strapInner(rank, branch, uidL) + '</g>';
+  s += '<g transform="translate(252,228) rotate(-73.1) scale(0.33) translate(-60,0)">' + strapInner(rank, branch, uidR) + '</g>';
+
+  s += '</svg>';
+  return s;
+}
+
+/* ============================================================
+   3. СОСТОЯНИЕ, ПРОГРЕСС, ХРАНЕНИЕ
+   ============================================================ */
+var STORE = 'pogony-rf-v1';
+var state = { branch:'both', sound:true, stats:{}, best:{} };
+
+function loadState(){
+  try{
+    var raw = localStorage.getItem(STORE);
+    if(raw){
+      var o = JSON.parse(raw);
+      if(o.branch) state.branch = o.branch;
+      if(typeof o.sound === 'boolean') state.sound = o.sound;
+      state.stats = o.stats || {};
+      state.best = o.best || {};
+    }
+  }catch(e){}
+}
+function saveState(){ try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){} }
+function statOf(id){
+  if(!state.stats[id]) state.stats[id] = { ok:0, no:0 };
+  return state.stats[id];
+}
+
+/* ---------- помощники ---------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function shuffle(a){ var i,j,t; for(i=a.length-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function pickOne(a){ return a[Math.floor(Math.random()*a.length)]; }
+function rankName(r, b){ return (b === 'navy' && r.v) ? r.v.n : r.a.n; }
+function rankAddr(r, b){ return (b === 'navy' && r.v) ? r.v.ad : r.a.ad; }
+function byId(id){ for(var i=0;i<RANKS.length;i++) if(RANKS[i].id===id) return RANKS[i]; return null; }
+function plural(n, one, few, many){
+  var m10 = n % 10, m100 = n % 100;
+  if(m10 === 1 && m100 !== 11) return one;
+  if(m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few;
+  return many;
+}
+function fmtTime(ms){
+  var s = Math.round(ms / 1000), m = Math.floor(s / 60);
+  return m + ':' + ('0' + (s % 60)).slice(-2);
+}
+
+/* Материал с учётом выбранной ветки: армия / флот / всё */
+function items(){
+  var out = [], i;
+  for(i = 0; i < RANKS.length; i++){
+    if(state.branch !== 'navy') out.push({ r:RANKS[i], b:'army' });
+    if(state.branch !== 'army' && RANKS[i].v) out.push({ r:RANKS[i], b:'navy' });
+  }
+  return out;
+}
+function allItems(){
+  var out = [], i;
+  for(i = 0; i < RANKS.length; i++){
+    out.push({ r:RANKS[i], b:'army' });
+    if(RANKS[i].v) out.push({ r:RANKS[i], b:'navy' });
+  }
+  return out;
+}
+
+/* ============================================================
+   4. ЗВУК
+   ============================================================ */
+var actx = null;
+function beep(kind){
+  if(!state.sound) return;
+  try{
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return;
+    actx = actx || new AC();
+    var seq = kind === 'ok' ? [[620,0,.08],[930,.07,.12]]
+            : kind === 'bad' ? [[180,0,.18]]
+            : [[520,0,.06],[700,.06,.08],[1040,.12,.16]];
+    for(var i = 0; i < seq.length; i++){
+      (function(f, at, dur){
+        var o = actx.createOscillator(), g = actx.createGain();
+        o.type = kind === 'bad' ? 'sawtooth' : 'triangle';
+        o.frequency.value = f;
+        g.gain.value = 0.0001;
+        o.connect(g); g.connect(actx.destination);
+        var t = actx.currentTime + at;
+        g.gain.exponentialRampToValueAtTime(kind === 'bad' ? .07 : .12, t + .012);
+        g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+        o.start(t); o.stop(t + dur + .02);
+      })(seq[i][0], seq[i][1], seq[i][2]);
+    }
+  }catch(e){}
+}
+
+/* ============================================================
+   5. РЕЖИМЫ
+   ============================================================ */
+var ICONS = {
+  strap:'<path d="M8 21V9l4-6 4 6v12z"/><circle cx="12" cy="7.4" r="1.5"/><path d="M8 13h8M8 16.5h8"/>',
+  talk:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12.5h5"/>',
+  find:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.4 15.4L21 21"/>',
+  cmp:'<path d="M7 20V6M7 6L4 9.5M7 6l3 3.5"/><path d="M17 4v14M17 18l3-3.5M17 18l-3-3.5"/>',
+  anchor:'<circle cx="12" cy="4.5" r="2"/><path d="M12 6.5V21M6 12h12M4 15a8 8 0 0016 0"/>',
+  exam:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13l2.2 2.2L16 11"/>',
+  target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
+  table:'<path d="M4 5h16v14H4z"/><path d="M4 10h16M10 10v9"/>',
+  book:'<path d="M4 5h7a2 2 0 012 2v13a2 2 0 00-2-2H4z"/><path d="M20 5h-7a2 2 0 00-2 2v13a2 2 0 012-2h7z"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'
+};
+var MODES = [
+  { id:'strap2name', t:'Погон → звание',  d:'Показываем погон — выбираете звание из четырёх вариантов', ico:'strap',  n:12 },
+  { id:'strap2addr', t:'Как обращаться?', d:'Военнослужащий в погонах — как правильно к нему обратиться', ico:'talk',   n:12 },
+  { id:'name2strap', t:'Звание → погон',  d:'Название есть — найдите среди четырёх погон нужный',        ico:'find',   n:12 },
+  { id:'higher',     t:'Кто старше?',     d:'Два погона рядом — кто выше по званию',                     ico:'cmp',    n:12 },
+  { id:'match',      t:'Армия ↔ Флот',    d:'Соответствие войсковых и корабельных званий',               ico:'anchor', n:12 },
+  { id:'exam',       t:'Экзамен',         d:'20 вопросов всех типов вперемешку, на время и с оценкой',   ico:'exam',   n:20 }
+];
+function modeById(id){ for(var i=0;i<MODES.length;i++) if(MODES[i].id===id) return MODES[i]; return MODES[0]; }
+function modeAvailable(id){
+  if(id === 'match') return allItems().some(function(x){ return x.r.v; });
+  return true;
+}
+
+/* ---------- неверные варианты ----------
+   Часть берём из соседних ступеней (чтобы вопрос был не на угадайку),
+   часть — с любого места шкалы, чтобы набор вариантов шёл вразброс. */
+function wrongOnes(item, count, keyFn, pool){
+  var key = keyFn(item), i, k;
+  var cands = [];
+  for(i = 0; i < pool.length; i++) if(keyFn(pool[i]) !== key) cands.push(pool[i]);
+  shuffle(cands);
+
+  var near = cands.slice().sort(function(a, b){
+    var da = Math.abs(a.r.t - item.r.t) + Math.random() * 3.6;
+    var db = Math.abs(b.r.t - item.r.t) + Math.random() * 3.6;
+    return da - db;
+  });
+
+  var far = count > 1 ? (Math.random() < 0.45 ? 2 : 1) : 0;
+  if(far >= count) far = count - 1;
+
+  var out = [], seen = {};
+  seen[key] = 1;
+  for(i = 0; i < near.length && out.length < count - far; i++){
+    k = keyFn(near[i]);
+    if(seen[k]) continue;
+    seen[k] = 1;
+    out.push(near[i]);
+  }
+  for(i = 0; i < cands.length && out.length < count; i++){
+    k = keyFn(cands[i]);
+    if(seen[k]) continue;
+    seen[k] = 1;
+    out.push(cands[i]);
+  }
+  return shuffle(out);
+}
+
+/* ---------- материал сессии: слабые звания выпадают чаще ---------- */
+function drawItems(n){
+  var pool = items(), bag = [], i, j, st, w;
+  if(!pool.length) pool = allItems();
+  for(i = 0; i < pool.length; i++){
+    st = state.stats[pool[i].r.id] || { ok:0, no:0 };
+    w = 1 + Math.min(3, st.no) + (st.ok === 0 ? 1 : 0);
+    for(j = 0; j < w; j++) bag.push(pool[i]);
+  }
+  shuffle(bag);
+  var out = [], used = {};
+  for(i = 0; i < bag.length && out.length < n; i++){
+    var k = bag[i].r.id + bag[i].b;
+    if(used[k]) continue;
+    used[k] = 1;
+    out.push(bag[i]);
+  }
+  while(out.length < n && pool.length) out.push(pickOne(pool));
+  return shuffle(out);
+}
+
+/* ---------- сборка вопроса ---------- */
+function buildQuestion(kind, item){
+  var pool = items();
+  if(pool.length < 4) pool = allItems();
+  /* fig — показывать фигуру военнослужащего вместо отдельного погона;
+     решается для каждого вопроса заново, чтобы картинка шла вразброс */
+  var q = {
+    kind:kind, item:item, opts:[], correct:0,
+    fig: kind === 'strap2addr' ? (Math.random() < 0.7)
+       : kind === 'strap2name' ? (Math.random() < 0.35)
+       : false
+  };
+
+  if(kind === 'higher'){
+    var others = wrongOnes(item, 8, function(x){ return x.r.t; }, pool);
+    var near = others.filter(function(x){ return Math.abs(x.r.t - item.r.t) <= 5; });
+    var mate = near.length ? pickOne(near) : (others[0] || pickOne(pool));
+    var pair = shuffle([item, mate]);
+    q.opts = pair;
+    q.correct = pair[0].r.t > pair[1].r.t ? 0 : 1;
+    q.item = pair[q.correct];
+    return q;
+  }
+
+  if(kind === 'match'){
+    var src = item;
+    if(!src.r.v) src = pickOne(allItems().filter(function(x){ return x.r.v; }));
+    var fromNavy = Math.random() < 0.5;
+    q.from = fromNavy ? 'navy' : 'army';
+    q.to = fromNavy ? 'army' : 'navy';
+    q.item = { r:src.r, b:q.from };
+    var mpool = allItems().filter(function(x){ return x.b === q.to && x.r.v; });
+    var target = { r:src.r, b:q.to };
+    var wr = wrongOnes(target, 3, function(x){ return rankName(x.r, q.to); }, mpool);
+    var all = shuffle([target].concat(wr));
+    q.opts = all;
+    for(var m = 0; m < all.length; m++) if(all[m].r.id === src.r.id) q.correct = m;
+    return q;
+  }
+
+  var keyFn = kind === 'strap2addr'
+    ? function(x){ return rankAddr(x.r, x.b); }
+    : function(x){ return rankName(x.r, x.b); };
+  var wrong = wrongOnes(item, 3, keyFn, pool);
+  var opts = shuffle([item].concat(wrong));
+  q.opts = opts;
+  for(var z = 0; z < opts.length; z++) if(opts[z] === item) q.correct = z;
+  return q;
+}
+
+/* ============================================================
+   6. СЕССИЯ
+   ============================================================ */
+var ses = null;
+
+function startSession(modeId, customItems){
+  var mode = modeById(modeId);
+  var n = mode.n;
+  var list = (customItems && customItems.length) ? shuffle(customItems.slice()).slice(0, 20) : drawItems(n);
+
+  if(modeId === 'match'){
+    var withNavy = list.filter(function(x){ return x.r.v; });
+    if(withNavy.length < 6) withNavy = shuffle(allItems().filter(function(x){ return x.b === 'army' && x.r.v; })).slice(0, n);
+    list = withNavy;
+  }
+
+  var kinds = ['strap2name', 'strap2addr', 'name2strap', 'higher'];
+  if(allItems().some(function(x){ return x.r.v; })) kinds.push('match');
+
+  var qs = [], i, kind;
+  for(i = 0; i < list.length; i++){
+    kind = modeId === 'exam' ? pickOne(kinds) : modeId;
+    if(kind === 'match' && !list[i].r.v) kind = 'strap2name';
+    qs.push(buildQuestion(kind, list[i]));
+  }
+  shuffle(qs);
+
+  ses = { mode:modeId, qs:qs, i:0, score:0, streak:0, maxStreak:0, right:0, wrong:[], t0:Date.now(), answered:false };
+  go('quiz');
+}
+
+function answerQ(idx, el){
+  if(!ses || ses.answered) return;
+  var q = ses.qs[ses.i];
+  ses.answered = true;
+  var ok = idx === q.correct;
+  var st = statOf(q.item.r.id);
+  if(ok){
+    st.ok++;
+    ses.right++;
+    ses.streak++;
+    if(ses.streak > ses.maxStreak) ses.maxStreak = ses.streak;
+    var pts = 10 + Math.min(10, (ses.streak - 1) * 2);
+    ses.score += pts;
+    beep('ok');
+    floater('+' + pts, el);
+  } else {
+    st.no++;
+    ses.streak = 0;
+    ses.wrong.push({ q:q, chosen:idx });
+    beep('bad');
+  }
+  saveState();
+  paintAnswer(idx, q, ok);
+}
+
+function nextQ(){
+  if(!ses) return;
+  ses.i++;
+  ses.answered = false;
+  if(ses.i >= ses.qs.length){ go('result'); return; }
+  go('quiz');
+}
+
+function floater(txt, el){
+  if(!el || !el.getBoundingClientRect) return;
+  var box = document.createElement('div');
+  box.className = 'floater';
+  box.textContent = txt;
+  var r = el.getBoundingClientRect();
+  box.style.left = (r.left + r.width / 2 - 16) + 'px';
+  box.style.top = (r.top - 4) + 'px';
+  document.body.appendChild(box);
+  setTimeout(function(){ if(box.parentNode) box.parentNode.removeChild(box); }, 950);
+}
+
+/* ============================================================
+   7. ЭКРАНЫ
+   ============================================================ */
+var screenEl = document.getElementById('screen');
+var heroTimer = null;
+var current = 'menu';
+var studyFilter = 'all';
+var studyOrder = 'shuffle';
+var studySeed = Math.floor(Math.random() * 1e9);
+var cardRef = null;
+
+/* Перемешивание списка званий, устойчивое к перерисовке:
+   порядок меняется только по кнопке «Вразброс», а не при каждом рендере. */
+function seedHash(s){
+  var h = 2166136261, i;
+  for(i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function studySorted(list){
+  if(studyOrder === 'tier') return list;
+  return list.map(function(x){ return { x:x, k:seedHash(x.r.id + x.b + studySeed) }; })
+             .sort(function(a, b){ return a.k - b.k; })
+             .map(function(o){ return o.x; });
+}
+
+var NAV_OF = { quiz:'train', result:'train', card:'study', train:'train', study:'study', cheat:'cheat', help:'help', stats:'stats', menu:'menu' };
+
+function go(name, arg){
+  if(heroTimer){ clearInterval(heroTimer); heroTimer = null; }
+  current = name;
+  if(name === 'card') cardRef = arg || cardRef;
+  if(name === 'menu') renderMenu();
+  else if(name === 'train') renderTrain();
+  else if(name === 'quiz') renderQuiz();
+  else if(name === 'result') renderResult();
+  else if(name === 'study') renderStudy();
+  else if(name === 'card') renderCard();
+  else if(name === 'cheat') renderCheat();
+  else if(name === 'stats') renderStats();
+  else if(name === 'help') renderHelp();
+  var nav = NAV_OF[name] || name;
+  var i, b, list = document.querySelectorAll('.top__nav .chip[data-nav], .tabbar button[data-nav]');
+  for(i = 0; i < list.length; i++){
+    b = list[i];
+    b.classList.toggle('is-on', b.getAttribute('data-nav') === nav);
+  }
+  window.scrollTo(0, 0);
+}
+
+function pagehead(o){
+  var h = '<div class="pagehead">';
+  if(o.back) h += '<button class="pagehead__back" data-nav="' + o.back + '" type="button">← ' + esc(o.backLabel || 'Назад') + '</button>';
+  if(o.eyebrow) h += '<div class="pagehead__eyebrow">' + esc(o.eyebrow) + '</div>';
+  h += '<h1>' + esc(o.title) + '</h1>';
+  if(o.lead) h += '<p class="pagehead__lead">' + o.lead + '</p>';
+  h += '</div>';
+  return h;
+}
+function icon(name){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+}
+
+/* ---------- ГЛАВНАЯ ---------- */
+function renderMenu(){
+  var known = 0, ok = 0, no = 0, id;
+  for(id in state.stats){
+    if(!state.stats.hasOwnProperty(id)) continue;
+    ok += state.stats[id].ok; no += state.stats[id].no;
+    if(state.stats[id].ok >= 3 && state.stats[id].ok > state.stats[id].no) known++;
+  }
+  var acc = (ok + no) ? Math.round(ok * 100 / (ok + no)) : 0;
+
+  var h = '';
+  h += '<section class="home">';
+  h += '  <div class="home__stage"><div id="heroStrap"></div><div class="home__cap" id="heroCap"></div></div>';
+  h += '  <div>';
+  h += '    <h1>Знаки различия без зубрёжки</h1>';
+  h += '    <p class="home__lead">Тренажёр воинских званий Вооружённых Сил России: 20 войсковых и 19 корабельных званий, погоны, знаки различия и правила обращения по Уставу.</p>';
+  h += '    <div class="setrow"><span class="setrow__lbl">Учить</span><div class="seg">';
+  h += '      <button data-branch="army"' + (state.branch === 'army' ? ' class="is-on"' : '') + ' type="button">Армия</button>';
+  h += '      <button data-branch="navy"' + (state.branch === 'navy' ? ' class="is-on"' : '') + ' type="button">Флот</button>';
+  h += '      <button data-branch="both"' + (state.branch === 'both' ? ' class="is-on"' : '') + ' type="button">Всё вместе</button>';
+  h += '    </div></div>';
+  h += '  </div>';
+  h += '</section>';
+
+  h += '<div class="sect-h"><h2>Разделы</h2></div>';
+  h += '<div class="tiles">';
+  h += tile('train', 'target', 'Тренировка', 'Пять игровых режимов по 12 вопросов');
+  h += tile('exam',  'exam',   'Экзамен',    '20 вопросов вперемешку, с оценкой');
+  h += tile('study', 'strap',  'Изучение',   'Карточка на каждое звание с разбором');
+  h += tile('cheat', 'table',  'Шпаргалка',  'Вся таблица званий, можно распечатать');
+  h += tile('help',  'book',   'Справка',    'Правила обращения и чтение погона');
+  h += tile('stats', 'chart',  'Прогресс',   'Что уже усвоено, а что западает');
+  h += '</div>';
+
+  h += '<div class="sect-h"><h2>Ваш счёт</h2></div>';
+  h += '<div class="strip" style="margin-top:0">';
+  h += '<div class="strip__i"><div class="strip__k">Освоено званий</div><div class="strip__v">' + known + '<small> / ' + RANKS.length + '</small></div></div>';
+  h += '<div class="strip__i"><div class="strip__k">Точность</div><div class="strip__v">' + acc + '<small>%</small></div></div>';
+  h += '<div class="strip__i"><div class="strip__k">Ответов дано</div><div class="strip__v">' + (ok + no) + '</div></div>';
+  h += '<div class="strip__i"><div class="strip__k">Экзамен</div><div class="strip__v">' + (state.best.exam ? state.best.exam.pct + '<small>%</small>' : '—') + '</div></div>';
+  h += '</div>';
+
+  screenEl.innerHTML = h;
+
+  var demo = shuffle(items().slice());
+  if(!demo.length) demo = shuffle(allItems());
+  var p = 0;
+  function showDemo(){
+    var it = demo[p % demo.length];
+    p++;
+    var box = document.getElementById('heroStrap');
+    var cap = document.getElementById('heroCap');
+    if(!box || !cap) return;
+    box.innerHTML = strapSVG(it.r, it.b, 'strap--xl pop');
+    cap.textContent = rankName(it.r, it.b);
+  }
+  showDemo();
+  if(!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    heroTimer = setInterval(showDemo, 2800);
+  }
+}
+function tile(nav, ico, t, d){
+  var attr = nav === 'exam' ? 'data-mode="exam"' : 'data-nav="' + nav + '"';
+  return '<button class="tile" ' + attr + ' type="button">' +
+         '<span class="tile__ico">' + icon(ico) + '</span>' +
+         '<span><span class="tile__t">' + t + '</span><span class="tile__d">' + d + '</span></span></button>';
+}
+
+/* ---------- ТРЕНИРОВКА ---------- */
+function renderTrain(){
+  var h = pagehead({
+    back:'menu', backLabel:'На главную', eyebrow:'Раздел', title:'Тренировка',
+    lead:'Вопросы и варианты ответов каждый раз собираются заново. Звания, в которых вы ошибались, выпадают чаще. Отвечать можно клавишами <span class="kbd">1</span>–<span class="kbd">4</span>.'
+  });
+  h += '<div class="modes">';
+  for(var i = 0; i < MODES.length; i++){
+    var m = MODES[i];
+    if(!modeAvailable(m.id)) continue;
+    var best = state.best[m.id];
+    h += '<button class="mode" data-mode="' + m.id + '" type="button">';
+    h += '<span class="mode__ico">' + icon(m.ico) + '</span>';
+    h += '<span><span class="mode__t">' + m.t + '</span><span class="mode__d">' + m.d + '</span></span>';
+    h += '<span class="mode__meta">' + (best ? '<b>' + best.pct + '%</b>лучший' : m.n + ' ' + plural(m.n, 'вопрос', 'вопроса', 'вопросов')) + '</span>';
+    h += '</button>';
+  }
+  h += '</div>';
+  screenEl.innerHTML = h;
+}
+
+/* ---------- ИГРА ---------- */
+function renderQuiz(){
+  var q = ses.qs[ses.i];
+  var h = '';
+  var pct = Math.round(ses.i * 100 / ses.qs.length);
+
+  h += '<div class="quiz">';
+  h += '<div class="bar">';
+  h += '<button class="chip" data-nav="train" type="button">← Выйти</button>';
+  h += '<span class="bar__n"><b>' + (ses.i + 1) + '</b> / ' + ses.qs.length + '</span>';
+  h += '<span class="bar__track"><span class="bar__fill" style="width:' + pct + '%"></span></span>';
+  if(ses.streak > 1) h += '<span class="bar__streak">серия ' + ses.streak + '</span>';
+  h += '<span class="bar__score">' + ses.score + ' очк.</span>';
+  h += '</div>';
+
+  var wide = (q.kind === 'name2strap' || q.kind === 'higher');
+  h += '<div class="play' + (wide ? ' play--wide' : '') + '">';
+
+  if(!wide){
+    var showBranch = q.kind === 'match' ? q.from : q.item.b;
+    h += '<div class="stage">';
+    if(q.kind !== 'match'){
+      h += '<button class="chip chip--sq stage__toggle" data-fig="1" type="button">' + (q.fig ? 'погон' : 'фигура') + '</button>';
+    }
+    h += (q.fig && q.kind !== 'match') ? figureSVG(q.item.r, showBranch) : strapSVG(q.item.r, showBranch, 'strap--lg');
+    h += '<div class="stage__hint">' + (showBranch === 'navy' ? 'корабельный погон' : 'войсковой погон') + '</div>';
+    h += '</div>';
+  }
+
+  h += '<div>';
+  if(q.kind === 'strap2name'){
+    h += '<h2 class="qtext">Какое это воинское звание?</h2>';
+    h += '<p class="qsub">Сначала просветы, потом размер звёзд, потом количество.</p>';
+  } else if(q.kind === 'strap2addr'){
+    h += '<h2 class="qtext">Как к нему обратиться?</h2>';
+    h += '<p class="qsub">По Уставу — слово «товарищ» и полное воинское звание.</p>';
+  } else if(q.kind === 'name2strap'){
+    h += '<h2 class="qtext">Найдите погон</h2>';
+    h += '<div class="qname">' + esc(rankName(q.item.r, q.item.b)) + '</div>';
+    h += '<p class="qsub">' + (q.item.b === 'navy' ? 'Корабельное звание' : 'Войсковое звание') + ' · ' + esc(q.item.r.sostav) + '</p>';
+  } else if(q.kind === 'higher'){
+    h += '<h2 class="qtext">Кто старше по званию?</h2>';
+    h += '<p class="qsub">Выберите погон военнослужащего, который выше в иерархии.</p>';
+  } else if(q.kind === 'match'){
+    h += '<h2 class="qtext">' + (q.to === 'army' ? 'Равное войсковое звание' : 'Равное корабельное звание') + '</h2>';
+    h += '<div class="qname">' + esc(rankName(q.item.r, q.from)) + '</div>';
+    h += '<p class="qsub">' + (q.from === 'navy' ? 'корабельное звание' : 'войсковое звание') + ' · ' + esc(q.item.r.sostav) + '</p>';
+  }
+
+  var cls = 'answers';
+  if(q.kind === 'name2strap') cls += ' answers--straps';
+  else if(q.kind === 'higher') cls += ' answers--duo';
+  else if(q.kind === 'strap2addr') cls += ' answers--one';
+
+  h += '<div class="' + cls + '" id="answers">';
+  for(var i = 0; i < q.opts.length; i++){
+    var o = q.opts[i];
+    var key = '<span class="ans__k">' + (i + 1) + '</span>';
+    if(q.kind === 'name2strap'){
+      h += '<button class="ans ans--strap" data-a="' + i + '" type="button">' + key + strapSVG(o.r, o.b, 'strap--md') + '</button>';
+    } else if(q.kind === 'higher'){
+      h += '<button class="ans ans--pair" data-a="' + i + '" type="button">' + key + strapSVG(o.r, o.b, 'strap--lg') + '</button>';
+    } else if(q.kind === 'strap2addr'){
+      h += '<button class="ans" data-a="' + i + '" type="button">' + key + '<span>' + esc(rankAddr(o.r, o.b)) + '</span></button>';
+    } else if(q.kind === 'match'){
+      h += '<button class="ans" data-a="' + i + '" type="button">' + key + '<span>' + esc(rankName(o.r, q.to)) + '</span></button>';
+    } else {
+      h += '<button class="ans" data-a="' + i + '" type="button">' + key + '<span>' + esc(rankName(o.r, o.b)) + '</span></button>';
+    }
+  }
+  h += '</div>';
+  h += '<div id="fb"></div>';
+  h += '</div></div></div>';
+  screenEl.innerHTML = h;
+}
+
+function paintAnswer(idx, q, ok){
+  var btns = screenEl.querySelectorAll('.ans');
+  for(var i = 0; i < btns.length; i++){
+    btns[i].disabled = true;
+    if(i === q.correct) btns[i].classList.add('is-ok');
+    else if(i === idx) btns[i].classList.add('is-bad');
+    else btns[i].classList.add('is-dim');
+  }
+  var r = q.item.r, b = (q.kind === 'match') ? q.from : q.item.b;
+  var h = '<div class="fb ' + (ok ? 'is-ok' : 'is-bad') + '">';
+  h += '<div class="fb__h">' + (ok ? 'Верно' : 'Ошибка') + '</div>';
+  h += '<div class="fb__body">';
+  h += '<div>' + strapSVG(r, b, 'strap--sm') + '</div>';
+  h += '<div class="fb__txt"><b>' + esc(rankName(r, b)) + '</b> — обращение: <em>' + esc(rankAddr(r, b)) + '</em><br>' + esc(r.d);
+  if(q.kind === 'match' && r.v) h += '<br>Соответствие: ' + esc(r.a.n) + ' = ' + esc(r.v.n) + '.';
+  h += '<div class="fb__tip">' + esc(r.tip) + '</div>';
+  h += '</div></div>';
+  h += '<div class="fb__row"><button class="btn" data-next="1" type="button">' + (ses.i + 1 >= ses.qs.length ? 'Итоги' : 'Далее') + ' →</button>';
+  h += '<button class="chip" data-card="' + r.id + '" data-cardb="' + b + '" type="button">Подробнее</button></div>';
+  h += '</div>';
+  var box = document.getElementById('fb');
+  box.innerHTML = h;
+  var nb = box.querySelector('[data-next]');
+  if(nb){
+    try{ nb.focus({ preventScroll:true }); }catch(e){ nb.focus(); }
+    if(window.innerWidth <= 620) box.scrollIntoView({ block:'nearest', behavior:'smooth' });
+  }
+}
+
+/* ---------- ИТОГИ ---------- */
+function renderResult(){
+  var total = ses.qs.length;
+  var pct = Math.round(ses.right * 100 / total);
+  var mark = pct >= 90 ? 5 : pct >= 75 ? 4 : pct >= 60 ? 3 : 2;
+  var time = fmtTime(Date.now() - ses.t0);
+  var prev = state.best[ses.mode];
+  if(!prev || pct > prev.pct){ state.best[ses.mode] = { pct:pct, date:Date.now() }; saveState(); }
+  beep(pct >= 60 ? 'win' : 'bad');
+
+  var h = '<div class="res">';
+  h += '<div class="res__mark pop">' + mark + '<small>ОЦЕНКА</small></div>';
+  h += '<h2>' + (pct === 100 ? 'Без единой ошибки' : pct >= 90 ? 'Отличный результат' : pct >= 75 ? 'Хорошо, но есть пробелы' : pct >= 60 ? 'Удовлетворительно' : 'Нужно ещё потренироваться') + '</h2>';
+  h += '<p class="res__sub">' + ses.right + ' из ' + total + ' · ' + pct + '% · ' + ses.score + ' очков · ' + time + ' · серия ' + ses.maxStreak + '</p>';
+
+  if(ses.wrong.length){
+    h += '<div class="sect-h" style="width:100%;max-width:620px;margin-top:14px"><h2>Разбор ошибок</h2><small>' + ses.wrong.length + ' ' + plural(ses.wrong.length, 'ошибка', 'ошибки', 'ошибок') + '</small></div>';
+    h += '<div class="errlist">';
+    for(var i = 0; i < ses.wrong.length; i++){
+      var w = ses.wrong[i], q = w.q, r = q.item.r;
+      var b = (q.kind === 'match') ? q.from : q.item.b;
+      var chosen = q.opts[w.chosen];
+      var chosenTxt = q.kind === 'strap2addr' ? rankAddr(chosen.r, chosen.b)
+                    : q.kind === 'match' ? rankName(chosen.r, q.to)
+                    : rankName(chosen.r, chosen.b);
+      h += '<button class="errlist__i" data-card="' + r.id + '" data-cardb="' + b + '" type="button">' + strapSVG(r, b, 'strap--xs');
+      h += '<span class="errlist__t"><b>' + esc(rankName(r, b)) + '</b><span>' + esc(r.d) + '</span></span>';
+      h += '<span class="errlist__x">вы: ' + esc(chosenTxt) + '</span></button>';
+    }
+    h += '</div>';
+  }
+
+  h += '<div class="fb__row" style="justify-content:center;margin-top:6px">';
+  h += '<button class="btn" data-mode="' + ses.mode + '" type="button">Ещё раз</button>';
+  if(ses.wrong.length) h += '<button class="btn btn--ghost" data-retry="1" type="button">Работа над ошибками</button>';
+  h += '<button class="btn btn--ghost" data-nav="train" type="button">К режимам</button>';
+  h += '</div></div>';
+  screenEl.innerHTML = h;
+}
+
+/* ---------- ИЗУЧЕНИЕ ---------- */
+function renderStudy(){
+  var list = items();
+  if(!list.length) list = allItems();
+  list = studySorted(list);
+  var h = pagehead({
+    back:'menu', backLabel:'На главную', eyebrow:'Раздел', title:'Изучение',
+    lead:'Нажмите на погон — откроется карточка со знаками различия, обращением и подсказкой. Зелёная рамка — звание усвоено, красная — вы в нём ошибались.'
+  });
+  h += '<div class="filters">';
+  h += '<button class="chip' + (studyFilter === 'all' ? ' is-on' : '') + '" data-filter="all" type="button">Все</button>';
+  for(var g = 0; g < GROUPS.length; g++){
+    h += '<button class="chip' + (studyFilter === GROUPS[g] ? ' is-on' : '') + '" data-filter="' + esc(GROUPS[g]) + '" type="button">' + GROUPS[g] + '</button>';
+  }
+  h += '</div>';
+  h += '<div class="filters filters--order">';
+  h += '<span class="filters__lbl">Порядок</span>';
+  h += '<button class="chip' + (studyOrder === 'shuffle' ? ' is-on' : '') + '" data-order="shuffle" type="button">Вразброс</button>';
+  h += '<button class="chip' + (studyOrder === 'tier' ? ' is-on' : '') + '" data-order="tier" type="button">По старшинству</button>';
+  h += '</div>';
+  h += '<div class="grid">';
+  for(var i = 0; i < list.length; i++){
+    var it = list[i];
+    if(studyFilter !== 'all' && it.r.grp !== studyFilter) continue;
+    var st = state.stats[it.r.id] || { ok:0, no:0 };
+    var cls = (st.ok >= 3 && st.ok > st.no) ? ' is-known' : (st.no > st.ok && st.no > 0 ? ' is-weak' : '');
+    h += '<button class="card' + cls + '" data-card="' + it.r.id + '" data-cardb="' + it.b + '" type="button">';
+    h += '<span class="card__n">' + it.r.t + '</span>';
+    h += strapSVG(it.r, it.b, 'strap--sm');
+    h += '<span class="card__t">' + esc(rankName(it.r, it.b)) + '</span>';
+    h += '<span class="card__s">' + (it.b === 'navy' ? 'корабельное' : 'войсковое') + '</span>';
+    h += '</button>';
+  }
+  h += '</div>';
+  screenEl.innerHTML = h;
+}
+
+/* ---------- КАРТОЧКА ЗВАНИЯ (отдельная страница) ---------- */
+function renderCard(){
+  if(!cardRef) { go('study'); return; }
+  var r = byId(cardRef.id), b = cardRef.b;
+  if(!r) { go('study'); return; }
+  if(b === 'navy' && !r.v) b = 'army';
+  var st = state.stats[r.id] || { ok:0, no:0 };
+
+  var h = pagehead({
+    back:'study', backLabel:'К списку званий',
+    eyebrow:r.sostav + ' · ступень ' + r.t + ' из 20',
+    title:rankName(r, b)
+  });
+  h += '<div class="detail">';
+  h += '<div class="detail__v">' + strapSVG(r, b, 'strap--lg') + figureSVG(r, b, 'figure--sm') + '</div>';
+  h += '<div><div class="dl">';
+  h += '<div class="dl__i"><div class="dl__k">Обращение</div><div class="dl__v big">' + esc(rankAddr(r, b)) + '</div></div>';
+  h += '<div class="dl__i"><div class="dl__k">Знаки различия на погоне</div><div class="dl__v">' + esc(r.d) + '</div></div>';
+  h += '<div class="dl__i"><div class="dl__k">Как запомнить</div><div class="dl__v">' + esc(r.tip) + '</div></div>';
+  h += '<div class="dl__i"><div class="dl__k">Соответствие</div><div class="dl__v">' +
+       (r.v ? 'войсковое «' + esc(r.a.n) + '» = корабельное «' + esc(r.v.n) + '»' : 'корабельного соответствия нет') + '</div></div>';
+  if(st.ok + st.no > 0){
+    h += '<div class="dl__i"><div class="dl__k">Ваша статистика</div><div class="dl__v">верно ' + st.ok + ' · ошибок ' + st.no + '</div></div>';
+  }
+  h += '</div>';
+
+  h += '<div class="pager">';
+  var prev = prevRank(r.t), next = nextRank(r.t);
+  if(prev) h += '<button class="btn btn--ghost btn--sm" data-card="' + prev.id + '" data-cardb="' + b + '" type="button">← ' + esc(rankName(prev, b)) + '</button>';
+  if(next) h += '<button class="btn btn--ghost btn--sm" data-card="' + next.id + '" data-cardb="' + b + '" type="button">' + esc(rankName(next, b)) + ' →</button>';
+  h += '</div>';
+  h += '</div></div>';
+  screenEl.innerHTML = h;
+}
+function prevRank(t){ for(var i=RANKS.length-1;i>=0;i--) if(RANKS[i].t < t) return RANKS[i]; return null; }
+function nextRank(t){ for(var i=0;i<RANKS.length;i++) if(RANKS[i].t > t) return RANKS[i]; return null; }
+
+/* ---------- ШПАРГАЛКА ---------- */
+function renderCheat(){
+  var h = pagehead({
+    back:'menu', backLabel:'На главную', eyebrow:'Раздел', title:'Шпаргалка',
+    lead:'Полная таблица званий по составам военнослужащих. На компьютере страницу можно распечатать: <span class="kbd">Ctrl</span> + <span class="kbd">P</span>.'
+  });
+  h += '<div class="tablewrap"><table class="cheat"><thead><tr>';
+  h += '<th>№</th><th>Погон</th><th>Войсковое звание</th><th>Корабельное звание</th><th>Обращение</th><th>Знаки различия</th>';
+  h += '</tr></thead><tbody>';
+  var cur = '';
+  for(var i = 0; i < RANKS.length; i++){
+    var r = RANKS[i];
+    if(r.sostav !== cur){
+      cur = r.sostav;
+      h += '<tr class="cheat__group"><td colspan="6">' + esc(cur) + '</td></tr>';
+    }
+    h += '<tr>';
+    h += '<td class="num">ступень ' + r.t + '</td>';
+    h += '<td class="pg">' + strapSVG(r, 'army', 'strap--tiny') + '</td>';
+    h += '<td class="nm" data-l="Войсковое">' + esc(r.a.n) + '</td>';
+    h += '<td data-l="Корабельное">' + (r.v ? esc(r.v.n) : '—') + '</td>';
+    h += '<td class="ad" data-l="Обращение">' + esc(r.a.ad) + '</td>';
+    h += '<td class="ins" data-l="Знаки различия">' + esc(r.d) + '</td>';
+    h += '</tr>';
+  }
+  h += '</tbody></table></div>';
+  screenEl.innerHTML = h;
+}
+
+/* ---------- СПРАВКА ---------- */
+function renderHelp(){
+  var h = pagehead({
+    back:'menu', backLabel:'На главную', eyebrow:'Раздел', title:'Справка',
+    lead:'Правила обращения к военнослужащим и способ прочитать любой погон за три шага.'
+  });
+  h += '<div class="prose">';
+  h += '<h3>Обращение по Уставу</h3>';
+  h += '<p>Устав внутренней службы ВС РФ требует обращаться к военнослужащему <b>по воинскому званию и фамилии</b> либо <b>только по воинскому званию</b> — тогда перед званием добавляется слово «товарищ».</p>';
+  h += '<div class="quote">«Рядовой Иванов» — «Товарищ рядовой»; «Старший лейтенант Петров» — «Товарищ старший лейтенант».</div>';
+  h += '<ul>';
+  h += '<li>Звание называется <b>полностью</b>: «товарищ <u>младший</u> сержант», «товарищ <u>старший</u> прапорщик».</li>';
+  h += '<li>К военнослужащим гвардейских частей обращаются с добавлением слова «гвардии»: «товарищ гвардии полковник», «товарищ гвардии старшина 1 статьи».</li>';
+  h += '<li>Слова «юстиции», «медицинской службы», «запаса», «в отставке» входят в полное звание, но при обращении, как правило, не произносятся: к полковнику юстиции обращаются «товарищ полковник».</li>';
+  h += '<li>Род войск в обращении не указывается — обращения «товарищ капитан ВДВ» не существует.</li>';
+  h += '<li>Обращение «господин» в Вооружённых Силах РФ уставом не предусмотрено.</li>';
+  h += '<li>Обращаясь к начальнику, военнослужащий принимает строевую стойку и называет свою должность, воинское звание и фамилию.</li>';
+  h += '</ul>';
+  h += '<h3>Как прочитать погон за три шага</h3><ul>';
+  h += '<li><b>Шаг 1 — просветы.</b> Нет просветов и нет звёзд — солдат или сержант, смотрим на нашивки. Один просвет — младший офицер. Два просвета — старший офицер. Просветов нет, но есть крупные звёзды — высший офицер.</li>';
+  h += '<li><b>Шаг 2 — размер звезды.</b> 13 мм — прапорщики и младшие офицеры; 20 мм — старшие офицеры; 22 мм — генералы и адмиралы; 40 мм — генерал армии и маршал.</li>';
+  h += '<li><b>Шаг 3 — количество.</b> Внутри каждой группы счёт начинается заново с одной звезды и растёт снизу вверх.</li>';
+  h += '</ul>';
+  h += '<h3>Нашивки сержантов</h3><ul>';
+  h += '<li>1 узкая — ефрейтор, 2 узкие — младший сержант, 3 узкие — сержант.</li>';
+  h += '<li>1 широкая поперёк — старший сержант. 1 широкая вдоль погона — старшина.</li>';
+  h += '</ul>';
+  h += '<h3>Командование и численность подразделений</h3>';
+  h += '<p>Кто чем командует и сколько человек в подразделении — от отделения до дивизии. Цифры ориентировочные, сильно зависят от рода войск: запоминайте порядок величин, а не точные числа.</p><ul>';
+  h += '<li><b>Отделение</b> — 5–10 человек, командует сержант или старшина (командир отделения).</li>';
+  h += '<li><b>Взвод</b> — 2–4 отделения, около 15–45 человек, командует лейтенант или старший лейтенант (командир взвода) — первое подразделение, которым обычно командует офицер.</li>';
+  h += '<li><b>Рота</b> — 2–4 взвода, ориентировочно 60–150 человек, командует капитан (командир роты) — на этом уровне появляется суточный наряд.</li>';
+  h += '<li><b>Батальон</b> — 3–4 роты, ориентировочно 300–800 человек, командует майор или подполковник (командир батальона) — самостоятельная тактическая единица.</li>';
+  h += '<li><b>Полк</b> — несколько батальонов, ориентировочно 900–3000 человек, командует полковник (командир полка) — появляется полковой суточный наряд.</li>';
+  h += '<li><b>Дивизия</b> — несколько полков, ориентировочно 4000–20000 человек, командует генерал-майор (командир дивизии) — соединение, а не часть.</li>';
+  h += '<li>На каждом уровне действует принцип <b>единоначалия</b>: один командир с полнотой распорядительной власти и персональной ответственностью за подчинённых.</li>';
+  h += '</ul>';
+  h += '<h3>Частые ловушки</h3><ul>';
+  h += '<li>Генерал-<b>лейтенант</b> старше генерал-<b>майора</b> — у генералов порядок обратный привычному.</li>';
+  h += '<li>Прапорщик и младший лейтенант оба носят маленькие звёзды, но у прапорщика <b>нет просвета</b>.</li>';
+  h += '<li>Генерал-майор и генерал армии — по одной звезде, разница только в размере: 22 мм против 40 мм.</li>';
+  h += '<li>На флоте «старшина 1 статьи» <b>старше</b> «старшины 2 статьи»: чем меньше номер, тем выше звание. Так же и с капитанами рангов.</li>';
+  h += '</ul>';
+  h += '<h3>Управление</h3><ul>';
+  h += '<li><span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> — выбрать вариант ответа.</li>';
+  h += '<li><span class="kbd">Enter</span> или <span class="kbd">Пробел</span> — следующий вопрос.</li>';
+  h += '</ul>';
+  h += '</div>';
+  h += '<div class="fb__row" style="margin-top:22px"><button class="btn" data-mode="strap2addr" type="button">Проверить себя на обращении</button><button class="btn btn--ghost" data-nav="cheat" type="button">К шпаргалке</button></div>';
+  screenEl.innerHTML = h;
+}
+
+/* ---------- ПРОГРЕСС ---------- */
+function renderStats(){
+  var rows = [], i, st, tot, pct;
+  for(i = 0; i < RANKS.length; i++){
+    st = state.stats[RANKS[i].id] || { ok:0, no:0 };
+    tot = st.ok + st.no;
+    pct = tot ? Math.round(st.ok * 100 / tot) : -1;
+    rows.push({ r:RANKS[i], st:st, tot:tot, pct:pct });
+  }
+  var weak = rows.filter(function(x){ return x.tot > 0 && x.pct < 70; }).sort(function(a, b){ return a.pct - b.pct; });
+
+  var h = pagehead({
+    back:'menu', backLabel:'На главную', eyebrow:'Раздел', title:'Прогресс',
+    lead:'Статистика хранится только в этом браузере и не отправляется никуда.'
+  });
+  if(weak.length){
+    h += '<div class="fb is-bad" style="margin-bottom:20px"><div class="fb__h">Слабые места</div><div class="fb__body"><div class="fb__txt">' +
+         esc(weak.slice(0, 6).map(function(x){ return x.r.a.n; }).join(', ')) +
+         '.</div><button class="btn btn--sm" data-weak="1" type="button">Тренировать их</button></div></div>';
+  }
+  h += '<div class="prog">';
+  for(i = 0; i < rows.length; i++){
+    var w = rows[i];
+    var fill = w.pct < 0 ? 0 : w.pct;
+    var fcls = w.pct < 0 ? '' : (w.pct >= 70 ? ' ok' : ' bad');
+    h += '<button class="prog__i" data-card="' + w.r.id + '" data-cardb="army" type="button" style="text-align:left;width:100%">';
+    h += '<span>' + strapSVG(w.r, 'army', 'strap--tiny') + '</span>';
+    h += '<span><span class="prog__nm">' + esc(w.r.a.n) + '</span><span class="prog__t"><span class="prog__f' + fcls + '" style="width:' + fill + '%"></span></span></span>';
+    h += '<span class="prog__x">' + (w.tot ? w.pct + '% · ' + w.tot : '—') + '</span>';
+    h += '</button>';
+  }
+  h += '</div>';
+  h += '<div class="fb__row" style="margin-top:22px"><button class="btn btn--ghost btn--sm" data-reset="1" type="button">Сбросить прогресс</button></div>';
+  screenEl.innerHTML = h;
+}
+
+/* ============================================================
+   8. СОБЫТИЯ
+   ============================================================ */
+document.addEventListener('click', function(e){
+  if(!e.target || !e.target.closest) return;
+  var t = e.target.closest('[data-a],[data-nav],[data-mode],[data-branch],[data-filter],[data-order],[data-card],[data-next],[data-retry],[data-weak],[data-reset],[data-fig]');
+  if(!t) return;
+
+  if(t.hasAttribute('data-a')){ answerQ(parseInt(t.getAttribute('data-a'), 10), t); return; }
+  if(t.hasAttribute('data-next')){ nextQ(); return; }
+  if(t.hasAttribute('data-fig')){ if(ses && !ses.answered){ ses.qs[ses.i].fig = !ses.qs[ses.i].fig; renderQuiz(); } return; }
+  if(t.hasAttribute('data-order')){
+    studyOrder = t.getAttribute('data-order');
+    if(studyOrder === 'shuffle') studySeed = Math.floor(Math.random() * 1e9);
+    renderStudy();
+    return;
+  }
+  if(t.hasAttribute('data-card')){ go('card', { id:t.getAttribute('data-card'), b:t.getAttribute('data-cardb') || 'army' }); return; }
+  if(t.hasAttribute('data-mode')){ startSession(t.getAttribute('data-mode')); return; }
+  if(t.hasAttribute('data-nav')){ go(t.getAttribute('data-nav')); return; }
+  if(t.hasAttribute('data-branch')){ state.branch = t.getAttribute('data-branch'); saveState(); renderMenu(); return; }
+  if(t.hasAttribute('data-filter')){ studyFilter = t.getAttribute('data-filter'); renderStudy(); return; }
+  if(t.hasAttribute('data-retry')){
+    startSession(ses.mode === 'exam' ? 'strap2name' : ses.mode, ses.wrong.map(function(w){ return w.q.item; }));
+    return;
+  }
+  if(t.hasAttribute('data-weak')){
+    var pool = items(), weakItems = [];
+    for(var i = 0; i < pool.length; i++){
+      var s = state.stats[pool[i].r.id];
+      if(s && s.no > 0 && s.ok / (s.ok + s.no) < 0.7) weakItems.push(pool[i]);
+    }
+    if(!weakItems.length) weakItems = drawItems(12);
+    startSession('strap2name', weakItems);
+    return;
+  }
+  if(t.hasAttribute('data-reset')){
+    if(confirm('Сбросить всю статистику и лучшие результаты?')){
+      state.stats = {}; state.best = {}; saveState(); renderStats();
+    }
+    return;
+  }
+});
+
+document.getElementById('btnSound').addEventListener('click', function(){
+  state.sound = !state.sound;
+  saveState();
+  this.classList.toggle('is-off', !state.sound);
+  this.setAttribute('aria-pressed', state.sound ? 'true' : 'false');
+  if(state.sound) beep('ok');
+});
+
+document.addEventListener('keydown', function(e){
+  if(current !== 'quiz' || !ses) return;
+  if(!ses.answered && e.key >= '1' && e.key <= '9'){
+    var n = parseInt(e.key, 10) - 1;
+    var b = screenEl.querySelectorAll('.ans');
+    if(b[n]) answerQ(n, b[n]);
+  } else if(ses.answered && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault();
+    nextQ();
+  }
+});
+
+/* ============================================================
+   9. СТАРТ
+   ============================================================ */
+loadState();
+document.getElementById('btnSound').classList.toggle('is-off', !state.sound);
+go('menu');
+</script>
+</body>
+</html>

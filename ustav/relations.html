@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Взаимоотношения между военнослужащими: единоначалие, начальники и подчинённые, старшие и младшие.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Взаимоотношения между военнослужащими</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen" tabindex="-1"></main>
+<footer class="foot">
+  <span>По главе «Взаимоотношения между военнослужащими» Устава внутренней службы ВС РФ (статьи 30–34).</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="../tactics/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script src="../shared/deck-engine.js"></script>
+<script>
+"use strict";
+var DECK = {
+  subject:'ustav', key:'relations',
+  title:'Взаимоотношения между военнослужащими',
+  eyebrow:'Пара 1 · вопрос 5',
+  intro:'Единоначалие, кто такие начальники и подчинённые, кто такие старшие и младшие — основа того, как военнослужащие подчиняются друг другу.',
+  cards:[
+    { id:'e1', section:'Единоначалие', term:'Единоначалие',
+      def:'Наделение командира (начальника) всей полнотой распорядительной власти по отношению к подчинённым и возложение на него персональной ответственности перед государством за все стороны жизни и деятельности воинской части, подразделения и каждого военнослужащего.',
+      tip:'Устав внутренней службы, ст.30 — ключевой принцип управления в армии.' },
+    { id:'e2', section:'Начальники и подчинённые', term:'Начальники',
+      def:'Военнослужащие, которые по своему служебному положению и воинскому званию наделены правом отдавать приказы (приказания) подчинённым и требовать их исполнения.',
+      tip:'Устав внутренней службы, ст.31 — начальником делает служебное положение ИЛИ воинское звание.' },
+    { id:'e3', section:'Начальники и подчинённые', term:'Начальники по служебному положению и по воинскому званию',
+      def:'Начальники бывают двух видов: по служебному положению (например, командир подразделения по отношению к своим подчинённым) и по воинскому званию (перечень воинских званий, при которых военнослужащий считается начальником для младших по званию, определён Уставом).',
+      tip:'Ловушка: начальником можно быть и без должности — просто по званию.' },
+    { id:'e4', section:'Начальники и подчинённые', term:'Прямые начальники',
+      def:'Начальники, которым военнослужащий подчинён по службе, хотя бы и временно, называются прямыми начальниками. Ближайший к подчинённому прямой начальник называется непосредственным начальником.',
+      tip:'Устав внутренней службы, ст.32 — «прямой» шире, «непосредственный» — самый близкий из прямых.' },
+    { id:'e5', section:'Начальники и подчинённые', term:'Подчинённые',
+      def:'Военнослужащие, обязанные подчиняться начальнику по своему служебному положению или воинскому званию.',
+      tip:'Зеркальное понятие к «начальнику» — кто-то один и тот же человек может быть начальником для одних и подчинённым для других.' },
+    { id:'e6', section:'Старшие и младшие по званию', term:'Старшие и младшие по воинскому званию',
+      def:'Военнослужащие, не являющиеся по отношению друг к другу начальниками или подчинёнными, могут быть старшими или младшими по воинскому званию — старшинство определяется исключительно воинским званием.',
+      tip:'Устав внутренней службы, ст.34 — это НЕ начальники и подчинённые, а просто «кто старше по званию».' }
+  ]
+};
+DeckEngine.init(DECK, { backHref:'index.html', backLabel:'К предмету «Устав»' });
+Site.initNav('ustav');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Зачёт семестра — общая тактика и устав",
+  "short_name": "Зачёт семестра",
+  "description": "Темы к зачёту, тренажёры и домашние задания: общая тактика и общевоенная подготовка.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f1211",
+  "theme_color": "#0f1211",
+  "lang": "ru",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Общие обязанности военнослужащего по статье 13 Устава внутренней службы ВС РФ — тренажёр для запоминания.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Обязанности военнослужащего</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main id="screen" class="screen" tabindex="-1"></main>
+<footer class="foot">
+  <span>Формулировки — сокращённая передача статьи 13 Устава внутренней службы ВС РФ. Не заменяет полный текст устава.</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="../tactics/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script src="../shared/deck-engine.js"></script>
+<script>
+"use strict";
+var DECK = {
+  subject:'ustav', key:'duties',
+  title:'Обязанности военнослужащего',
+  eyebrow:'Устав внутренней службы ВС РФ · статья 13',
+  intro:'Девять пунктов о том, что обязан каждый военнослужащий — от верности присяге до воинской вежливости. Дословная формулировка длиннее; здесь — суть для запоминания.',
+  cards:[
+    { id:'d1', section:'Обязанности военнослужащего (ст. 13)', term:'Верность присяге и воинскому долгу',
+      def:'Быть верным Военной присяге, беззаветно служить своему народу, мужественно, умело, не щадя своей крови и самой жизни защищать Российскую Федерацию, стойко переносить трудности военной службы.',
+      tip:'Пункт первый — с него начинается статья 13.' },
+    { id:'d2', section:'Обязанности военнослужащего (ст. 13)', term:'Соблюдение законов и уставов',
+      def:'Строго соблюдать Конституцию и законы Российской Федерации, выполнять требования воинских уставов.',
+      tip:'Не только устав — сначала Конституция и законы.' },
+    { id:'d3', section:'Обязанности военнослужащего (ст. 13)', term:'Овладение воинским мастерством',
+      def:'Постоянно овладевать военными профессиональными знаниями, совершенствовать свою выучку и воинское мастерство.',
+      tip:'Про учёбу и тренировку, а не про технику как имущество — это следующий пункт.' },
+    { id:'d4', section:'Обязанности военнослужащего (ст. 13)', term:'Готовность вооружения и техники',
+      def:'Знать и содержать в постоянной готовности к применению вверенные ему вооружение и военную технику, беречь военное имущество.',
+      tip:'Здесь речь о технике и имуществе.' },
+    { id:'d5', section:'Обязанности военнослужащего (ст. 13)', term:'Честность, дисциплина, инициатива',
+      def:'Быть честным, дисциплинированным, храбрым, при выполнении воинского долга проявлять разумную инициативу.',
+      tip:'Инициатива — но именно «разумная».' },
+    { id:'d6', section:'Обязанности военнослужащего (ст. 13)', term:'Повиновение командирам',
+      def:'Беспрекословно повиноваться командирам (начальникам) и защищать их в бою, оберегать Боевое Знамя воинской части.',
+      tip:'Кроме повиновения — ещё и защита командира и Боевого Знамени.' },
+    { id:'d7', section:'Обязанности военнослужащего (ст. 13)', term:'Войсковое товарищество',
+      def:'Дорожить войсковым товариществом, не щадя своей жизни выручать товарищей из опасности, помогать им словом и делом, уважать честь и достоинство каждого, не допускать грубости и издевательств, удерживать от недостойных поступков.',
+      tip:'Самый длинный пункт — про товарищество и взаимное уважение.' },
+    { id:'d8', section:'Обязанности военнослужащего (ст. 13)', term:'Воинская вежливость и внешний вид',
+      def:'Соблюдать правила воинской вежливости, поведения и выполнения воинского приветствия, всегда быть по форме, чисто и аккуратно одетым.',
+      tip:'Вежливость здесь идёт вместе с внешним видом и приветствием — не путайте с бдительностью в следующем пункте.' },
+    { id:'d9', section:'Обязанности военнослужащего (ст. 13)', term:'Бдительность и хранение тайны',
+      def:'Быть бдительным, строго хранить военную и государственную тайну.',
+      tip:'Последний, девятый пункт статьи 13.' }
+  ]
+};
+DeckEngine.init(DECK, { backHref:'index.html', backLabel:'К предмету «Устав»' });
+Site.initNav('ustav');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>
