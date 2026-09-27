@@ -75,6 +75,22 @@ h += file('../files/autobio/autobio-obrazec.docx', '<path d="M6 3h9l5 5v13H6z"/>
 h += '</div>';
 h += '</div>'; /* конец #autobioBody */
 
+h += '<button class="mode mode--toggle" id="ustavyToggle" type="button" aria-expanded="false">' +
+  '<span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg></span>' +
+  '<span><span class="mode__t">Уставы ВС РФ — PDF</span><span class="mode__d">Действующие тексты общевоинских уставов, читать прямо на сайте</span></span>' +
+  '<span class="mode__meta"><svg class="mode--toggle__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' +
+  '</button>';
+h += '<div class="collapse-body" id="ustavyBody">';
+h += '<p style="margin:14px 0">Файлы сюда пока не загружены — карточки станут рабочими сразу после того, как PDF появятся по путям <code>files/ustavy/…</code> (без правки кода). Названия файлов — строго как указано под каждой карточкой.</p>';
+h += '<div class="filelist">';
+h += pdfFile('../files/ustavy/ustav-vnutrenney-sluzhby.pdf', '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>', 'Устав внутренней службы ВС РФ', 'Распорядок дня, размещение, суточный наряд, обязанности — общая часть, Пара 1–2', 'files/ustavy/ustav-vnutrenney-sluzhby.pdf');
+h += pdfFile('../files/ustavy/disciplinarny-ustav.pdf', '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>', 'Дисциплинарный устав ВС РФ', 'Дисциплина, поощрения и взыскания, жалобы и обращения — Пара 3', 'files/ustavy/disciplinarny-ustav.pdf');
+h += pdfFile('../files/ustavy/ustav-garnizonnoy-i-karaulnoy-sluzhb.pdf', '<path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/>', 'Устав гарнизонной и караульной служб ВС РФ', 'Караульная и гарнизонная службы, комендатура, посты', 'files/ustavy/ustav-garnizonnoy-i-karaulnoy-sluzhb.pdf');
+h += pdfFile('../files/ustavy/stroevoy-ustav.pdf', '<circle cx="6" cy="8" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="14" cy="8" r="2"/><circle cx="14" cy="16" r="2"/>', 'Строевой устав ВС РФ', 'Строй, воинское приветствие, строевые приёмы — Пара 2', 'files/ustavy/stroevoy-ustav.pdf');
+h += pdfFile('../files/ustavy/obshchevoinskie-ustavy-sbornik.pdf', '<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6M9 8.5h3"/>', 'Сборник всех четырёх уставов (один файл)', 'Если вместо четырёх отдельных PDF есть один общий файл — загрузи вместо всех предыдущих', 'files/ustavy/obshchevoinskie-ustavy-sbornik.pdf');
+h += '</div>';
+h += '</div>'; /* конец #ustavyBody */
+
 screenEl.innerHTML = h;
 var PAIRS = [
   {id:'p1',label:'1',caption:'5 тем',title:'Пара 1',items:[
@@ -111,6 +127,24 @@ function file(href, path, t, d, size){
     '<span class="file__b"><span class="file__t">'+t+'</span><span class="file__d">'+d+'</span></span>' +
     '<span class="file__size">'+size+'</span></a>';
 }
+/* Открывает PDF в новой вкладке (не заставляет скачивать); под названием — точный
+   путь, куда положить файл, чтобы карточка заработала. */
+function pdfFile(href, path, t, d, expectPath){
+  return '<a class="file" href="'+href+'" target="_blank" rel="noopener">' +
+    '<span class="file__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+path+'</svg></span>' +
+    '<span class="file__b"><span class="file__t">'+t+'</span><span class="file__d">'+d+' · <code>'+expectPath+'</code></span></span>' +
+    '<span class="file__size">PDF</span></a>';
+}
+
+(function(){
+  var toggle = document.getElementById('ustavyToggle');
+  var body = document.getElementById('ustavyBody');
+  toggle.addEventListener('click', function(){
+    var open = body.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
 
 (function(){
   var toggle = document.getElementById('autobioToggle');
