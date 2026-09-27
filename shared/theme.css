@@ -317,6 +317,7 @@ li{list-style:none}
 .fb.is-bad .fb__h{color:var(--err)}
 .fb__body{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
 .fb__fig{flex:none;width:100%;max-width:260px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--ink)}
+.fb__fig--wide{max-width:100%;flex-basis:100%}
 .fb__fig svg{width:100%;height:auto;display:block}
 .fb__txt{flex:1 1 230px;font-size:15px}
 .fb__txt em{font-style:normal;color:var(--brass-hi)}
@@ -424,6 +425,11 @@ li{list-style:none}
 .conspect-prose__panel{display:none;overflow:hidden;padding:0 2px 16px}
 .conspect-prose__i.is-open .conspect-prose__panel{display:block}
 .conspect-prose__fig{float:left;width:132px;margin:2px 22px 14px 0}
+/* полноширинный вариант — таблицы и схемы, которым тесно в узкой плашке-
+   иконке слева от текста (см. deck-engine.js, поле card.figWide) */
+.conspect-prose__figwide{width:100%;margin:12px 0 18px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--ink2);overflow-x:auto}
+.conspect-prose__figwide svg{width:100%;height:auto;display:block;max-width:520px;margin:0 auto}
+.conspect-prose__figwide .tbl-wrap{margin:0;border:0;border-radius:0}
 .conspect-prose__fig svg{width:100%;height:auto;display:block}
 .conspect-prose__p{font-family:var(--body);font-size:16px;line-height:1.85;color:var(--paper);white-space:pre-line}
 .conspect-prose__term{font-family:var(--disp);font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--brass-hi);transition:color .15s}
@@ -439,6 +445,7 @@ li{list-style:none}
   .conspect__fig{grid-column:2;width:104px;margin-top:4px}
   .conspect__t{font-size:16.5px}
   .conspect-prose__fig{width:100px;margin:2px 16px 8px 0}
+  .conspect-prose__figwide{padding:12px}
   .conspect-prose__p{font-size:15px}
 }
 

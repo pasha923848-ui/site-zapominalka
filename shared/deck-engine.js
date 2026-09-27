@@ -326,7 +326,7 @@ var DeckEngine = (function(){
       var h = '<div class="fb '+(ok?'is-ok':'is-bad')+'">';
       h += '<div class="fb__h">'+(ok?'Верно':'Ошибка')+'</div>';
       h += '<div class="fb__body">';
-      if(c.fig) h += '<div class="fb__fig">'+c.fig+'</div>';
+      if(c.fig) h += '<div class="fb__fig'+(c.figWide?' fb__fig--wide':'')+'">'+c.fig+'</div>';
       h += '<div class="fb__txt"><b>'+esc(c.term)+'</b><br>'+esc(c.def);
       if(c.gist) h += '<div class="fb__tip"><b>Главное:</b> '+esc(c.gist)+'</div>';
       if(c.tip) h += '<div class="fb__tip">'+esc(c.tip)+'</div>';
@@ -396,7 +396,10 @@ var DeckEngine = (function(){
         h += '<svg class="conspect-prose__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
         h += '</button>';
         h += '<div class="conspect-prose__panel">';
-        if(c.fig) h += '<div class="conspect-prose__fig">'+c.fig+'</div>';
+        /* figWide — таблицы/схемы, которые не влезают в узкую плашку-иконку
+           132px (та плавает слева от текста); полноширинный блок сверху,
+           без обтекания. Обычные маленькие SVG-значки — как раньше. */
+        if(c.fig) h += '<div class="'+(c.figWide?'conspect-prose__figwide':'conspect-prose__fig')+'">'+c.fig+'</div>';
         if(c.gist) h += '<div class="conspect-prose__gist"><b>Главное</b>'+esc(c.gist)+'</div>';
         h += '<p class="conspect-prose__p">'+esc(c.def);
         if(c.tip) h += ' <span class="conspect-prose__tip">— '+esc(c.tip)+'</span>';
