@@ -57,6 +57,7 @@ var DeckEngine = (function(){
     var state = { stats:{}, best:{} };
     var current = 'home';
     var ses = null;
+    var examTimerId = null;
     var STAGE_KEY = 'deck-stage-open-v1';
     var stageOpen = true;
     try{ if(localStorage.getItem(STAGE_KEY) === '0') stageOpen = false; }catch(e){}
@@ -72,6 +73,7 @@ var DeckEngine = (function(){
     function cardById(id){ for(var i=0;i<deck.cards.length;i++) if(deck.cards[i].id===id) return deck.cards[i]; return null; }
 
     function go(name){
+      if(name!=='quiz' && examTimerId){ clearInterval(examTimerId); examTimerId=null; }
       current = name;
       if(name==='home') renderHome();
       else if(name==='quiz') renderQuiz();
@@ -100,10 +102,18 @@ var DeckEngine = (function(){
       while(out.length<n && pool.length) out.push(pickOne(pool));
       return shuffle(out);
     }
+    /* Неверные варианты подбираются в первую очередь из той же секции
+       (та же статья/тема), что и правильный — иначе в больших сводных
+       колодах (общая запоминалка по паре, летучка по вариантам) неверный
+       вариант из другой темы угадывается по смыслу, а не по знанию, и
+       тест перестаёт что-то проверять. Не хватает похожих — добираем
+       из остальной колоды. */
     function distractors(card, count){
-      var pool = deck.cards.filter(function(c){ return c.id!==card.id; });
-      shuffle(pool);
-      return pool.slice(0, Math.min(count, pool.length));
+      var rest = deck.cards.filter(function(c){ return c.id!==card.id; });
+      var same = rest.filter(function(c){ return c.section && c.section===card.section; });
+      var other = rest.filter(function(c){ return !(c.section && c.section===card.section); });
+      shuffle(same); shuffle(other);
+      return same.concat(other).slice(0, Math.min(count, rest.length));
     }
     function buildQuestion(kind, card){
       var q = { kind:kind, card:card, opts:[], correct:0 };
@@ -251,6 +261,7 @@ var DeckEngine = (function(){
       h += '<span class="bar__n"><b>'+(ses.i+1)+'</b> / '+ses.qs.length+'</span>';
       h += '<span class="bar__track"><span class="bar__fill" style="width:'+pct+'%"></span></span>';
       if(ses.streak>1) h += '<span class="bar__streak">серия '+ses.streak+'</span>';
+      if(ses.mode==='exam') h += '<span class="bar__timer" id="examTimer">'+fmtTime(Date.now()-ses.t0)+'</span>';
       h += '<span class="bar__score">'+ses.score+' очк.</span>';
       h += '</div>';
 
@@ -291,6 +302,14 @@ var DeckEngine = (function(){
       h += '<div id="fb"></div>';
       h += '</div></div></div>';
       screenEl.innerHTML = h;
+      if(examTimerId){ clearInterval(examTimerId); examTimerId=null; }
+      if(ses.mode==='exam'){
+        examTimerId = setInterval(function(){
+          var t = document.getElementById('examTimer');
+          if(!t || current!=='quiz'){ clearInterval(examTimerId); examTimerId=null; return; }
+          t.textContent = fmtTime(Date.now()-ses.t0);
+        }, 1000);
+      }
     }
     function ansBtn(i, text){
       return '<button class="ans" data-a="'+i+'" type="button"><span class="ans__k">'+(i+1)+'</span><span>'+esc(text)+'</span></button>';
