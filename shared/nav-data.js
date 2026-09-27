@@ -31,6 +31,7 @@ var NavData = {
             ] },
             { title: 'Пара 3', items: [
               { title: 'Летучка 24.09 — что спросят', href: 'ustav/para3-letuchka.html' },
+              { title: 'Летучка: варианты 1–3', href: 'ustav/para3-variants.html' },
               { title: 'Дисциплина и жалобы', href: 'ustav/discipline.html' },
               { title: 'Поощрения', href: 'ustav/encouragements.html' }
             ] },
