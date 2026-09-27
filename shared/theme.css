@@ -21,6 +21,17 @@
   --line-2:rgba(226,224,216,.17);
   --r:10px;
   --maxw:1060px;
+  /* шкала расстояний между блоками (не путать с внутренними gap
+     компонентов — те остаются подобранными индивидуально):
+     --sp-head    — отступ перед заголовком новой секции
+                    (.sect-h/.collapse-h/.pairs__title — один и тот же
+                    визуальный приём, один и тот же отступ);
+     --sp-head-sm — то же на телефоне;
+     --sp-block   — отступ перед блоком контента, идущим сразу за
+                    заголовком/леад-текстом (.subjects/.strip/.pairs__panel). */
+  --sp-head:30px;
+  --sp-head-sm:20px;
+  --sp-block:26px;
   --disp:'Oswald','Arial Narrow',Arial,sans-serif;
   --body:'PT Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   --mono:'PT Mono','Consolas',ui-monospace,monospace;
@@ -131,7 +142,7 @@ li{list-style:none}
 
 /* ---------- главная (предметы) ---------- */
 .home__lead{color:var(--muted);font-size:16px;max-width:56ch;margin-top:12px}
-.subjects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:26px}
+.subjects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:var(--sp-block)}
 .subject{
   display:block;padding:22px 22px 20px;border-radius:14px;text-decoration:none;color:inherit;
   border:1px solid var(--line);background:var(--ink2);
@@ -173,7 +184,7 @@ li{list-style:none}
 .semlist__i.is-current.is-open .semlist__chev{transform:rotate(90deg)}
 
 /* ---------- заголовок секции ---------- */
-.sect-h{display:flex;align-items:baseline;gap:12px;margin:30px 0 12px}
+.sect-h{display:flex;align-items:baseline;gap:12px;margin:var(--sp-head) 0 12px}
 .sect-h h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-dim)}
 .sect-h::after{content:"";flex:1;height:1px;background:var(--line)}
 .sect-h small{color:var(--muted);font-size:12.5px}
@@ -215,10 +226,10 @@ li{list-style:none}
 .pairs__tab.is-on .pairs__c{color:var(--paper)}
 .pairs__tab.is-soon:not(.is-on){opacity:.6}
 .pairs__dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--brass)}
-.pairs__title{display:flex;align-items:baseline;gap:10px;margin:20px 0 10px;flex-wrap:wrap}
+.pairs__title{display:flex;align-items:baseline;gap:10px;margin:var(--sp-head) 0 12px;flex-wrap:wrap}
 .pairs__title h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-dim)}
 .pairs__title small{color:var(--muted);font-size:12.5px}
-.pairs__panel{margin-top:16px}
+.pairs__panel{margin-top:var(--sp-block)}
 .pairs__title + .modes{margin-top:0}
 .pairs__panel.is-in{animation:pairsIn .12s ease-out}
 @keyframes pairsIn{from{opacity:0}to{opacity:1}}
@@ -232,7 +243,7 @@ li{list-style:none}
 }
 
 /* ---------- полоса статистики / метрик ---------- */
-.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:22px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:var(--sp-block)}
 .strip__i{background:var(--ink2);padding:13px 15px}
 .strip__k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:var(--disp)}
 .strip__v{font-family:var(--mono);font-size:21px;color:var(--paper);margin-top:3px;font-variant-numeric:tabular-nums}
@@ -268,7 +279,7 @@ li{list-style:none}
 .stage.is-collapsed svg{display:none}
 
 /* схема/граф вне режима теста — во всю ширину карточки */
-.diagram{border:1px solid var(--line);border-radius:12px;background:var(--ink2);padding:18px 16px;margin:14px 0 26px}
+.diagram{border:1px solid var(--line);border-radius:12px;background:var(--ink2);padding:18px 16px;margin:14px 0 var(--sp-block)}
 .diagram svg{width:100%;height:auto;display:block}
 .diagram__cap{font-family:var(--disp);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:10px}
 
@@ -507,7 +518,7 @@ li{list-style:none}
 .hw-item__expand:hover{color:var(--brass-hi);text-decoration:underline}
 
 /* сворачиваемый раздел страницы — шапка кликабельна, тело прячется */
-.collapse-h{display:flex;align-items:center;gap:10px;margin:30px 0 12px;cursor:pointer;user-select:none;background:none;border:0;padding:0;width:100%;text-align:left;font:inherit;color:inherit}
+.collapse-h{display:flex;align-items:center;gap:10px;margin:var(--sp-head) 0 12px;cursor:pointer;user-select:none;background:none;border:0;padding:0;width:100%;text-align:left;font:inherit;color:inherit}
 .collapse-h h2{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-dim);margin:0}
 .collapse-h::after{content:"";flex:1;height:1px;background:var(--line)}
 .collapse-h small{color:var(--muted);font-size:12.5px;white-space:nowrap}
@@ -596,7 +607,7 @@ li{list-style:none}
   .strip__i{padding:11px 13px}
   .strip__v{font-size:19px}
 
-  .sect-h{margin:20px 0 9px}
+  .sect-h,.collapse-h,.pairs__title{margin:var(--sp-head-sm) 0 9px}
 
   /* --- экран теста: компактно, чтобы влезало без прокрутки --- */
   .quiz{gap:11px}
