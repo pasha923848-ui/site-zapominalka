@@ -29,9 +29,9 @@
      --sp-head-sm — то же на телефоне;
      --sp-block   — отступ перед блоком контента, идущим сразу за
                     заголовком/леад-текстом (.subjects/.strip/.pairs__panel). */
-  --sp-head:30px;
+  --sp-head:36px;
   --sp-head-sm:20px;
-  --sp-block:26px;
+  --sp-block:32px;
   --disp:'Oswald','Arial Narrow',Arial,sans-serif;
   --body:'PT Sans','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
   --mono:'PT Mono','Consolas',ui-monospace,monospace;
@@ -82,7 +82,7 @@ li{list-style:none}
 .top__nav{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .chip{
   font-family:var(--disp);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;
-  padding:7px 12px;border-radius:7px;color:var(--muted);
+  padding:7px 14px;border-radius:999px;color:var(--muted);
   border:1px solid transparent;transition:color .15s,background .15s,border-color .15s;
   text-decoration:none;display:inline-flex;align-items:center;gap:6px;
 }
@@ -119,7 +119,7 @@ li{list-style:none}
 @media (max-width:560px){ .navmenu{left:auto;right:0;transform:none;width:94vw} }
 
 /* ---------- каркас ---------- */
-.screen{flex:1 0 auto;width:100%;max-width:var(--maxw);margin:0 auto;padding:24px max(16px,4vw) 60px}
+.screen{flex:1 0 auto;width:100%;max-width:var(--maxw);margin:0 auto;padding:36px max(16px,4vw) 72px}
 .screen--wide{max-width:1280px}
 .foot{
   border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;
@@ -133,12 +133,12 @@ li{list-style:none}
 .foot-links svg{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---------- заголовок страницы ---------- */
-.pagehead{display:grid;gap:9px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.pagehead{display:grid;gap:11px;padding-bottom:20px;margin-bottom:var(--sp-block);border-bottom:1px solid var(--line)}
 .pagehead__back{justify-self:start;font-family:var(--disp);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:4px 0;text-decoration:none}
 .pagehead__back:hover{color:var(--brass-hi)}
 .pagehead__eyebrow{font-family:var(--disp);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--subj)}
-.pagehead h1{font-size:clamp(25px,4.2vw,34px);text-transform:uppercase;letter-spacing:.02em}
-.pagehead__lead{color:var(--muted);font-size:15.5px;max-width:62ch}
+.pagehead h1{font-size:clamp(28px,5vw,44px);text-transform:uppercase;letter-spacing:.01em}
+.pagehead__lead{color:var(--muted);font-size:17px;line-height:1.6;max-width:60ch;margin-top:2px}
 
 /* ---------- главная (предметы) ---------- */
 .home__lead{color:var(--muted);font-size:16px;max-width:56ch;margin-top:12px}
@@ -152,8 +152,8 @@ li{list-style:none}
 .subject::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sc,var(--brass))}
 .subject:hover{border-color:var(--line-2);background:var(--ink3)}
 .subject__num{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
-.subject__t{font-family:var(--disp);font-size:22px;text-transform:uppercase;letter-spacing:.02em;margin-top:8px}
-.subject__d{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.5}
+.subject__t{font-family:var(--disp);font-size:25px;text-transform:uppercase;letter-spacing:.02em;margin-top:10px}
+.subject__d{color:var(--muted);font-size:14.5px;margin-top:9px;line-height:1.55}
 .subject__meta{display:flex;gap:14px;margin-top:16px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
 .subject__meta b{color:var(--brass-hi);font-weight:400}
 .subject--empty{opacity:.85}
@@ -323,7 +323,7 @@ li{list-style:none}
 .fb__tip{color:var(--muted);font-size:13.5px;margin-top:6px}
 .fb__row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
 
-.btn{font-family:var(--disp);font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:11px 20px;border-radius:8px;background:var(--subj);color:#14140f;transition:filter .15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn{font-family:var(--disp);font-size:14px;letter-spacing:.1em;text-transform:uppercase;padding:12px 26px;border-radius:999px;background:var(--subj);color:#14140f;transition:filter .15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .btn:hover{filter:brightness(1.08)}
 .btn--ghost{background:transparent;color:var(--paper);border:1px solid var(--line-2)}
 .btn--ghost:hover{border-color:var(--brass-dim);color:var(--brass-hi);filter:none}
