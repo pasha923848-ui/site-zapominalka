@@ -434,6 +434,8 @@ li{list-style:none}
    фон, а не тёмная плашка сайта (см. схемы обход/охват/отход) */
 .tacmap{background:#f6f3ea;border:1px solid #cfc8b3;border-radius:8px;padding:14px}
 .tacmap svg{max-width:460px}
+.tacmap img{width:100%;height:auto;display:block;border-radius:2px}
+.tacmap__cap{font-family:var(--disp);font-size:11px;letter-spacing:.05em;color:#6b6350;text-align:center;margin-top:10px}
 .conspect-prose__fig svg{width:100%;height:auto;display:block}
 .conspect-prose__p{font-family:var(--body);font-size:16px;line-height:1.85;color:var(--paper);white-space:pre-line}
 .conspect-prose__term{font-family:var(--disp);font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--brass-hi);transition:color .15s}
