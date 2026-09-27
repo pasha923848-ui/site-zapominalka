@@ -265,7 +265,7 @@ li{list-style:none}
 .play{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:start}
 .play--wide{grid-template-columns:minmax(0,1fr)}
 .stage{
-  position:relative;display:grid;place-items:center;gap:10px;padding:20px 16px;
+  position:relative;display:grid;place-items:center;gap:12px;padding:24px 18px;
   border:1px solid var(--line);border-radius:12px;background:var(--ink2);
   min-height:180px;
 }
@@ -282,7 +282,7 @@ li{list-style:none}
 .stage.is-collapsed svg{display:none}
 
 /* схема/граф вне режима теста — во всю ширину карточки */
-.diagram{border:1px solid var(--line);border-radius:12px;background:var(--ink2);padding:18px 16px;margin:14px 0 var(--sp-block)}
+.diagram{border:1px solid var(--line);border-radius:12px;background:var(--ink2);padding:20px 18px;margin:18px 0 var(--sp-block)}
 .diagram svg{width:100%;height:auto;display:block}
 .diagram__cap{font-family:var(--disp);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:10px}
 
@@ -315,7 +315,7 @@ li{list-style:none}
 .fb__h{font-family:var(--disp);font-size:13.5px;letter-spacing:.14em;text-transform:uppercase}
 .fb.is-ok .fb__h{color:var(--ok)}
 .fb.is-bad .fb__h{color:var(--err)}
-.fb__body{display:flex;gap:15px;align-items:flex-start;flex-wrap:wrap}
+.fb__body{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
 .fb__fig{flex:none;width:100%;max-width:260px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--ink)}
 .fb__fig svg{width:100%;height:auto;display:block}
 .fb__txt{flex:1 1 230px;font-size:15px}
@@ -423,7 +423,7 @@ li{list-style:none}
 .conspect-prose__i.is-open .conspect-prose__chev{transform:rotate(90deg)}
 .conspect-prose__panel{display:none;overflow:hidden;padding:0 2px 16px}
 .conspect-prose__i.is-open .conspect-prose__panel{display:block}
-.conspect-prose__fig{float:left;width:132px;margin:2px 18px 10px 0}
+.conspect-prose__fig{float:left;width:132px;margin:2px 22px 14px 0}
 .conspect-prose__fig svg{width:100%;height:auto;display:block}
 .conspect-prose__p{font-family:var(--body);font-size:16px;line-height:1.85;color:var(--paper);white-space:pre-line}
 .conspect-prose__term{font-family:var(--disp);font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--brass-hi);transition:color .15s}
@@ -438,7 +438,7 @@ li{list-style:none}
   .conspect__i{grid-template-columns:24px minmax(0,1fr);row-gap:8px}
   .conspect__fig{grid-column:2;width:104px;margin-top:4px}
   .conspect__t{font-size:16.5px}
-  .conspect-prose__fig{width:100px;margin:2px 14px 6px 0}
+  .conspect-prose__fig{width:100px;margin:2px 16px 8px 0}
   .conspect-prose__p{font-size:15px}
 }
 
@@ -709,7 +709,7 @@ li{list-style:none}
 @media (max-width:620px){ .rec__text{font-size:16px;line-height:1.95} }
 
 /* таблицы в конспекте */
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 12px;border:1px solid var(--line);border-radius:8px}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 16px;border:1px solid var(--line);border-radius:8px}
 .tbl-sc{border-collapse:collapse;min-width:560px;width:100%;font-size:13.5px;line-height:1.35}
 .tbl-sc th,.tbl-sc td{padding:8px 9px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:left;vertical-align:top}
 .tbl-sc th{font-family:var(--disp);font-weight:500;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--brass-hi);background:var(--ink3);position:sticky;top:0}

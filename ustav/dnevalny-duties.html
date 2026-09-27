@@ -16,11 +16,14 @@
 <meta name="apple-mobile-web-app-title" content="Зачёт семестра">
 <title>Обязанности дневального</title>
 <style>
-  .dtable{width:100%;border-collapse:collapse;margin:18px 0 30px;font-size:14.5px}
+  .dtable{width:100%;min-width:420px;border-collapse:collapse;margin:22px 0 34px;font-size:14.5px}
   .dtable th{font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-2)}
   .dtable td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   .dtable td:first-child{font-family:var(--mono);color:var(--brass-dim);width:28px}
   .dtable tr:hover td{background:rgba(226,224,216,.02)}
+  /* .tablewrap использовался в разметке без стилей — прокрутка не
+     работала, и на узком телефоне таблица могла сжиматься некрасиво */
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:8px}
 </style>
 </head>
 <body>

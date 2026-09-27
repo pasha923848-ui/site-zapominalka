@@ -16,12 +16,16 @@
 <meta name="apple-mobile-web-app-title" content="Зачёт семестра">
 <title>Структура ВС РФ</title>
 <style>
-  .dtable{width:100%;border-collapse:collapse;margin:18px 0 30px;font-size:14px}
+  /* min-width — иначе на телефоне .tablewrap не прокручивается, а сжимает
+     колонки до нечитаемой мешанины слов (браузер честно уместит width:100%
+     в любую ширину, если ничего не мешает); тот же приём, что у .tbl-sc
+     в shared/theme.css. */
+  .dtable{width:100%;min-width:560px;border-collapse:collapse;margin:22px 0 34px;font-size:14px}
   .dtable th{font-family:var(--disp);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-2)}
   .dtable td{padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   .dtable td:first-child{font-family:var(--disp);color:var(--brass-hi);width:19%;font-size:13.5px}
   .dtable tr:hover td{background:rgba(226,224,216,.02)}
-  .tablewrap{overflow-x:auto}
+  .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:8px}
 </style>
 </head>
 <body>
