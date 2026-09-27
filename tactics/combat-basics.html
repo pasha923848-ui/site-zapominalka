@@ -86,11 +86,30 @@
     <div class="diagram__cap">Сражение — определение выводится прямо из операции: это её крупная составная часть</div>
   </div>
 
-  <div class="sect-h"><h2>Тестирование</h2><small>20 карточек — понятия, классификация ударов, операции и сражения, манёвр на карте</small></div>
+  <div class="sect-h"><h2>Тестирование</h2><small>25 карточек — понятия, классификация ударов, операции и сражения, манёвр на карте, опыт СВО</small></div>
   <div id="screen" tabindex="-1"></div>
+
+  <button class="mode mode--toggle" id="srcToggle" type="button" aria-expanded="false">
+    <span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
+    <span><span class="mode__t">Источники раздела «От опыта СВО»</span><span class="mode__d">По открытым публикациям — проверьте перед зачётом</span></span>
+    <span class="mode__meta"><svg class="mode--toggle__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+  </button>
+  <div class="collapse-body" id="srcBody">
+    <div class="prose" style="margin:14px 0 26px">
+      <p>Часть карточек этой темы (кочующее орудие, огневая карусель, разведывательно-огневой контур, БПЛА-корректировщик) — по открытой военной прессе, а не по учебнику. Два термина из исходного запроса («блуждающий взвод», «прикрывающий зонтик») в открытых источниках не нашлись в фиксированной формулировке — см. карточку «Что не удалось точно проверить».</p>
+      <ul>
+        <li><a href="https://ru.wikipedia.org/wiki/Кочующее_огневое_средство" target="_blank" rel="noopener">Кочующее огневое средство — Википедия</a></li>
+        <li><a href="https://cyclowiki.org/wiki/Огневая_карусель" target="_blank" rel="noopener">Огневая карусель — Циклопедия</a></li>
+        <li><a href="https://rg.ru/2024/10/10/rosteh-pokazal-pervyj-razvedyvatelno-ognevoj-kontur-takticheskogo-zvena.html" target="_blank" rel="noopener">«Ростех» показал первый разведывательно-огневой контур тактического звена — Российская газета</a></li>
+        <li><a href="https://lenta.ru/news/2025/08/20/novyy-razvedyvatelno-ognevoy-kontur-v-zone-svo-otsenili/" target="_blank" rel="noopener">Новый разведывательно-огневой контур в зоне СВО оценили — Lenta.ru</a></li>
+        <li><a href="https://cyberleninka.ru/article/n/model-otsenki-effektivnosti-kombinirovannogo-razvedyvatelno-udarnogo-ognevogo-kontura-na-baze-udarnyh-bespilotnyh-letatelnyh" target="_blank" rel="noopener">Модель эффективности разведывательно-ударного (огневого) контура на базе БПЛА — CyberLeninka</a></li>
+      </ul>
+      <p>Есть сам номер Армейского сборника (например, №4 2023) с точными формулировками — пришлите текст или фото страницы, перенесу дословно вместо этой сводки.</p>
+    </div>
+  </div>
 </main>
 <footer class="foot">
-  <span>Термины — по учебнику «Общая тактика» и Справочнику офицера (те же источники, что на странице «Военные угрозы России»); соответствуют вводным определениям Боевого устава Сухопутных войск ВС РФ, часть III.</span>
+  <span>Термины основного раздела — по учебнику «Общая тактика» и Справочнику офицера (те же источники, что на странице «Военные угрозы России»), соответствуют вводным определениям Боевого устава Сухопутных войск ВС РФ, часть III. Раздел «От опыта СВО» — по открытым публикациям, см. источники выше; сверьте перед зачётом.</span>
 </footer>
 <nav class="tabbar" style="--tabs:3" aria-label="Разделы">
   <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
@@ -115,6 +134,16 @@ DeckEngine.init(DECK, { root: document.getElementById('screen'), backHref:'armed
 Site.initNav('tactics');
 Site.wireSoundToggle(document.getElementById('btnSound'));
 Site.initMenu("../");
+
+(function(){
+  var toggle = document.getElementById('srcToggle');
+  var body = document.getElementById('srcBody');
+  toggle.addEventListener('click', function(){
+    var open = body.classList.toggle('is-open');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+})();
 </script>
 </body>
 </html>
