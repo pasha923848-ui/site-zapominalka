@@ -49,7 +49,7 @@ var h = '<div class="pagehead">';
 h += '<a class="pagehead__back" href="../index.html">← Ко всем предметам</a>';
 h += '<div class="pagehead__eyebrow">Предмет</div>';
 h += '<h1>Общая тактика</h1>';
-h += '<p class="pagehead__lead">Тема 1 Пары 1 уже разбита на карточки ниже. Остальные темы появятся по программе занятий. Здесь же — первое задание: реферат.</p>';
+h += '<p class="pagehead__lead">Тема 1 (Пары 1–2) и начало Темы 2 (Пара 3) уже разбиты на карточки ниже — идут одна за другой, каждая тема продолжает предыдущую. Остальные подтемы появятся по программе занятий. Здесь же — первое задание: реферат.</p>';
 h += '</div>';
 
 h += '<div id="pairsMount"></div>';
@@ -114,14 +114,17 @@ var PAIRS = [
     {href:'military-doctrine.html',icon:'<path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 12h6M9 15.5h6M9 8.5h3"/>',title:'Военная доктрина РФ',desc:'Правовая основа, военная политика, применение Вооружённых Сил, условия применения ядерного оружия',meta:'15 терминов',deckKey:'military-doctrine'},
     {href:'armed-forces-structure.html',icon:'<path d="M12 21s-7-4.5-7-11a7 7 0 0114 0c0 6.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/>',title:'Структура ВС РФ',desc:'Виды и рода войск, подробная таблица состава Воздушно-космических сил',meta:'17 терминов',deckKey:'armed-forces-structure'}
   ]},
-  {id:'soon',label:'···',caption:'Скоро',soon:true,title:'Другие темы Пары 1',note:'программа курса — появятся по мере занятий',items:[
-    {soon:true,icon:CLOCK,title:'Основы современного общевойскового боя',desc:'Тема 2',meta:'скоро'},
+  {id:'p3',label:'3',caption:'1 тема',title:'Пара 3 · тема 2',note:'основы современного общевойскового боя (начало)',items:[
+    {href:'combat-basics.html',icon:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',title:'Общевойсковой бой: основные понятия',desc:'Удар, огонь, манёвр, классификация ударов, боевые действия, операция и сражение',meta:'10 терминов',deckKey:'combat-basics'}
+  ]},
+  {id:'soon',label:'···',caption:'Скоро',soon:true,title:'Другие подтемы',note:'программа курса — появятся по мере занятий',items:[
+    {soon:true,icon:CLOCK,title:'Общевойсковой бой — остальные подтемы',desc:'Тема 2, продолжение (виды и принципы боя)',meta:'скоро'},
     {soon:true,icon:CLOCK,title:'Инженерное обеспечение войск',desc:'Тема 3',meta:'скоро'},
     {soon:true,icon:CLOCK,title:'Радиационная, химическая и биологическая защита войск',desc:'Тема 4',meta:'скоро'},
     {soon:true,icon:CLOCK,title:'Топографическое обеспечение войск',desc:'Тема 6',meta:'скоро'}
   ]}
 ];
-Site.pairTabs(document.getElementById('pairsMount'), PAIRS, {subject:'tactics', defaultId:'p2'});
+Site.pairTabs(document.getElementById('pairsMount'), PAIRS, {subject:'tactics', defaultId:'p3'});
 
 (function(){
   var toggle = document.getElementById('referatToggle');

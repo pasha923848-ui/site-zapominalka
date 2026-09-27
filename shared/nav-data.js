@@ -51,6 +51,9 @@ var NavData = {
             { title: 'Пара 2 · тема 1', items: [
               { title: 'Военная доктрина РФ', href: 'tactics/military-doctrine.html' },
               { title: 'Структура ВС РФ', href: 'tactics/armed-forces-structure.html' }
+            ] },
+            { title: 'Пара 3 · тема 2', items: [
+              { title: 'Общевойсковой бой: основные понятия', href: 'tactics/combat-basics.html' }
             ] }
           ]
         }

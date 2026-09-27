@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Общевойсковой бой: удар, огонь, манёвр, классификация ударов, боевые действия, операция и сражение, виды операций по масштабу.">
+<meta name="theme-color" content="#0f1211">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="../shared/theme.css">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../icons/icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Зачёт семестра">
+<title>Общевойсковой бой: основные понятия</title>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">
+    <svg class="brand__star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.6l3.09 6.9 7.41.78-5.55 5.02 1.57 7.3L12 17.9l-6.52 3.7 1.57-7.3L1.5 9.28l7.41-.78z"/></svg>
+    <span class="brand__txt"><b>ЗАЧЁТ&nbsp;СЕМЕСТРА</b><i>общая тактика · устав</i></span>
+  </a>
+  <nav class="top__nav">
+    <a class="chip" data-nav="home" href="../index.html">Главная</a>
+    <button class="chip chip--sq" id="btnMenu" type="button" title="Меню" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="chip chip--sq" id="btnSound" type="button" title="Звук вкл/выкл">звук</button>
+  </nav>
+  <div class="navmenu" id="siteMenu" hidden></div>
+</header>
+<main class="screen">
+  <div class="pagehead">
+    <a class="pagehead__back" href="armed-forces-structure.html">← К структуре ВС РФ</a>
+    <div class="pagehead__eyebrow">Пара 3 · тема 2 · основы современного общевойскового боя</div>
+    <h1>Общевойсковой бой: основные понятия</h1>
+    <p class="pagehead__lead">Удар, огонь, манёвр — из чего складываются боевые действия, а из боевых действий — операция и сражение. Первая порция темы, по летучке; остальные подтемы («Основы современного общевойскового боя» целиком) появятся по программе занятий.</p>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="cbah1" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--brass-hi)"/></marker>
+      </defs>
+      <g font-family="var(--body)" font-size="13" fill="var(--paper)">
+        <rect x="205" y="10" width="150" height="46" rx="9" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="280" y="38" text-anchor="middle" font-family="var(--disp)" font-size="15">УДАР</text>
+
+        <path d="M260 56 L120 100" fill="none" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#cbah1)"/>
+        <path d="M280 56 L280 100" fill="none" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#cbah1)"/>
+        <path d="M300 56 L440 100" fill="none" stroke="var(--brass-hi)" stroke-width="1.6" marker-end="url(#cbah1)"/>
+
+        <rect x="30" y="104" width="180" height="46" rx="8" fill="var(--ink2)" stroke="var(--brass)"/>
+        <text x="120" y="132" text-anchor="middle">Ядерный</text>
+
+        <rect x="190" y="104" width="180" height="46" rx="8" fill="var(--ink2)" stroke="var(--brass)"/>
+        <text x="280" y="123" text-anchor="middle">Огневой</text>
+        <text x="280" y="140" text-anchor="middle" font-size="11" fill="var(--muted)">(обычное оружие)</text>
+
+        <rect x="350" y="104" width="180" height="46" rx="8" fill="var(--ink2)" stroke="var(--brass)"/>
+        <text x="440" y="132" text-anchor="middle">Удар войсками</text>
+      </g>
+    </svg>
+    <div class="diagram__cap">Классификация ударов, основание № 1 — по применяемому оружию и участвующим силам</div>
+  </div>
+
+  <div class="diagram">
+    <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="cbah2" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--brass-hi)"/></marker>
+      </defs>
+      <g font-family="var(--body)" font-size="13" fill="var(--paper)">
+        <rect x="30" y="20" width="230" height="70" rx="10" fill="var(--ink)" stroke="var(--brass-hi)" stroke-width="1.6"/>
+        <text x="145" y="50" text-anchor="middle" font-family="var(--disp)" font-size="16">ОПЕРАЦИЯ</text>
+        <text x="145" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">сражения + бои + удары + манёвр</text>
+
+        <path d="M264 55 L296 55" fill="none" stroke="var(--brass-hi)" stroke-width="1.8" marker-end="url(#cbah2)"/>
+        <text x="280" y="42" text-anchor="middle" font-size="10.5" fill="var(--muted)">часть</text>
+
+        <rect x="300" y="20" width="230" height="70" rx="10" fill="var(--ink2)" stroke="var(--brass)" stroke-width="1.6"/>
+        <text x="415" y="50" text-anchor="middle" font-family="var(--disp)" font-size="16">СРАЖЕНИЕ</text>
+        <text x="415" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">крупные бои + удары</text>
+      </g>
+    </svg>
+    <div class="diagram__cap">Сражение — определение выводится прямо из операции: это её крупная составная часть</div>
+  </div>
+
+  <div class="sect-h"><h2>Тестирование</h2><small>10 карточек — понятия, классификация ударов, от боя к операции</small></div>
+  <div id="screen" tabindex="-1"></div>
+</main>
+<footer class="foot">
+  <span>Термины — по учебнику «Общая тактика» и Справочнику офицера (те же источники, что на странице «Военные угрозы России»); соответствуют вводным определениям Боевого устава Сухопутных войск ВС РФ, часть III.</span>
+</footer>
+<nav class="tabbar" style="--tabs:3" aria-label="Разделы">
+  <a data-nav="home" href="../index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/></svg>Главная</a>
+  <a data-nav="ustav" href="../ustav/index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21V9l4-6 4 6v12z"/><path d="M8 13h8M8 17h8"/></svg>Устав</a>
+  <a data-nav="tactics" href="index.html"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>Тактика</a>
+</nav>
+
+<script src="../shared/nav-data.js"></script>
+<script src="../shared/site.js"></script>
+<script src="../shared/deck-engine.js"></script>
+<script src="combat-basics-data.js"></script>
+<script>
+"use strict";
+var DECK = {
+  subject:'tactics', key:'combat-basics',
+  title:'Общевойсковой бой: основные понятия',
+  eyebrow:'Пара 3 · тема 2',
+  intro:'Удар, огонь, манёвр, классификация ударов, боевые действия, операция и сражение, виды операций по масштабу.',
+  cards: CombatBasicsData.build()
+};
+DeckEngine.init(DECK, { root: document.getElementById('screen'), backHref:'armed-forces-structure.html', backLabel:'К структуре ВС РФ' });
+Site.initNav('tactics');
+Site.wireSoundToggle(document.getElementById('btnSound'));
+Site.initMenu("../");
+</script>
+</body>
+</html>
