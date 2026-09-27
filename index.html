@@ -149,7 +149,7 @@ h += '<button class="semlist__i is-current" id="sem1Toggle" type="button" aria-e
 h += '</div>';
 
 h += '<div class="collapse-body" id="sem1Body">';
-h += '<div class="sect-h" style="margin-top:20px"><h2>Предметы 1-го семестра</h2></div>';
+h += '<div class="sect-h"><h2>Предметы 1-го семестра</h2></div>';
 h += '<div class="subjects">';
 h += '<a class="subject" href="ustav/index.html" style="--sc:#b09a63">' +
   '<div class="subject__num">Предмет 1</div>' +
@@ -166,15 +166,16 @@ h += '<a class="subject" href="tactics/index.html" style="--sc:#6a8b9c">' +
 h += '</div>';
 h += '</div>'; /* конец #sem1Body */
 
-h += '<a class="mode" href="install.html" style="margin:26px 0 10px">' +
+h += '<div class="modes" style="margin-top:var(--sp-block)">';
+h += '<a class="mode" href="install.html">' +
   '<span class="mode__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4"/></svg></span>' +
   '<span><span class="mode__t">Установить как приложение</span><span class="mode__d">Как добавить сайт на домашний экран — инструкция для iPhone и Android</span></span>' +
   '<span class="mode__meta">инструкция</span></a>';
-
-h += '<a class="mode" href="ustav/announcements.html" style="margin-bottom:4px;border-color:var(--red)">' +
+h += '<a class="mode" href="ustav/announcements.html" style="border-color:var(--red)">' +
   '<span class="mode__ico" style="color:var(--red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 4h13l-2.5 4L17 12H4"/></svg></span>' +
   '<span><span class="mode__t">Объявления</span><span class="mode__d">Что взять на четверг, требования к форме, поездка в Сертолово</span></span>' +
   '<span class="mode__meta">важно</span></a>';
+h += '</div>';
 
 h += '<div class="sect-h"><h2>Домашние задания</h2></div>';
 h += '<div class="hw-list" id="hwList"></div>';
