@@ -9,41 +9,60 @@ var CombatBasicsData = (function(){
   "use strict";
 
   /* ---- значки для схем манёвра (раздел «Манёвр на карте») ----
-     Свои войска — красным (var(--err)), противник — синим (#6a8b9c,
-     тот же оттенок, что цвет предмета «Общая тактика» на главной) —
-     так принято на реальных рабочих картах ВС РФ (в отличие от
-     натовской традиции, где наоборот). Значок подразделения —
-     упрощённый силуэт машины (мотострелки на БМП/БТР); для танков —
-     ромб, как на официальных топографических знаках. */
-  var OWN = 'var(--err)';
-  var ENEMY = '#6a8b9c';
+     Схемы рисуются как настоящая рабочая карта — на белом/палевом
+     фоне (класс .tacmap оборачивает <svg> в HTML), а не в тёмных
+     цветах сайта. Свои войска — красным, противник — синим (так
+     принято на картах ВС РФ, в отличие от натовской традиции, где
+     наоборот). Значок мотострелкового подразделения — силуэт машины
+     с волнистым основанием (как в конспекте по общей тактике);
+     танкового — ромб; передний край обороны — волнистая линия со
+     штриховкой (засечками), тоже по образцу учебных схем. */
+  var MAP_RED = '#b32a1e';
+  var MAP_BLUE = '#1f4e8c';
+  var MAP_INK = '#3a352c';
   function mrUnit(x, y, label){
-    /* мотострелковое подразделение: скруглённый "силуэт машины" */
-    var p = 'M '+(x-15)+' '+(y+9)+' L '+(x-15)+' '+(y-1)+
+    var p = 'M '+(x-15)+' '+(y-1)+
       ' Q '+(x-15)+' '+(y-9)+' '+(x-5)+' '+(y-9)+
       ' L '+(x+5)+' '+(y-9)+' Q '+(x+15)+' '+(y-9)+' '+(x+15)+' '+(y-1)+
-      ' L '+(x+15)+' '+(y+9)+' Z';
-    var h = '<path d="'+p+'" fill="var(--ink2)" stroke="'+OWN+'" stroke-width="1.6"/>';
-    h += '<text x="'+x+'" y="'+(y+24)+'" text-anchor="middle" fill="'+OWN+'" font-size="11">'+label+'</text>';
+      ' L '+(x+15)+' '+(y+7)+
+      ' Q '+(x+8)+' '+(y+1)+' '+x+' '+(y+7)+
+      ' Q '+(x-8)+' '+(y+1)+' '+(x-15)+' '+(y+7)+' Z';
+    var h = '<path d="'+p+'" fill="#fff" stroke="'+MAP_RED+'" stroke-width="1.6"/>';
+    h += '<text x="'+x+'" y="'+(y+24)+'" text-anchor="middle" fill="'+MAP_RED+'" font-size="11">'+label+'</text>';
     return h;
   }
   function tankUnit(x, y, label){
     /* танковое подразделение: ромб — официальный топографический знак */
     var p = 'M '+x+' '+(y-11)+' L '+(x+11)+' '+y+' L '+x+' '+(y+11)+' L '+(x-11)+' '+y+' Z';
-    var h = '<path d="'+p+'" fill="var(--ink2)" stroke="'+OWN+'" stroke-width="1.6"/>';
-    h += '<text x="'+x+'" y="'+(y+26)+'" text-anchor="middle" fill="'+OWN+'" font-size="11">'+label+'</text>';
+    var h = '<path d="'+p+'" fill="#fff" stroke="'+MAP_RED+'" stroke-width="1.6"/>';
+    h += '<text x="'+x+'" y="'+(y+26)+'" text-anchor="middle" fill="'+MAP_RED+'" font-size="11">'+label+'</text>';
     return h;
   }
   function enemyLine(x1, x2, y, label){
-    /* передний край обороны противника: волнистая линия синим */
-    var seg = (x2-x1)/4, d = 'M '+x1+' '+y;
+    /* передний край обороны противника: волнистая линия + штриховка */
+    var seg = (x2-x1)/4, d = 'M '+x1+' '+y, bumps = [];
     for(var i=0;i<4;i++){
       var mx = x1+seg*i+seg/2, ex = x1+seg*(i+1);
       d += ' Q '+mx+' '+(y-14)+' '+ex+' '+y;
+      bumps.push(mx);
     }
-    var h = '<path d="'+d+'" fill="none" stroke="'+ENEMY+'" stroke-width="2"/>';
-    if(label) h += '<text x="'+((x1+x2)/2)+'" y="'+(y+18)+'" text-anchor="middle" fill="'+ENEMY+'" font-size="11">'+label+'</text>';
+    var h = '<path d="'+d+'" fill="none" stroke="'+MAP_BLUE+'" stroke-width="2"/>';
+    for(var j=0;j<bumps.length;j++){
+      h += '<line x1="'+bumps[j]+'" y1="'+(y-13)+'" x2="'+bumps[j]+'" y2="'+(y-22)+'" stroke="'+MAP_BLUE+'" stroke-width="1.4"/>';
+    }
+    if(label) h += '<text x="'+((x1+x2)/2)+'" y="'+(y+18)+'" text-anchor="middle" fill="'+MAP_BLUE+'" font-size="11">'+label+'</text>';
     return h;
+  }
+  function tacmap(viewBox, markerId, body, caption){
+    /* markerId — красная стрелка url(#markerId); markerId+'B' — синяя url(#markerId+"B") */
+    return '<div class="tacmap"><svg viewBox="'+viewBox+'" xmlns="http://www.w3.org/2000/svg">'
+      +'<defs>'
+      +'<marker id="'+markerId+'" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="'+MAP_RED+'"/></marker>'
+      +'<marker id="'+markerId+'B" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="'+MAP_BLUE+'"/></marker>'
+      +'</defs>'
+      +'<g font-family="var(--body)">'+body
+      +(caption?'<text x="50%" y="98%" text-anchor="middle" fill="'+MAP_INK+'" font-size="10.5">'+caption+'</text>':'')
+      +'</g></svg></div>';
   }
 
   function build(){
@@ -121,44 +140,41 @@ var CombatBasicsData = (function(){
         gist:'Обход — самый глубокий из трёх манёвров: выход в тыл, а не просто во фланг.',
         tip:'Отличие от охвата — именно глубина: обход стремится в тыл, охват — во фланг, не так глубоко. Свои — красным, противник — синим: так принято на рабочей карте.',
         figWide:true,
-        fig:'<svg viewBox="0 0 460 260" xmlns="http://www.w3.org/2000/svg"><defs><marker id="obAh" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--err)"/></marker></defs><g font-family="var(--body)">'
-          +enemyLine(120,330,60,'Противник')
+        fig:tacmap('0 0 460 260', 'obAh',
+          enemyLine(120,330,60,'Противник')
           +mrUnit(190,150,'1 мср')+mrUnit(270,150,'2 мср')+mrUnit(60,150,'3 мср')
-          +'<path d="M190 138 L165 76" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#obAh)"/>'
-          +'<path d="M270 138 L245 76" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#obAh)"/>'
-          +'<path d="M55 135 C 15 90, 15 40, 60 25 C 110 8, 210 8, 260 25" fill="none" stroke="var(--err)" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#obAh)"/>'
-          +'<text x="230" y="235" text-anchor="middle" fill="var(--muted)" font-size="10.5">1 и 2 мср сковывают с фронта, 3 мср обходит на всю глубину — удар в тыл</text>'
-          +'</g></svg>' },
+          +'<path d="M190 138 L165 76" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#obAh)"/>'
+          +'<path d="M270 138 L245 76" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#obAh)"/>'
+          +'<path d="M55 135 C 15 90, 15 40, 60 25 C 110 8, 210 8, 260 25" fill="none" stroke="'+MAP_RED+'" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#obAh)"/>',
+          '1 и 2 мср сковывают с фронта, 3 мср обходит на всю глубину — удар в тыл') },
       { id:'cb19', section:'Манёвр на карте', term:'Охват — определение',
         def:'Манёвр, совершаемый подразделением (частью) для атаки противника во фланг, в тесном тактическом взаимодействии с подразделениями, наступающими с фронта.',
         gist:'Охват мельче обхода: удар во фланг, а не в тыл, и без отрыва от главных сил.',
         tip:'Свои — красным, противник — синим: так принято на рабочей карте.',
         figWide:true,
-        fig:'<svg viewBox="0 0 460 230" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ohAh" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--err)"/></marker></defs><g font-family="var(--body)">'
-          +enemyLine(130,330,60,'Противник')
+        fig:tacmap('0 0 460 230', 'ohAh',
+          enemyLine(130,330,60,'Противник')
           +mrUnit(200,150,'1 мср')+mrUnit(280,150,'2 мср')+mrUnit(90,150,'3 мср')
-          +'<path d="M200 138 L185 78" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ohAh)"/>'
-          +'<path d="M280 138 L255 78" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ohAh)"/>'
-          +'<path d="M95 135 C 90 100, 110 75, 150 62" fill="none" stroke="var(--err)" stroke-width="1.8" marker-end="url(#ohAh)"/>'
-          +'<text x="230" y="205" text-anchor="middle" fill="var(--muted)" font-size="10.5">3 мср охватывает во фланг, 1 и 2 мср — с фронта</text>'
-          +'</g></svg>' },
+          +'<path d="M200 138 L185 78" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ohAh)"/>'
+          +'<path d="M280 138 L255 78" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ohAh)"/>'
+          +'<path d="M95 135 C 90 100, 110 75, 150 62" fill="none" stroke="'+MAP_RED+'" stroke-width="1.8" marker-end="url(#ohAh)"/>',
+          '3 мср охватывает во фланг, 1 и 2 мср — с фронта') },
       { id:'cb20', section:'Манёвр на карте', term:'Отход и смена района расположения — определение',
         def:'Отход — манёвр, применяемый для выхода из-под удара превосходящих сил противника и занятия более выгодного положения для дальнейших действий. Смена района расположения — организованное передвижение подразделения в новый район без соприкосновения с противником, обычно в целях защиты от поражения и сохранения скрытности.',
         gist:'Отход — манёвр под давлением противника; смена района — то же самое передвижение, но без контакта с противником, ради скрытности.',
         tip:'На зачёте не путайте: отход — из боя (противник давит), смена района — без боя вообще. Свои — красным, противник — синим.',
         figWide:true,
-        fig:'<svg viewBox="0 0 460 245" xmlns="http://www.w3.org/2000/svg"><defs><marker id="otAh" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="var(--err)"/></marker></defs><g font-family="var(--body)">'
-          +enemyLine(80,380,50,'Противник (превосходит силами)')
+        fig:tacmap('0 0 460 268', 'otAh',
+          enemyLine(80,380,50,'Противник (превосходит силами)')
           +mrUnit(150,140,'1 мср')+mrUnit(230,140,'2 мср')+mrUnit(310,140,'3 мср')
-          +'<path d="M150 100 L150 128" fill="none" stroke="'+ENEMY+'" stroke-width="1.6" marker-end="url(#otAh)"/>'
-          +'<path d="M230 100 L230 128" fill="none" stroke="'+ENEMY+'" stroke-width="1.6" marker-end="url(#otAh)"/>'
-          +'<path d="M310 100 L310 128" fill="none" stroke="'+ENEMY+'" stroke-width="1.6" marker-end="url(#otAh)"/>'
+          +'<path d="M150 100 L150 128" fill="none" stroke="'+MAP_BLUE+'" stroke-width="1.6" marker-end="url(#otAhB)"/>'
+          +'<path d="M230 100 L230 128" fill="none" stroke="'+MAP_BLUE+'" stroke-width="1.6" marker-end="url(#otAhB)"/>'
+          +'<path d="M310 100 L310 128" fill="none" stroke="'+MAP_BLUE+'" stroke-width="1.6" marker-end="url(#otAhB)"/>'
           +mrUnit(150,205,'1 мср')+mrUnit(230,205,'2 мср')+mrUnit(310,205,'3 мср')
-          +'<path d="M150 158 L150 188" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>'
-          +'<path d="M230 158 L230 188" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>'
-          +'<path d="M310 158 L310 188" fill="none" stroke="var(--err)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>'
-          +'<text x="230" y="20" text-anchor="middle" fill="var(--muted)" font-size="10.5">противник теснит — рота отходит на новый рубеж</text>'
-          +'</g></svg>' },
+          +'<path d="M150 158 L150 188" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>'
+          +'<path d="M230 158 L230 188" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>'
+          +'<path d="M310 158 L310 188" fill="none" stroke="'+MAP_RED+'" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#otAh)"/>',
+          'противник теснит — рота отходит на новый рубеж') },
 
       /* ---- от опыта СВО: только то, что реально нашлось в открытых
          источниках (веб-поиск в этой сессии, ссылки — в tip и в футере
